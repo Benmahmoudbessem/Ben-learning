@@ -7,7 +7,7 @@ import {
   onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// ⚠️ REMPLACEZ AVEC VOS PROPRES CLÉS FIREBASE (Étape 1)
+// Configuration de votre projet Ben-learning
 const firebaseConfig = {
   apiKey: "AIzaSyAe-6kFMRFzeHzIu5Q-CBbt77M5qZ5gnPU",
   authDomain: "ben-learning-91abe.firebaseapp.com",
@@ -18,25 +18,31 @@ const firebaseConfig = {
   measurementId: "G-K78LL81RV2"
 };
 
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Éléments DOM
+// Éléments DOM (Ajustés pour correspondre à index.html)
 const authContainer = document.getElementById("auth-container");
-const dashboardContainer = document.getElementById("dashboard-container");
+const appContainer = document.getElementById("app-container"); // Corrigé (au lieu de dashboard-container)
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const btnLogin = document.getElementById("btn-login");
 const btnSignup = document.getElementById("btn-signup");
 const btnLogout = document.getElementById("btn-logout");
-const userEmailSpan = document.getElementById("user-email");
+const userEmailSpan = document.getElementById("user-email-display"); // Corrigé (au lieu de user-email)
 const errorMsg = document.getElementById("error-message");
 
-function showError(msg) { errorMsg.textContent = msg; errorMsg.classList.remove("hidden"); }
-function clearError() { errorMsg.textContent = ""; errorMsg.classList.add("hidden"); }
+// Fonctions d'erreur
+function showError(msg) { 
+  errorMsg.textContent = msg; 
+  errorMsg.style.display = "block"; 
+}
 
-// 1. Inscription
+function clearError() { 
+  errorMsg.textContent = ""; 
+  errorMsg.style.display = "none"; 
+}
+
 // 1. Inscription avec gestion d'erreurs détaillée
 btnSignup.addEventListener("click", () => {
   clearError();
@@ -61,7 +67,6 @@ btnSignup.addEventListener("click", () => {
       console.error("Code d'erreur Firebase :", error.code);
       console.error("Message d'erreur :", error.message);
 
-      // Détection précise de l'erreur
       if (error.code === "auth/operation-not-allowed") {
         showError("ERREUR : Vous devez activer l'authentification par E-mail/Mot de passe dans la console Firebase !");
       } else if (error.code === "auth/email-already-in-use") {
@@ -90,21 +95,21 @@ btnLogin.addEventListener("click", () => {
 // 3. Déconnexion
 btnLogout.addEventListener("click", () => signOut(auth));
 
-// 4. Écouteur de connexion
+// 4. Écouteur de connexion / déconnexion
 onAuthStateChanged(auth, (user) => {
   clearError();
   if (user) {
-    authContainer.classList.add("hidden");
-    dashboardContainer.classList.remove("hidden");
+    authContainer.style.display = "none";
+    appContainer.style.display = "block";
     userEmailSpan.textContent = user.email;
   } else {
-    authContainer.classList.remove("hidden");
-    dashboardContainer.classList.add("hidden");
+    authContainer.style.display = "block";
+    appContainer.style.display = "none";
   }
 });
 
 // 5. Filtre par niveau
-const filterButtons = document.querySelectorAll('.level-btn');
+const filterButtons = document.querySelectorAll('.filter-btn'); // Corrigé (.filter-btn au lieu de .level-btn)
 const courseCards = document.querySelectorAll('.course-card');
 
 filterButtons.forEach(button => {
@@ -112,7 +117,7 @@ filterButtons.forEach(button => {
     filterButtons.forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
 
-    const selectedLevel = button.getAttribute('data-level');
+    const selectedLevel = button.getAttribute('data-filter'); // Corrigé (data-filter)
     courseCards.forEach(card => {
       const cardLevel = card.getAttribute('data-level');
       if (selectedLevel === 'all' || cardLevel === selectedLevel) {
