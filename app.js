@@ -37,14 +37,43 @@ function showError(msg) { errorMsg.textContent = msg; errorMsg.classList.remove(
 function clearError() { errorMsg.textContent = ""; errorMsg.classList.add("hidden"); }
 
 // 1. Inscription
+// 1. Inscription avec gestion d'erreurs détaillée
 btnSignup.addEventListener("click", () => {
   clearError();
   const email = emailInput.value.trim();
   const password = passwordInput.value;
-  if (!email || !password) return showError("Remplissez tous les champs.");
+  
+  if (!email || !password) {
+    showError("Veuillez remplir tous les champs.");
+    return;
+  }
+
+  if (password.length < 6) {
+    showError("Le mot de passe doit faire au moins 6 caractères.");
+    return;
+  }
 
   createUserWithEmailAndPassword(auth, email, password)
-    .catch(err => showError("Erreur d'inscription (Mot de passe d'au moins 6 caractères)."));
+    .then((userCredential) => {
+      console.log("Compte créé avec succès !", userCredential.user);
+    })
+    .catch((error) => {
+      console.error("Code d'erreur Firebase :", error.code);
+      console.error("Message d'erreur :", error.message);
+
+      // Détection précise de l'erreur
+      if (error.code === "auth/operation-not-allowed") {
+        showError("ERREUR : Vous devez activer l'authentification par E-mail/Mot de passe dans la console Firebase !");
+      } else if (error.code === "auth/email-already-in-use") {
+        showError("Cet e-mail est déjà utilisé par un autre compte.");
+      } else if (error.code === "auth/invalid-email") {
+        showError("L'adresse e-mail n'est pas valide.");
+      } else if (error.code === "auth/unauthorized-domain") {
+        showError("Ce domaine n'est pas autorisé dans la console Firebase.");
+      } else {
+        showError("Erreur Firebase : " + error.message);
+      }
+    });
 });
 
 // 2. Connexion
