@@ -1,0 +1,173 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f4f7fe;
+  color: #333;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Page d'authentification */
+#auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+}
+
+.card h2 {
+  color: #1b2559;
+  margin-bottom: 8px;
+  font-size: 24px;
+}
+
+.subtitle {
+  color: #707ebe;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e0e5f2;
+  border-radius: 8px;
+  outline: none;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Boutons */
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.2s;
+  flex: 1;
+}
+
+.btn.primary { background-color: #4318ff; color: #ffffff; }
+.btn.primary:hover { background-color: #3311cc; }
+.btn.secondary { background-color: #2b3674; color: #ffffff; }
+.btn.secondary:hover { background-color: #1b2559; }
+.btn.danger { background-color: #ee5d50; color: #ffffff; flex: initial; }
+
+.alert.error {
+  background-color: #ffe5e5;
+  color: #cc0000;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+/* Navigation et Espace de cours */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+.level-selector {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.level-selector h2 { font-size: 16px; margin-bottom: 12px; color: #1b2559; }
+
+.filter-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.level-btn { background: #f4f7fe; color: #1b2559; border: 1px solid #e0e5f2; }
+.level-btn.active { background: #4318ff; color: white; border-color: #4318ff; }
+
+/* Grille de cours */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.course-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.course-card h3 { color: #1b2559; margin-bottom: 8px; }
+.course-card p { color: #707ebe; font-size: 14px; margin-bottom: 16px; flex-grow: 1; }
+
+.badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 10px; }
+.badge.course { background: #e3f2fd; color: #0d47a1; }
+.badge.homework { background: #fff3e0; color: #e65100; }
+.badge.video { background: #ffebee; color: #c62828; }
+
+.level-tag { font-size: 12px; color: #707ebe; float: right; font-weight: 600; }
+
+/* Lecteur Google Drive Responsive */
+.drive-video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 12px 0;
+  background-color: #000;
+}
+
+.drive-video-container iframe {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%; border: 0;
+}
+
+.hidden { display: none !important; }

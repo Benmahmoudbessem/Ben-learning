@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plate-forme Informatique - Espace Élèves</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 1. ÉCRAN DE CONNEXION / INSCRIPTION -->
+  <div id="auth-container" class="container">
+    <div class="card">
+      <h2>Espace Élèves</h2>
+      <p class="subtitle">Connectez-vous pour accéder aux cours d'informatique</p>
+      
+      <div id="error-message" class="alert error hidden"></div>
+
+      <form id="auth-form">
+        <div class="form-group">
+          <label for="email">Adresse E-mail</label>
+          <input type="email" id="email" placeholder="eleve@ecole.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" placeholder="••••••••" required minlength="6">
+        </div>
+
+        <div class="button-group">
+          <button type="button" id="btn-login" class="btn primary">Se connecter</button>
+          <button type="button" id="btn-signup" class="btn secondary">S'inscrire</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. ÉCRAN PRINCIPAL DE COURS (DASHBOARD) -->
+  <div id="dashboard-container" class="container hidden">
+    <header class="navbar">
+      <h1>Informatique - Espace Élèves</h1>
+      <div class="user-info">
+        <span id="user-email"></span>
+        <button id="btn-logout" class="btn danger">Déconnexion</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- Filtre par niveau -->
+      <section class="level-selector">
+        <h2>Sélectionnez votre niveau :</h2>
+        <div class="filter-buttons">
+          <button class="btn level-btn active" data-level="all">Tous les niveaux</button>
+          <button class="btn level-btn" data-level="1ere">1ère Année</button>
+          <button class="btn level-btn" data-level="2eme">2ème Année</button>
+          <button class="btn level-btn" data-level="bac">Baccalauréat</button>
+        </div>
+      </section>
+
+      <!-- Liste des cours, devoirs et vidéos -->
+      <section class="courses-grid" id="courses-list">
+        
+        <!-- EXEMPLE 1 : COURS PDF (1ère Année) -->
+        <article class="course-card" data-level="1ere">
+          <span class="badge course">Cours</span>
+          <span class="level-tag">1ère Année</span>
+          <h3>Algorithmique & Logique</h3>
+          <p>Introduction aux variables, structures conditionnelles et boucles.</p>
+          <a href="cours/1ere-annee/intro-algorithmique.pdf" target="_blank" class="btn primary">Consulter le cours (PDF)</a>
+        </article>
+
+        <!-- EXEMPLE 2 : VIDÉO GOOGLE DRIVE (1ère Année) -->
+        <article class="course-card" data-level="1ere">
+          <span class="badge video">Vidéo Cours</span>
+          <span class="level-tag">1ère Année</span>
+          <h3>Tutoriel : Les variables en mémoire</h3>
+          <p>Démonstration pratique sur l'affectation et les types de données.</p>
+          <div class="drive-video-container">
+            <!-- Remplacez l'URL src par votre lien d'intégration Google Drive -->
+            <iframe src="https://drive.google.com/file/d/1ABC123XYZ.../preview" allow="autoplay"></iframe>
+          </div>
+          <a href="cours/1ere-annee/devoir-1.pdf" target="_blank" class="btn secondary">Télécharger le devoir (PDF)</a>
+        </article>
+
+        <!-- EXEMPLE 3 : COURS PYTHON (2ème Année) -->
+        <article class="course-card" data-level="2eme">
+          <span class="badge course">Cours</span>
+          <span class="level-tag">2ème Année</span>
+          <h3>Programmation Python</h3>
+          <p>Les fonctions, les listes et la manipulation des chaînes de caractères.</p>
+          <a href="cours/2eme-annee/python-bases.pdf" target="_blank" class="btn primary">Consulter le cours (PDF)</a>
+        </article>
+
+        <!-- EXEMPLE 4 : DEVOIR BAC -->
+        <article class="course-card" data-level="bac">
+          <span class="badge homework">Devoir</span>
+          <span class="level-tag">Baccalauréat</span>
+          <h3>Devoir de Synthèse - Base de Données</h3>
+          <p>Sujet complet : Modèle ER, SQL et sous-requêtes.</p>
+          <a href="cours/bac/devoir-synthese.pdf" target="_blank" class="btn secondary">Télécharger le devoir (PDF)</a>
+        </article>
+
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
