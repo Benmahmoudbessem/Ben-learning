@@ -9,13 +9,15 @@ import {
 
 // ⚠️ REMPLACEZ AVEC VOS PROPRES CLÉS FIREBASE (Étape 1)
 const firebaseConfig = {
-  apiKey: "VOTRE_API_KEY",
-  authDomain: "votre-projet.firebaseapp.com",
-  projectId: "votre-projet",
-  storageBucket: "votre-projet.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef"
+  apiKey: "AIzaSyAe-6kFMRFzeHzIu5Q-CBbt77M5qZ5gnPU",
+  authDomain: "ben-learning-91abe.firebaseapp.com",
+  projectId: "ben-learning-91abe",
+  storageBucket: "ben-learning-91abe.firebasestorage.app",
+  messagingSenderId: "71123609216",
+  appId: "1:71123609216:web:adcf00ca684f6da3c8e865",
+  measurementId: "G-K78LL81RV2"
 };
+
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
