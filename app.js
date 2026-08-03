@@ -20,7 +20,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// DOM
+// DOM Elements
 const authContainer = document.getElementById("auth-container");
 const appContainer = document.getElementById("app-container");
 const emailInput = document.getElementById("email");
@@ -73,7 +73,6 @@ onAuthStateChanged(auth, (user) => {
     userEmailSpan.textContent = user.email;
     if (profileEmailDisplay) profileEmailDisplay.textContent = user.email;
 
-    // Mise à jour exacte des compteurs
     recalculateStats();
   } else {
     authContainer.style.display = "flex";
@@ -81,7 +80,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// FONCTION DE CALCUL DYNAMIQUE EXACT
+// RECALCUL DES COMPTEURS EXACTS
 function recalculateStats() {
   const courses = document.querySelectorAll('.resource-card[data-type="course"]').length;
   const homeworks = document.querySelectorAll('.resource-card[data-type="homework"]').length;
@@ -92,7 +91,7 @@ function recalculateStats() {
   document.getElementById("stat-count-videos").textContent = videos;
 }
 
-// Navigation SPA
+// NAVIGATION ENTRE PAGES (SPA)
 const navLinks = document.querySelectorAll('.nav-link');
 const pageSections = document.querySelectorAll('.page-section');
 
@@ -118,7 +117,27 @@ document.querySelectorAll('.nav-shortcut').forEach(btn => {
   btn.addEventListener('click', () => switchTab(btn.getAttribute('data-target')));
 });
 
-// Filtres par niveau
+// CORRECTION ET AMÉLIORATION DE LA BARRE DE RECHERCHE GLOBALE
+const globalSearch = document.getElementById('global-search');
+if (globalSearch) {
+  globalSearch.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase().trim();
+    
+    // Tous les éléments cherchables (Cartes et Sections)
+    const items = document.querySelectorAll('.searchable-item, .resource-card, .feature-box');
+
+    items.forEach(item => {
+      const text = item.textContent.toLowerCase();
+      if (term === '' || text.includes(term)) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+}
+
+// FILTRES PAR NIVEAU
 const filterButtons = document.querySelectorAll('.filter-btn');
 const resourceCards = document.querySelectorAll('.resource-card');
 
@@ -138,20 +157,3 @@ filterButtons.forEach(btn => {
     });
   });
 });
-
-// Recherche globale
-const globalSearch = document.getElementById('global-search');
-if (globalSearch) {
-  globalSearch.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase();
-    resourceCards.forEach(card => {
-      const title = card.querySelector('h3').textContent.toLowerCase();
-      const text = card.querySelector('p').textContent.toLowerCase();
-      if (title.includes(term) || text.includes(term)) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
-    });
-  });
-}

@@ -13,9 +13,7 @@
 </head>
 <body>
 
-  <!-- ========================================== -->
-  <!-- CONNEXION / INSCRIPTION                    -->
-  <!-- ========================================== -->
+  <!-- CONNEXION / INSCRIPTION -->
   <div id="auth-container" class="auth-wrapper">
     <div class="auth-card">
       <div class="brand-header">
@@ -49,10 +47,7 @@
     </div>
   </div>
 
-
-  <!-- ========================================== -->
-  <!-- INTERFACE PRINCIPALE                       -->
-  <!-- ========================================== -->
+  <!-- INTERFACE PRINCIPALE -->
   <div id="app-container" class="app-layout" style="display: none;">
     
     <!-- Navigation Latérale -->
@@ -100,7 +95,7 @@
       <header class="top-header">
         <div class="header-search">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="global-search" placeholder="Rechercher un cours, sujet ou vidéo...">
+          <input type="text" id="global-search" placeholder="Rechercher cours, exercices, vidéos...">
         </div>
 
         <div class="header-user">
@@ -112,52 +107,80 @@
       <!-- Pages -->
       <main class="content-area">
 
-        <!-- PAGE ACCUEIL (HOME) PRO ET ÉPURÉE -->
-        <section id="home-page" class="page-section active">
-          <div class="home-hero">
+        <!-- PAGE ACCUEIL ANIMÉE & AVEC VIDÉO -->
+        <section id="home-page" class="page-section searchable-item active">
+          
+          <!-- BANNIÈRE HERO AVEC ARRIÈRE-PLAN VIDÉO & ANIMATIONS -->
+          <div class="home-hero hero-with-video">
+            <!-- Vidéo d'arrière-plan abstraite/code (libre de droit) -->
+            <video class="hero-video-bg" autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80">
+              <source src="https://assets.mixkit.co/videos/preview/mixkit-coding-screen-in-close-up-1730-large.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+
             <div class="hero-content">
-              <span class="hero-tag"><i class="fa-solid fa-graduation-cap"></i> Plateforme Pédagogique</span>
-              <h1>Bienvenue sur Ben-learning</h1>
-              <p>Accédez à l'ensemble de vos cours d'informatique, séries d'exercices, devoirs de contrôle et tutoriels vidéo guidés.</p>
+              <span class="hero-tag pulse-animation"><i class="fa-solid fa-graduation-cap"></i> Espace Pédagogique Interactif</span>
+              <h1 class="typing-text">Bienvenue sur Ben-learning</h1>
+              <p>Explorez les modules de cours, séries d'exercices, sujets d'examens et tutoriels en vidéo.</p>
+              
               <div class="hero-actions">
                 <button class="btn btn-primary nav-shortcut" data-target="courses-page">
-                  <i class="fa-solid fa-book"></i> Voir les cours
+                  <i class="fa-solid fa-book-open"></i> Accéder aux Cours
                 </button>
                 <button class="btn btn-secondary nav-shortcut" data-target="videos-page">
-                  <i class="fa-solid fa-play"></i> Découvrir les vidéos
+                  <i class="fa-solid fa-play"></i> Regarder les Vidéos
                 </button>
               </div>
+            </div>
+
+            <!-- Image/GIF Animé d'Illustration -->
+            <div class="hero-illustration">
+              <img src="https://cdni.iconscout.com/illustration/premium/thumb/web-development-3454628-2918517.png" alt="Animation Code" class="floating-img">
             </div>
           </div>
 
           <div class="section-header-block">
-            <h3>Aperçu des Fonctionnalités</h3>
+            <h3>Ressources et Modules de Formation</h3>
           </div>
 
+          <!-- CARTES D'ACCUEIL AVEC IMAGES ANIMÉES ET GIFS -->
           <div class="features-grid">
-            <div class="feature-box">
-              <div class="box-icon blue"><i class="fa-solid fa-file-pdf"></i></div>
+            
+            <div class="feature-box hover-card">
+              <div class="feature-img-wrap">
+                <img src="https://cdn.dribbble.com/users/1186261/screenshots/3718681/media/13240d6e6a394ec59b56f8f10640f1a0.gif" alt="GIF Cours" class="feature-gif">
+              </div>
               <h4>Supports de Cours PDF</h4>
-              <p>Téléchargez vos cours structurés et optimisés pour la révision des examens.</p>
+              <p>Des fiches récapitulatives et des cours complets d'informatique et d'algorithmique.</p>
+              <button class="btn-text nav-shortcut" data-target="courses-page">Découvrir <i class="fa-solid fa-arrow-right"></i></button>
             </div>
-            <div class="feature-box">
-              <div class="box-icon orange"><i class="fa-solid fa-pen-ruler"></i></div>
-              <h4>Devoirs & Correction</h4>
-              <p>Entraînez-vous sur des séries d'exercices et des examens récents avec corrections.</p>
+
+            <div class="feature-box hover-card">
+              <div class="feature-img-wrap">
+                <img src="https://cdn.dribbble.com/users/2131993/screenshots/4948736/thought-process-dribbble.gif" alt="GIF Examens" class="feature-gif">
+              </div>
+              <h4>Devoirs & Exercices</h4>
+              <p>Séries d'exercices corrigés et examens théoriques et pratiques pour chaque niveau.</p>
+              <button class="btn-text nav-shortcut" data-target="courses-page">S'entraîner <i class="fa-solid fa-arrow-right"></i></button>
             </div>
-            <div class="feature-box">
-              <div class="box-icon green"><i class="fa-solid fa-video"></i></div>
+
+            <div class="feature-box hover-card">
+              <div class="feature-img-wrap">
+                <img src="https://cdn.dribbble.com/users/722246/screenshots/4082720/media/f422e8489813f8c87f3bf6277a0c8414.gif" alt="GIF Vidéos" class="feature-gif">
+              </div>
               <h4>Tutoriels Vidéo</h4>
-              <p>Visualisez les démonstrations de code et algorithmes enregistrés étape par étape.</p>
+              <p>Démonstrations pas à pas enregistrées en direct pour la résolution de problèmes de programmation.</p>
+              <button class="btn-text nav-shortcut" data-target="videos-page">Visionner <i class="fa-solid fa-arrow-right"></i></button>
             </div>
+
           </div>
         </section>
 
-        <!-- PAGE TABLEAU DE BORD (COMPTEURS EXACTS DYNAMIQUES) -->
+        <!-- PAGE TABLEAU DE BORD (COMPTEURS EXACTS) -->
         <section id="dashboard-page" class="page-section">
           <div class="page-title">
             <h2>Tableau de bord</h2>
-            <p>Statistiques exactes basées sur les ressources actuellement disponibles sur la plateforme.</p>
+            <p>Comptage en temps réel des ressources chargées.</p>
           </div>
 
           <div class="stats-grid">
@@ -165,7 +188,7 @@
               <div class="stat-icon blue"><i class="fa-solid fa-file-pdf"></i></div>
               <div class="stat-info">
                 <h3 id="stat-count-courses">0</h3>
-                <p>Cours PDF disponibles</p>
+                <p>Cours PDF</p>
               </div>
             </div>
             <div class="stat-card">
@@ -189,7 +212,7 @@
         <section id="courses-page" class="page-section">
           <div class="page-title">
             <h2>Bibliothèque de Cours & Devoirs</h2>
-            <p>Filtrer par niveau ou effectuer une recherche rapide.</p>
+            <p>Sélectionnez un niveau d'études ou recherchez un document spécifique.</p>
           </div>
 
           <nav class="level-filters">
@@ -202,29 +225,39 @@
 
           <div class="resources-grid">
             
-            <!-- Exemple 1 : Cours -->
-            <article class="resource-card" data-level="1ere" data-type="course">
+            <article class="resource-card searchable-item" data-level="1ere" data-type="course">
               <div class="card-badge-row">
                 <span class="badge badge-course">Cours</span>
                 <span class="level-text">1ère Année</span>
               </div>
               <h3>Introduction à l'Algorithmique</h3>
-              <p>Variables, affectation, types de données et structures conditionnelles de base.</p>
+              <p>Notions de variables, structures conditionnelles (Si...Alors) et types de données de base.</p>
               <a href="cours/1ere-annee/algorithmique-intro.pdf" target="_blank" class="btn btn-card green-btn">
                 <i class="fa-solid fa-download"></i> Télécharger PDF
               </a>
             </article>
 
-            <!-- Exemple 2 : Devoir -->
-            <article class="resource-card" data-level="2eme" data-type="homework">
+            <article class="resource-card searchable-item" data-level="2eme" data-type="homework">
               <div class="card-badge-row">
                 <span class="badge badge-homework">Devoir</span>
                 <span class="level-text">2ème Année</span>
               </div>
-              <h3>Devoir de Contrôle N°1</h3>
-              <p>Sujet sur les structures répétitives (boucles) et manipulation des tableaux en Python.</p>
+              <h3>Devoir de Contrôle N°1 (Python)</h3>
+              <p>Exercices pratiques sur les boucles (Pour, Tant Que) et les sous-programmes.</p>
               <a href="cours/2eme-annee/devoir1-python.pdf" target="_blank" class="btn btn-card orange-btn">
                 <i class="fa-solid fa-file-pdf"></i> Télécharger Sujet PDF
+              </a>
+            </article>
+
+            <article class="resource-card searchable-item" data-level="3eme" data-type="course">
+              <div class="card-badge-row">
+                <span class="badge badge-course">Cours</span>
+                <span class="level-text">3ème Année</span>
+              </div>
+              <h3>Bases de Données et SQL</h3>
+              <p>Conception du schéma relationnel, tables, clés primaires et requêtes SELECT.</p>
+              <a href="cours/3eme-annee/sql-bases.pdf" target="_blank" class="btn btn-card green-btn">
+                <i class="fa-solid fa-download"></i> Télécharger PDF
               </a>
             </article>
 
@@ -235,19 +268,18 @@
         <section id="videos-page" class="page-section">
           <div class="page-title">
             <h2>Tutoriels & Cours Vidéo</h2>
-            <p>Explications détaillées enregistrées en vidéo.</p>
+            <p>Démonstrations pratiques enregistrées.</p>
           </div>
 
           <div class="resources-grid">
             
-            <!-- Exemple Vidéo -->
-            <article class="resource-card" data-level="univ" data-type="video">
+            <article class="resource-card searchable-item" data-level="univ" data-type="video">
               <div class="card-badge-row">
                 <span class="badge badge-video">Vidéo</span>
                 <span class="level-text">Université</span>
               </div>
               <h3>Programmation Orientée Objet</h3>
-              <p>Concepts fondamentaux : Encapulsation, Héritage et Polymorphisme.</p>
+              <p>Les principes fondamentaux de la POO : Encapsulation, Classes et Héritage.</p>
               <div class="video-embed">
                 <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vidéo POO" allowfullscreen></iframe>
               </div>
@@ -267,7 +299,7 @@
               <i class="fa-solid fa-user-graduate"></i>
             </div>
             <div class="profile-data">
-              <h3>Statut : <span class="badge-active">Compte Vérifié</span></h3>
+              <h3>Statut : <span class="badge-active">Compte Actif</span></h3>
               <p><strong>Compte :</strong> <span id="profile-email-display">-</span></p>
               <p><strong>Plateforme :</strong> Ben-learning</p>
             </div>
