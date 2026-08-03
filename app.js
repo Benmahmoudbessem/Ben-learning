@@ -4,7 +4,8 @@ import {
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
   signOut, 
-  onAuthStateChanged 
+  onAuthStateChanged,
+  sendPasswordResetEmail 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -29,69 +30,151 @@ const btnLogin = document.getElementById("btn-login");
 const btnSignup = document.getElementById("btn-signup");
 const btnLogout = document.getElementById("btn-logout");
 const userEmailSpan = document.getElementById("user-email-display");
-const profileEmailDisplay = document.getElementById("profile-email-display");
 const errorMsg = document.getElementById("error-message");
 
 function showError(msg) {
-  errorMsg.textContent = msg;
-  errorMsg.style.display = "block";
+  if (errorMsg) {
+    errorMsg.textContent = msg;
+    errorMsg.style.display = "block";
+  }
 }
 
 function clearError() {
-  errorMsg.textContent = "";
-  errorMsg.style.display = "none";
+  if (errorMsg) {
+    errorMsg.textContent = "";
+    errorMsg.style.display = "none";
+  }
 }
 
-// Authentification
-btnSignup.addEventListener("click", () => {
-  clearError();
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
-  if (!email || !password) return showError("Veuillez remplir tous les champs.");
+// --- AUTHENTIFICATION ---
+if (btnSignup) {
+  btnSignup.addEventListener("click", () => {
+    clearError();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) return showError("Veuillez remplir tous les champs.");
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .catch((error) => showError("Erreur : " + error.message));
-});
+    createUserWithEmailAndPassword(auth, email, password)
+      .catch((error) => showError("Erreur : " + error.message));
+  });
+}
 
-btnLogin.addEventListener("click", () => {
-  clearError();
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
-  if (!email || !password) return showError("Veuillez saisir vos identifiants.");
+if (btnLogin) {
+  btnLogin.addEventListener("click", () => {
+    clearError();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    if (!email || !password) return showError("Veuillez saisir vos identifiants.");
 
-  signInWithEmailAndPassword(auth, email, password)
-    .catch(() => showError("Identifiants incorrects."));
-});
+    signInWithEmailAndPassword(auth, email, password)
+      .catch(() => showError("Identifiants incorrects."));
+  });
+}
 
-btnLogout.addEventListener("click", () => signOut(auth));
+if (btnLogout) {
+  btnLogout.addEventListener("click", () => signOut(auth));
+}
 
+// --- ÉTAT DU COMPTE (OBSERVER) ---
 onAuthStateChanged(auth, (user) => {
   clearError();
   if (user) {
-    authContainer.style.display = "none";
-    appContainer.style.display = "flex";
-    userEmailSpan.textContent = user.email;
-    if (profileEmailDisplay) profileEmailDisplay.textContent = user.email;
+    if (authContainer) authContainer.style.display = "none";
+    if (appContainer) appContainer.style.display = "flex";
+    if (userEmailSpan) userEmailSpan.textContent = user.email;
+
+    // Mise à jour des informations de la page Profil
+    const profileEmailText = document.getElementById("profile-email-text");
+    const infoEmail = document.getElementById("info-email");
+    const profileDisplayName = document.getElementById("profile-display-name");
+    const avatarImg = document.getElementById("profile-avatar-img");
+
+    if (profileEmailText) profileEmailText.textContent = user.email;
+    if (infoEmail) infoEmail.textContent = user.email;
+
+    // Extraction du nom à partir de l'adresse e-mail (ex: ali.ben -> ALI BEN)
+    const rawName = user.email.split('@')[0].replace(/[\._-]/g, ' ');
+    const formattedName = rawName.toUpperCase();
+    if (profileDisplayName) profileDisplayName.textContent = formattedName;
+
+    // Avatar dynamique avec UI-Avatars
+    if (avatarImg) {
+      avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(formattedName)}&background=4f46e5&color=fff&size=128`;
+    }
 
     recalculateStats();
   } else {
-    authContainer.style.display = "flex";
-    appContainer.style.display = "none";
+    if (authContainer) authContainer.style.display = "flex";
+    if (appContainer) appContainer.style.display = "none";
   }
 });
 
-// RECALCUL DES COMPTEURS EXACTS
+// --- ACTIONS DU PROFIL ---
+// Déconnexion depuis le profil
+const btnLogoutProfile = document.getElementById("btn-logout-profile");
+if (btnLogoutProfile) {
+  btnLogoutProfile.addEventListener("click", () => signOut(auth));
+}
+
+// DEMANDE DE RÉINITIALISATION (ENVOI À L'ENSEIGNANT)
+const btnResetPassword = document.getElementById("btn-reset-password");
+if (btnResetPassword) {
+  btnResetPassword.addEventListener("click", () => {
+    const user = auth.currentUser;
+    if (user && user.email) {
+
+      // REMPLACE L'URL CI-DESSOUS PAR TON VRAI LIEN FORMSPREE
+      const formspreeUrl = "https://formspree.io/f/xeeyylpb"; 
+
+      // Désactiver le bouton pendant l'envoi pour éviter le double-clic
+      btnResetPassword.disabled = true;
+      btnResetPassword.innerText = "Envoi en cours...";
+
+      fetch(formspreeUrl, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          eleve: user.email,
+          sujet: "Demande de réinitialisation de mot de passe",
+          message: `L'élève ${user.email} demande la réinitialisation de son mot de passe.`,
+          date: new Date().toLocaleString("fr-FR")
+        })
+      })
+      .then(response => {
+        if (response.ok) {
+          alert("Votre demande a bien été transmise à votre enseignant !");
+        } else {
+          alert("Une erreur s'est produite lors de l'envoi de la demande.");
+        }
+      })
+      .catch(() => alert("Erreur de connexion lors de l'envoi."))
+      .finally(() => {
+        btnResetPassword.disabled = false;
+        btnResetPassword.innerText = "Réinitialiser le mot de passe";
+      });
+    }
+  });
+}
+
+// --- RECALCUL DES COMPTEURS ---
 function recalculateStats() {
   const courses = document.querySelectorAll('.resource-card[data-type="course"]').length;
   const homeworks = document.querySelectorAll('.resource-card[data-type="homework"]').length;
   const videos = document.querySelectorAll('.resource-card[data-type="video"]').length;
 
-  document.getElementById("stat-count-courses").textContent = courses;
-  document.getElementById("stat-count-homework").textContent = homeworks;
-  document.getElementById("stat-count-videos").textContent = videos;
+  const statCourses = document.getElementById("stat-count-courses");
+  const statHomework = document.getElementById("stat-count-homework");
+  const statVideos = document.getElementById("stat-count-videos");
+
+  if (statCourses) statCourses.textContent = courses;
+  if (statHomework) statHomework.textContent = homeworks;
+  if (statVideos) statVideos.textContent = videos;
 }
 
-// NAVIGATION ENTRE PAGES (SPA)
+// --- NAVIGATION ENTRE PAGES (SPA) ---
 const navLinks = document.querySelectorAll('.nav-link');
 const pageSections = document.querySelectorAll('.page-section');
 
@@ -117,13 +200,11 @@ document.querySelectorAll('.nav-shortcut').forEach(btn => {
   btn.addEventListener('click', () => switchTab(btn.getAttribute('data-target')));
 });
 
-// CORRECTION ET AMÉLIORATION DE LA BARRE DE RECHERCHE GLOBALE
+// --- BARRE DE RECHERCHE GLOBALE ---
 const globalSearch = document.getElementById('global-search');
 if (globalSearch) {
   globalSearch.addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase().trim();
-    
-    // Tous les éléments cherchables (Cartes et Sections)
     const items = document.querySelectorAll('.searchable-item, .resource-card, .feature-box');
 
     items.forEach(item => {
@@ -137,7 +218,7 @@ if (globalSearch) {
   });
 }
 
-// FILTRES PAR NIVEAU
+// --- FILTRES PAR NIVEAU ---
 const filterButtons = document.querySelectorAll('.filter-btn');
 const resourceCards = document.querySelectorAll('.resource-card');
 

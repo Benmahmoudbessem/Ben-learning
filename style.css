@@ -31,9 +31,18 @@ body { background-color: var(--bg-main); color: var(--text-main); min-height: 10
 .btn { padding: 10px 18px; border-radius: 8px; border: none; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; transition: 0.2s; }
 .btn-primary { background-color: var(--primary); color: white; }
 .btn-primary:hover { background-color: var(--primary-dark); }
-.btn-secondary { background-color: rgba(255,255,255,0.2); color: white; backdrop-filter: blur(5px); }
-.btn-secondary:hover { background-color: rgba(255,255,255,0.3); }
+/* CORRECTION : Bouton secondaire visible sur fond blanc */
+.btn-secondary { 
+  background-color: #f1f5f9; 
+  color: var(--text-main); 
+  border: 1px solid var(--border);
+}
 
+.btn-secondary:hover { 
+  background-color: #e2e8f0; 
+  color: var(--primary);
+  border-color: var(--primary);
+}
 /* LAYOUT PRINCIPAL */
 .app-layout { display: flex; min-height: 100vh; }
 .sidebar { width: var(--sidebar-w); background: var(--bg-card); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; height: 100vh; left: 0; top: 0; z-index: 100; }
@@ -137,3 +146,363 @@ body { background-color: var(--bg-main); color: var(--text-main); min-height: 10
 .badge-active { background: #dcfce7; color: #15803d; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; }
 
 .main-footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: auto; }
+
+/* ANIMATION DES ICÔNES DES CARTES */
+.feature-img-wrap {
+  width: 100%;
+  height: 120px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.icon-bg-blue { background: #e0e7ff; color: #4f46e5; }
+.icon-bg-orange { background: #ffedd5; color: #ea580c; }
+.icon-bg-green { background: #dcfce7; color: #16a34a; }
+
+.animated-icon {
+  font-size: 3rem;
+  transition: transform 0.3s ease;
+}
+
+.hover-card:hover .animated-icon {
+  transform: scale(1.2) rotate(5deg);
+}
+
+/* GESTION DES IMAGES DES CARTES */
+.feature-img-wrap {
+  width: 100%;
+  height: 160px; /* Maintient une hauteur identique pour les 3 cartes */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #f8fafc; /* Fond clair au cas où l'image ne prend pas toute la largeur */
+}
+
+.feature-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* L'image s'adapte sans être coupée ni écrasée */
+  transition: transform 0.3s ease;
+}
+
+/* Effet de zoom fluide quand on passe la souris sur la carte */
+.hover-card:hover .feature-img {
+  transform: scale(1.08); 
+}
+
+/* BLOC CONTACT ENSEIGNANT */
+.teacher-contact-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.contact-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.contact-icon-bg {
+  width: 50px;
+  height: 50px;
+  background-color: #e0e7ff;
+  color: #4f46e5;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.contact-header h3 {
+  margin: 0 0 4px 0;
+  color: #1e293b;
+  font-size: 1.25rem;
+}
+
+.contact-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.contact-methods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.contact-method-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #334155;
+  transition: all 0.2s ease;
+}
+
+.contact-method-item i {
+  font-size: 1.4rem;
+  color: #4f46e5;
+}
+
+.contact-method-item.whatsapp i {
+  color: #16a34a;
+}
+
+.contact-method-item.meet i {
+  color: #ea580c;
+}
+
+.contact-method-item:hover {
+  background-color: #ffffff;
+  border-color: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+}
+
+.method-info span {
+  display: block;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.method-info strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+
+/* CORRECTION DÉBORDEMENT TEXTE (EMAIL ET LIENS) */
+.method-info strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #0f172a;
+  /* Ces deux lignes gèrent le retour à la ligne pour les longs emails */
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.contact-method-item {
+  /* Assure que la carte ne dépasse pas de la grille */
+  min-width: 0; 
+}
+
+.method-info {
+  /* Empêche le conteneur du texte de pousser le bloc dehors */
+  min-width: 0; 
+  flex: 1;
+}
+
+/* LECTEUR VIDÉO LOCAL */
+.local-video-container {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #000000;
+  margin-top: 10px;
+}
+
+.local-video-container video {
+  width: 100%;
+  height: auto;
+  display: block;
+  outline: none;
+}
+
+
+/* SECTION PROFIL */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 900px;
+}
+
+.profile-card-main {
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.profile-avatar-wrapper {
+  position: relative;
+}
+
+#profile-avatar-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid #4f46e5;
+  object-fit: cover;
+}
+
+.badge-role {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background-color: #4f46e5;
+  color: white;
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.profile-header-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.3rem;
+  color: #1e293b;
+}
+
+.profile-header-info p {
+  margin: 0 0 8px 0;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.status-online {
+  font-size: 0.8rem;
+  color: #16a34a;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-online i {
+  font-size: 0.6rem;
+}
+
+/* GRILLE STATS PROFIL */
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.profile-stat-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-stat-box i {
+  font-size: 1.8rem;
+  color: #4f46e5;
+  background: #e0e7ff;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.profile-stat-box h4 {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.profile-stat-box .stat-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* BLOCS DÉTAILS ET SÉCURITÉ */
+.profile-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.profile-info-block {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.profile-info-block h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.05rem;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.info-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px dashed #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.info-list li:last-child {
+  border-bottom: none;
+}
+
+.info-list span {
+  color: #64748b;
+}
+
+.security-desc {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.profile-actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-full {
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-danger {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+  color: white;
+}

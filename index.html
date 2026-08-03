@@ -144,36 +144,81 @@
           </div>
 
           <!-- CARTES D'ACCUEIL AVEC IMAGES ANIMÉES ET GIFS -->
-          <div class="features-grid">
-            
-            <div class="feature-box hover-card">
-              <div class="feature-img-wrap">
-                <img src="https://cdn.dribbble.com/users/1186261/screenshots/3718681/media/13240d6e6a394ec59b56f8f10640f1a0.gif" alt="GIF Cours" class="feature-gif">
-              </div>
-              <h4>Supports de Cours PDF</h4>
-              <p>Des fiches récapitulatives et des cours complets d'informatique et d'algorithmique.</p>
-              <button class="btn-text nav-shortcut" data-target="courses-page">Découvrir <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
+        <div class="features-grid">
+  
+  <!-- Carte 1 : Cours -->
+  <div class="feature-box hover-card searchable-item">
+    <div class="feature-img-wrap">
+      <img src="im1.avif" alt="Illustration Cours" class="feature-img">
+    </div>
+    <h4>Supports de Cours PDF</h4>
+    <p>Des fiches récapitulatives et des cours complets d'informatique et d'algorithmique.</p>
+    <button class="btn-text nav-shortcut" data-target="courses-page">Découvrir <i class="fa-solid fa-arrow-right"></i></button>
+  </div>
 
-            <div class="feature-box hover-card">
-              <div class="feature-img-wrap">
-                <img src="https://cdn.dribbble.com/users/2131993/screenshots/4948736/thought-process-dribbble.gif" alt="GIF Examens" class="feature-gif">
-              </div>
-              <h4>Devoirs & Exercices</h4>
-              <p>Séries d'exercices corrigés et examens théoriques et pratiques pour chaque niveau.</p>
-              <button class="btn-text nav-shortcut" data-target="courses-page">S'entraîner <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
+  <!-- Carte 2 : Devoirs -->
+  <div class="feature-box hover-card searchable-item">
+    <div class="feature-img-wrap">
+      <img src="im2.webp" alt="Illustration Exercices" class="feature-img">
+    </div>
+    <h4>Devoirs & Exercices</h4>
+    <p>Séries d'exercices corrigés et examens théoriques et pratiques pour chaque niveau.</p>
+    <button class="btn-text nav-shortcut" data-target="courses-page">S'entraîner <i class="fa-solid fa-arrow-right"></i></button>
+  </div>
 
-            <div class="feature-box hover-card">
-              <div class="feature-img-wrap">
-                <img src="https://cdn.dribbble.com/users/722246/screenshots/4082720/media/f422e8489813f8c87f3bf6277a0c8414.gif" alt="GIF Vidéos" class="feature-gif">
-              </div>
-              <h4>Tutoriels Vidéo</h4>
-              <p>Démonstrations pas à pas enregistrées en direct pour la résolution de problèmes de programmation.</p>
-              <button class="btn-text nav-shortcut" data-target="videos-page">Visionner <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
+  <!-- Carte 3 : Vidéos -->
+  <div class="feature-box hover-card searchable-item">
+    <div class="feature-img-wrap">
+      <img src="img3.gif" alt="Illustration Apprendre" class="feature-img">
+    </div>
+    <h4>Tutoriels Vidéo</h4>
+    <p>Démonstrations pas à pas enregistrées en direct pour la résolution de problèmes de programmation.</p>
+    <button class="btn-text nav-shortcut" data-target="videos-page">Visionner <i class="fa-solid fa-arrow-right"></i></button>
+  </div>
 
-          </div>
+</div>
+
+<!-- BLOC DE CONTACT ENSEIGNANT -->
+<div class="teacher-contact-card searchable-item">
+  <div class="contact-header">
+    <div class="contact-icon-bg">
+      <i class="fa-solid fa-headset"></i>
+    </div>
+    <div>
+      <h3>Réserver une séance ou poser une question</h3>
+      <p>Besoin d'un cours particulier, d'une explication sur un devoir ou d'un lien Google Meet ? Contactez-moi directement.</p>
+    </div>
+  </div>
+
+  <div class="contact-methods-grid">
+    <!-- Email Direct -->
+    <a href="mailto:bessembenben2023@gmail.com?subject=Demande%20de%20cours%20/%20Meet%20-%20Ben-learning" class="contact-method-item">
+      <i class="fa-solid fa-envelope"></i>
+      <div class="method-info">
+        <span>Envoyer un e-mail</span>
+        <strong>bessembenben2023@gmail.com</strong>
+      </div>
+    </a>
+
+    <!-- WhatsApp / Téléphone -->
+    <a href="https://wa.me/21653675201?text=Bonjour,%20je%20souhaite%20planifier%20un%20Meet%20sur%20Ben-learning" target="_blank" class="contact-method-item whatsapp">
+      <i class="fa-brands fa-whatsapp"></i>
+      <div class="method-info">
+        <span>WhatsApp / Téléphone</span>
+        <strong>+216 53 675 201</strong>
+      </div>
+    </a>
+
+    <!-- Lien Google Meet Direct / Agenda -->
+    <a href="https://meet.google.com/new" target="_blank" class="contact-method-item meet">
+      <i class="fa-solid fa-video"></i>
+      <div class="method-info">
+        <span>Salle de réunion</span>
+        <strong>Ouvrir Google Meet</strong>
+      </div>
+    </a>
+  </div>
+</div>
         </section>
 
         <!-- PAGE TABLEAU DE BORD (COMPTEURS EXACTS) -->
@@ -272,39 +317,115 @@
           </div>
 
           <div class="resources-grid">
-            
-            <article class="resource-card searchable-item" data-level="univ" data-type="video">
-              <div class="card-badge-row">
-                <span class="badge badge-video">Vidéo</span>
-                <span class="level-text">Université</span>
-              </div>
-              <h3>Programmation Orientée Objet</h3>
-              <p>Les principes fondamentaux de la POO : Encapsulation, Classes et Héritage.</p>
-              <div class="video-embed">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vidéo POO" allowfullscreen></iframe>
-              </div>
-            </article>
 
+        <article class="resource-card searchable-item" data-level="univ" data-type="video">
+  <div class="card-badge-row">
+    <span class="badge badge-video">Vidéo Local</span>
+    <span class="level-text">Université</span>
+  </div>
+  <h3>Programmation Orientée Objet</h3>
+  <p>Les principes fondamentaux : Encapsulation, Classes et Héritage.</p>
+  
+  <!-- LECTEUR VIDÉO LOCAL -->
+  <div class="local-video-container">
+    <video controls preload="metadata" poster="images/poster-video.jpg">
+      <source src="video/v1.mp4" type="video/mp4">
+      Votre navigateur ne prend pas en charge la lecture de cette vidéo.
+    </video>
+  </div>
+</article>
           </div>
         </section>
 
         <!-- PAGE PROFIL -->
-        <section id="profile-page" class="page-section">
-          <div class="page-title">
-            <h2>Mon Profil Utilisateur</h2>
-          </div>
+       <!-- PROFIL -->
+<section id="profile-page" class="page-section">
+  <div class="page-title">
+    <h2>Mon Profil & Paramètres</h2>
+    <p>Gérez vos informations personnelles et suivez votre progression.</p>
+  </div>
 
-          <div class="profile-box">
-            <div class="profile-icon">
-              <i class="fa-solid fa-user-graduate"></i>
-            </div>
-            <div class="profile-data">
-              <h3>Statut : <span class="badge-active">Compte Actif</span></h3>
-              <p><strong>Compte :</strong> <span id="profile-email-display">-</span></p>
-              <p><strong>Plateforme :</strong> Ben-learning</p>
-            </div>
-          </div>
-        </section>
+  <div class="profile-container">
+    
+    <!-- CARTE EN-TÊTE PROFIL -->
+    <div class="profile-card-main">
+      <div class="profile-avatar-wrapper">
+        <img id="profile-avatar-img" src="https://ui-avatars.com/api/?name=User&background=4f46e5&color=fff&size=128" alt="Avatar Utilisateur">
+        <span class="badge-role" id="profile-role-badge">Élève</span>
+      </div>
+      <div class="profile-header-info">
+        <h3 id="profile-display-name">Utilisateur Ben-learning</h3>
+        <p id="profile-email-text">chargement...</p>
+        <span class="status-online"><i class="fa-solid fa-circle"></i> Compte Actif</span>
+      </div>
+    </div>
+
+    <!-- STATISTIQUES PERSONNELLES -->
+    <div class="profile-stats-grid">
+      <div class="profile-stat-box">
+        <i class="fa-solid fa-book-reader"></i>
+        <div>
+          <h4>Cours Consultés</h4>
+          <span class="stat-value">12</span>
+        </div>
+      </div>
+      <div class="profile-stat-box">
+        <i class="fa-solid fa-circle-play"></i>
+        <div>
+          <h4>Vidéos Vues</h4>
+          <span class="stat-value">5</span>
+        </div>
+      </div>
+      <div class="profile-stat-box">
+        <i class="fa-solid fa-award"></i>
+        <div>
+          <h4>Niveau d'étude</h4>
+          <span class="stat-value" id="user-level-tag">Informatique</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DÉTAILS DU COMPTE ET SÉCURITÉ -->
+    <div class="profile-details-grid">
+      
+      <!-- Bloc Informations -->
+      <div class="profile-info-block">
+        <h3><i class="fa-solid fa-id-card"></i> Informations du Compte</h3>
+        <ul class="info-list">
+          <li>
+            <span>Adresse Email :</span>
+            <strong id="info-email">-</strong>
+          </li>
+          <li>
+            <span>Plateforme :</span>
+            <strong>Ben-learning E-Learning</strong>
+          </li>
+          <li>
+            <span>Type d'accès :</span>
+            <strong>Membre Inscrit</strong>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bloc Sécurité & Actions -->
+      <div class="profile-info-block">
+        <h3><i class="fa-solid fa-shield-halved"></i> Sécurité & Actions</h3>
+        <p class="security-desc">Sécurisez votre compte ou réinitialisez votre mot de passe.</p>
+        
+        <div class="profile-actions-list">
+          <button id="btn-reset-password" class="btn btn-secondary btn-full">
+            <i class="fa-solid fa-key"></i> Réinitialiser le mot de passe
+          </button>
+          <button id="btn-logout-profile" class="btn btn-danger btn-full">
+            <i class="fa-solid fa-right-from-bracket"></i> Déconnexion du compte
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
 
       </main>
 
