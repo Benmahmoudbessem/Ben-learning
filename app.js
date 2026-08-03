@@ -7,7 +7,7 @@ import {
   onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// Configuration Firebase
+// Configuration Firebase Ben-learning
 const firebaseConfig = {
   apiKey: "AIzaSyAe-6kFMRFzeHzIu5Q-CBbt77M5qZ5gnPU",
   authDomain: "ben-learning-91abe.firebaseapp.com",
@@ -50,10 +50,10 @@ btnSignup.addEventListener("click", () => {
   const password = passwordInput.value;
 
   if (!email || !password) return showError("Veuillez remplir tous les champs.");
-  if (password.length < 6) return showError("Le mot de passe doit faire au moins 6 caractères.");
+  if (password.length < 6) return showError("Le mot de passe doit contenir au moins 6 caractères.");
 
   createUserWithEmailAndPassword(auth, email, password)
-    .catch((error) => showError("Erreur : " + error.message));
+    .catch((error) => showError("Erreur lors de la création : " + error.message));
 });
 
 // 2. Connexion
@@ -61,16 +61,16 @@ btnLogin.addEventListener("click", () => {
   clearError();
   const email = emailInput.value.trim();
   const password = passwordInput.value;
-  if (!email || !password) return showError("Remplissez tous les champs.");
+  if (!email || !password) return showError("Veuillez renseigner votre email et mot de passe.");
 
   signInWithEmailAndPassword(auth, email, password)
-    .catch(() => showError("E-mail ou mot de passe incorrect."));
+    .catch(() => showError("Adresse e-mail ou mot de passe incorrect."));
 });
 
 // 3. Déconnexion
 btnLogout.addEventListener("click", () => signOut(auth));
 
-// 4. Écouteur d'état d'authentification
+// 4. Écouteur d'authentification
 onAuthStateChanged(auth, (user) => {
   clearError();
   if (user) {
@@ -84,7 +84,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// 5. Navigation entre les pages (SPA)
+// 5. Navigation SPA (Onglets)
 const navLinks = document.querySelectorAll('.nav-link');
 const pageSections = document.querySelectorAll('.page-section');
 
@@ -101,7 +101,7 @@ navLinks.forEach(link => {
   });
 });
 
-// 6. Filtre par niveau
+// 6. Filtre dynamique par niveau
 const filterButtons = document.querySelectorAll('.filter-btn');
 const courseCards = document.querySelectorAll('.course-card');
 
@@ -122,7 +122,7 @@ filterButtons.forEach(button => {
   });
 });
 
-// 7. Recherche en direct dans les cours
+// 7. Recherche instantanée
 const globalSearch = document.getElementById('global-search');
 if (globalSearch) {
   globalSearch.addEventListener('input', (e) => {
