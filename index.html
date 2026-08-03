@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ben-learning - Plateforme d'Apprentissage</title>
+  <title>Ben-learning — Plateforme d'Enseignement</title>
   
-  <!-- Polices Google Font & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- ========================================== -->
-  <!-- ÉCRAN DE CONNEXION / INSCRIPTION           -->
+  <!-- CONNEXION / INSCRIPTION                    -->
   <!-- ========================================== -->
   <div id="auth-container" class="auth-wrapper">
     <div class="auth-card">
@@ -23,19 +22,19 @@
         <img src="logo.png" alt="Logo" class="brand-logo" onerror="this.src='https://ui-avatars.com/api/?name=Ben+Learning&background=4f46e5&color=fff'">
         <h1>Ben-learning</h1>
       </div>
-      <p class="auth-subtitle">Espace d'apprentissage en informatique</p>
+      <p class="auth-subtitle">Espace Pédagogique d'Informatique</p>
 
       <div id="error-message" class="error-msg" style="display: none;"></div>
 
       <form id="auth-form" onsubmit="return false;">
         <div class="form-group">
-          <label for="email"><i class="fa-regular fa-envelope"></i> Adresse e-mail</label>
-          <input type="email" id="email" placeholder="votre.email@exemple.com" required autocomplete="email">
+          <label for="email"><i class="fa-regular fa-envelope"></i> Adresse Email</label>
+          <input type="email" id="email" placeholder="votre.email@exemple.com" required>
         </div>
 
         <div class="form-group">
           <label for="password"><i class="fa-solid fa-lock"></i> Mot de passe</label>
-          <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+          <input type="password" id="password" placeholder="••••••••" required>
         </div>
 
         <div class="auth-buttons">
@@ -52,11 +51,11 @@
 
 
   <!-- ========================================== -->
-  <!-- APPLICATION PRINCIPALE                     -->
+  <!-- INTERFACE PRINCIPALE                       -->
   <!-- ========================================== -->
   <div id="app-container" class="app-layout" style="display: none;">
     
-    <!-- Barre Latérale de Navigation -->
+    <!-- Navigation Latérale -->
     <aside class="sidebar">
       <div class="sidebar-brand">
         <img src="logo.png" alt="Logo" class="brand-logo-small" onerror="this.src='https://ui-avatars.com/api/?name=BL&background=4f46e5&color=fff'">
@@ -94,72 +93,73 @@
       </div>
     </aside>
 
-    <!-- Zone de Contenu Principal -->
+    <!-- Zone de Contenu -->
     <div class="main-wrapper">
       
-      <!-- En-tête Supérieur -->
+      <!-- Top Header -->
       <header class="top-header">
         <div class="header-search">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="global-search" placeholder="Rechercher un cours ou sujet...">
+          <input type="text" id="global-search" placeholder="Rechercher un cours, sujet ou vidéo...">
         </div>
 
         <div class="header-user">
           <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
-          <span id="user-email-display">eleve@exemple.com</span>
+          <span id="user-email-display">utilisateur@exemple.com</span>
         </div>
       </header>
 
-      <!-- Zone Dynamique des Pages -->
+      <!-- Pages -->
       <main class="content-area">
 
-        <!-- 0. PAGE ACCUEIL ANIMÉE (NOUVELLE PAGE HOME) -->
+        <!-- PAGE ACCUEIL (HOME) PRO ET ÉPURÉE -->
         <section id="home-page" class="page-section active">
-          <div class="hero-animated">
-            <div class="hero-text">
-              <span class="badge-hero">🚀 Bienvenue sur Ben-learning</span>
-              <h1>Maîtrisez l'Informatique & le Code</h1>
-              <p>Des cours interactifs, des devoirs corrigés et des vidéos pédagogiques conçus pour réussir vos examens et développer vos compétences.</p>
-              <button class="btn btn-hero nav-shortcut" data-target="courses-page">
-                <i class="fa-solid fa-rocket"></i> Explorer les cours
-              </button>
-            </div>
-            <div class="hero-illustration">
-              <div class="floating-card c1"><i class="fa-solid fa-code"></i> Algorithmie</div>
-              <div class="floating-card c2"><i class="fa-brands fa-python"></i> Python & C++</div>
-              <div class="floating-card c3"><i class="fa-solid fa-laptop-code"></i> Développement Web</div>
-              <div class="pulse-circle"></div>
+          <div class="home-hero">
+            <div class="hero-content">
+              <span class="hero-tag"><i class="fa-solid fa-graduation-cap"></i> Plateforme Pédagogique</span>
+              <h1>Bienvenue sur Ben-learning</h1>
+              <p>Accédez à l'ensemble de vos cours d'informatique, séries d'exercices, devoirs de contrôle et tutoriels vidéo guidés.</p>
+              <div class="hero-actions">
+                <button class="btn btn-primary nav-shortcut" data-target="courses-page">
+                  <i class="fa-solid fa-book"></i> Voir les cours
+                </button>
+                <button class="btn btn-secondary nav-shortcut" data-target="videos-page">
+                  <i class="fa-solid fa-play"></i> Découvrir les vidéos
+                </button>
+              </div>
             </div>
           </div>
 
-          <h3 class="section-title">Ce que vous trouverez sur la plateforme</h3>
+          <div class="section-header-block">
+            <h3>Aperçu des Fonctionnalités</h3>
+          </div>
+
           <div class="features-grid">
-            <div class="feature-card">
-              <div class="feature-icon blue"><i class="fa-solid fa-file-pdf"></i></div>
-              <h3>Supports de Cours PDF</h3>
-              <p>Téléchargez vos cours complets rédigés et organisés par niveau d'étude.</p>
+            <div class="feature-box">
+              <div class="box-icon blue"><i class="fa-solid fa-file-pdf"></i></div>
+              <h4>Supports de Cours PDF</h4>
+              <p>Téléchargez vos cours structurés et optimisés pour la révision des examens.</p>
             </div>
-            <div class="feature-card">
-              <div class="feature-icon orange"><i class="fa-solid fa-pen-nib"></i></div>
-              <h3>Devoirs & Exercices</h3>
-              <p>Pratiquez avec des séries d'exercices, sujets d'examens et devoirs contrôlés.</p>
+            <div class="feature-box">
+              <div class="box-icon orange"><i class="fa-solid fa-pen-ruler"></i></div>
+              <h4>Devoirs & Correction</h4>
+              <p>Entraînez-vous sur des séries d'exercices et des examens récents avec corrections.</p>
             </div>
-            <div class="feature-card">
-              <div class="feature-icon green"><i class="fa-solid fa-play"></i></div>
-              <h3>Tutoriels Vidéo</h3>
-              <p>Regardez des explications pas à pas en vidéo pour assimiler facilement la logique de programmation.</p>
+            <div class="feature-box">
+              <div class="box-icon green"><i class="fa-solid fa-video"></i></div>
+              <h4>Tutoriels Vidéo</h4>
+              <p>Visualisez les démonstrations de code et algorithmes enregistrés étape par étape.</p>
             </div>
           </div>
         </section>
 
-        <!-- 1. PAGE TABLEAU DE BORD (COMPTEURS DYNAMIQUES) -->
+        <!-- PAGE TABLEAU DE BORD (COMPTEURS EXACTS DYNAMIQUES) -->
         <section id="dashboard-page" class="page-section">
-          <div class="welcome-banner">
-            <h2>Tableau de bord 👋</h2>
-            <p>Aperçu en temps réel de vos ressources pédagogiques actuelles.</p>
+          <div class="page-title">
+            <h2>Tableau de bord</h2>
+            <p>Statistiques exactes basées sur les ressources actuellement disponibles sur la plateforme.</p>
           </div>
 
-          <!-- Cartes Statistiques à calcul automatique -->
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-icon blue"><i class="fa-solid fa-file-pdf"></i></div>
@@ -172,29 +172,24 @@
               <div class="stat-icon orange"><i class="fa-solid fa-pen-ruler"></i></div>
               <div class="stat-info">
                 <h3 id="stat-count-homework">0</h3>
-                <p>Devoirs & Exercices</p>
+                <p>Devoirs & Sujets</p>
               </div>
             </div>
             <div class="stat-card">
               <div class="stat-icon green"><i class="fa-solid fa-video"></i></div>
               <div class="stat-info">
                 <h3 id="stat-count-videos">0</h3>
-                <p>Vidéos Explicatives</p>
+                <p>Vidéos Pédagogiques</p>
               </div>
             </div>
           </div>
-
-          <h3 class="section-title">Accès rapide</h3>
-          <div class="courses-grid" id="dashboard-preview-grid">
-            <!-- Rempli dynamiquement par JS -->
-          </div>
         </section>
 
-        <!-- 2. PAGE COURS & DEVOIRS -->
+        <!-- PAGE COURS ET DEVOIRS -->
         <section id="courses-page" class="page-section">
-          <div class="page-header">
+          <div class="page-title">
             <h2>Bibliothèque de Cours & Devoirs</h2>
-            <p>Sélectionnez un niveau pour filtrer les documents disponibles.</p>
+            <p>Filtrer par niveau ou effectuer une recherche rapide.</p>
           </div>
 
           <nav class="level-filters">
@@ -205,77 +200,76 @@
             <button class="filter-btn" data-filter="univ">Université</button>
           </nav>
 
-          <div class="courses-grid" id="main-courses-grid">
+          <div class="resources-grid">
             
-            <!-- EXEMPLE 1 : COURS PDF -->
-            <article class="course-card" data-level="1ere" data-type="course">
-              <div class="card-badges">
-                <span class="badge course">Cours</span>
-                <span class="level-tag">1ère Année</span>
+            <!-- Exemple 1 : Cours -->
+            <article class="resource-card" data-level="1ere" data-type="course">
+              <div class="card-badge-row">
+                <span class="badge badge-course">Cours</span>
+                <span class="level-text">1ère Année</span>
               </div>
               <h3>Introduction à l'Algorithmique</h3>
-              <p>Notions fondamentales : variables, affectation, types de données et structures conditionnelles.</p>
-              <a href="cours/1ere-annee/algorithmique-intro.pdf" target="_blank" class="btn card-btn">
-                <i class="fa-solid fa-download"></i> Télécharger le cours (PDF)
+              <p>Variables, affectation, types de données et structures conditionnelles de base.</p>
+              <a href="cours/1ere-annee/algorithmique-intro.pdf" target="_blank" class="btn btn-card green-btn">
+                <i class="fa-solid fa-download"></i> Télécharger PDF
               </a>
             </article>
 
-            <!-- EXEMPLE 2 : DEVOIR PDF -->
-            <article class="course-card" data-level="2eme" data-type="homework">
-              <div class="card-badges">
-                <span class="badge homework">Devoir</span>
-                <span class="level-tag">2ème Année</span>
+            <!-- Exemple 2 : Devoir -->
+            <article class="resource-card" data-level="2eme" data-type="homework">
+              <div class="card-badge-row">
+                <span class="badge badge-homework">Devoir</span>
+                <span class="level-text">2ème Année</span>
               </div>
               <h3>Devoir de Contrôle N°1</h3>
-              <p>Sujet pratique portant sur les structures répétitives (boucles) et les tableaux en Python.</p>
-              <a href="cours/2eme-annee/devoir1-python.pdf" target="_blank" class="btn card-btn secondary-btn">
-                <i class="fa-solid fa-file-pdf"></i> Télécharger le sujet (PDF)
+              <p>Sujet sur les structures répétitives (boucles) et manipulation des tableaux en Python.</p>
+              <a href="cours/2eme-annee/devoir1-python.pdf" target="_blank" class="btn btn-card orange-btn">
+                <i class="fa-solid fa-file-pdf"></i> Télécharger Sujet PDF
               </a>
             </article>
 
           </div>
         </section>
 
-        <!-- 3. PAGE VIDÉOS -->
+        <!-- PAGE VIDÉOS -->
         <section id="videos-page" class="page-section">
-          <div class="page-header">
-            <h2>Cours Vidéo & Tutoriels</h2>
-            <p>Accédez aux explications enregistrées et séances de travaux pratiques.</p>
+          <div class="page-title">
+            <h2>Tutoriels & Cours Vidéo</h2>
+            <p>Explications détaillées enregistrées en vidéo.</p>
           </div>
 
-          <div class="courses-grid" id="main-videos-grid">
+          <div class="resources-grid">
             
-            <!-- EXEMPLE 3 : VIDÉO -->
-            <article class="course-card" data-level="univ" data-type="video">
-              <div class="card-badges">
-                <span class="badge video">Vidéo</span>
-                <span class="level-tag">Université</span>
+            <!-- Exemple Vidéo -->
+            <article class="resource-card" data-level="univ" data-type="video">
+              <div class="card-badge-row">
+                <span class="badge badge-video">Vidéo</span>
+                <span class="level-text">Université</span>
               </div>
               <h3>Programmation Orientée Objet</h3>
-              <p>Comprendre la modélisation UML, l'encapsulation, l'héritage et le polymorphisme.</p>
-              <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vidéo cours POO" allowfullscreen></iframe>
+              <p>Concepts fondamentaux : Encapulsation, Héritage et Polymorphisme.</p>
+              <div class="video-embed">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vidéo POO" allowfullscreen></iframe>
               </div>
             </article>
 
           </div>
         </section>
 
-        <!-- 4. PAGE PROFIL -->
+        <!-- PAGE PROFIL -->
         <section id="profile-page" class="page-section">
-          <div class="page-header">
-            <h2>Mon Profil Élève</h2>
-            <p>Détails et identifiants de compte de la plateforme Ben-learning.</p>
+          <div class="page-title">
+            <h2>Mon Profil Utilisateur</h2>
           </div>
 
-          <div class="profile-card">
-            <div class="profile-avatar-large">
+          <div class="profile-box">
+            <div class="profile-icon">
               <i class="fa-solid fa-user-graduate"></i>
             </div>
-            <div class="profile-details">
-              <h3>Statut : <span class="badge-active">Compte Actif</span></h3>
-              <p><strong>Adresse E-mail :</strong> <span id="profile-email-display">-</span></p>
-              <p><strong>Plateforme :</strong> Ben-learning V2.0</p>
+            <div class="profile-data">
+              <h3>Statut : <span class="badge-active">Compte Vérifié</span></h3>
+              <p><strong>Compte :</strong> <span id="profile-email-display">-</span></p>
+              <p><strong>Plateforme :</strong> Ben-learning</p>
             </div>
           </div>
         </section>
