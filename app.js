@@ -7,7 +7,7 @@ import {
   onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// Configuration de votre projet Ben-learning
+// Configuration Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAe-6kFMRFzeHzIu5Q-CBbt77M5qZ5gnPU",
   authDomain: "ben-learning-91abe.firebaseapp.com",
@@ -21,64 +21,39 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Éléments DOM (Ajustés pour correspondre à index.html)
+// Éléments DOM
 const authContainer = document.getElementById("auth-container");
-const appContainer = document.getElementById("app-container"); // Corrigé (au lieu de dashboard-container)
+const appContainer = document.getElementById("app-container");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const btnLogin = document.getElementById("btn-login");
 const btnSignup = document.getElementById("btn-signup");
 const btnLogout = document.getElementById("btn-logout");
-const userEmailSpan = document.getElementById("user-email-display"); // Corrigé (au lieu de user-email)
+const userEmailSpan = document.getElementById("user-email-display");
+const profileEmailDisplay = document.getElementById("profile-email-display");
 const errorMsg = document.getElementById("error-message");
 
-// Fonctions d'erreur
-function showError(msg) { 
-  errorMsg.textContent = msg; 
-  errorMsg.style.display = "block"; 
+function showError(msg) {
+  errorMsg.textContent = msg;
+  errorMsg.style.display = "block";
 }
 
-function clearError() { 
-  errorMsg.textContent = ""; 
-  errorMsg.style.display = "none"; 
+function clearError() {
+  errorMsg.textContent = "";
+  errorMsg.style.display = "none";
 }
 
-// 1. Inscription avec gestion d'erreurs détaillée
+// 1. Inscription
 btnSignup.addEventListener("click", () => {
   clearError();
   const email = emailInput.value.trim();
   const password = passwordInput.value;
-  
-  if (!email || !password) {
-    showError("Veuillez remplir tous les champs.");
-    return;
-  }
 
-  if (password.length < 6) {
-    showError("Le mot de passe doit faire au moins 6 caractères.");
-    return;
-  }
+  if (!email || !password) return showError("Veuillez remplir tous les champs.");
+  if (password.length < 6) return showError("Le mot de passe doit faire au moins 6 caractères.");
 
   createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      console.log("Compte créé avec succès !", userCredential.user);
-    })
-    .catch((error) => {
-      console.error("Code d'erreur Firebase :", error.code);
-      console.error("Message d'erreur :", error.message);
-
-      if (error.code === "auth/operation-not-allowed") {
-        showError("ERREUR : Vous devez activer l'authentification par E-mail/Mot de passe dans la console Firebase !");
-      } else if (error.code === "auth/email-already-in-use") {
-        showError("Cet e-mail est déjà utilisé par un autre compte.");
-      } else if (error.code === "auth/invalid-email") {
-        showError("L'adresse e-mail n'est pas valide.");
-      } else if (error.code === "auth/unauthorized-domain") {
-        showError("Ce domaine n'est pas autorisé dans la console Firebase.");
-      } else {
-        showError("Erreur Firebase : " + error.message);
-      }
-    });
+    .catch((error) => showError("Erreur : " + error.message));
 });
 
 // 2. Connexion
@@ -95,21 +70,39 @@ btnLogin.addEventListener("click", () => {
 // 3. Déconnexion
 btnLogout.addEventListener("click", () => signOut(auth));
 
-// 4. Écouteur de connexion / déconnexion
+// 4. Écouteur d'état d'authentification
 onAuthStateChanged(auth, (user) => {
   clearError();
   if (user) {
     authContainer.style.display = "none";
-    appContainer.style.display = "block";
+    appContainer.style.display = "flex";
     userEmailSpan.textContent = user.email;
+    if (profileEmailDisplay) profileEmailDisplay.textContent = user.email;
   } else {
-    authContainer.style.display = "block";
+    authContainer.style.display = "flex";
     appContainer.style.display = "none";
   }
 });
 
-// 5. Filtre par niveau
-const filterButtons = document.querySelectorAll('.filter-btn'); // Corrigé (.filter-btn au lieu de .level-btn)
+// 5. Navigation entre les pages (SPA)
+const navLinks = document.querySelectorAll('.nav-link');
+const pageSections = document.querySelectorAll('.page-section');
+
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const targetPageId = link.getAttribute('data-page');
+
+    navLinks.forEach(l => l.classList.remove('active'));
+    pageSections.forEach(section => section.classList.remove('active'));
+
+    link.classList.add('active');
+    document.getElementById(targetPageId).classList.add('active');
+  });
+});
+
+// 6. Filtre par niveau
+const filterButtons = document.querySelectorAll('.filter-btn');
 const courseCards = document.querySelectorAll('.course-card');
 
 filterButtons.forEach(button => {
@@ -117,7 +110,7 @@ filterButtons.forEach(button => {
     filterButtons.forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
 
-    const selectedLevel = button.getAttribute('data-filter'); // Corrigé (data-filter)
+    const selectedLevel = button.getAttribute('data-filter');
     courseCards.forEach(card => {
       const cardLevel = card.getAttribute('data-level');
       if (selectedLevel === 'all' || cardLevel === selectedLevel) {
@@ -128,3 +121,20 @@ filterButtons.forEach(button => {
     });
   });
 });
+
+// 7. Recherche en direct dans les cours
+const globalSearch = document.getElementById('global-search');
+if (globalSearch) {
+  globalSearch.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    courseCards.forEach(card => {
+      const title = card.querySelector('h3').textContent.toLowerCase();
+      const desc = card.querySelector('p').textContent.toLowerCase();
+      if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+}

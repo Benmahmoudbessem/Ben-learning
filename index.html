@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ben-learning - Plateforme d'Apprentissage</title>
+  <!-- Polices Google Font & Icônes FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,118 +16,239 @@
   <!-- ========================================== -->
   <!-- PAGE DE CONNEXION / INSCRIPTION            -->
   <!-- ========================================== -->
-  <div id="auth-container" class="auth-box">
-    <!-- En-tête avec Logo et Nom sur la page de connexion -->
-    <div class="brand-header">
-      <img src="logo.png" alt="Logo Ben-learning" class="brand-logo">
-      <h1 class="brand-title">Ben-learning</h1>
+  <div id="auth-container" class="auth-wrapper">
+    <div class="auth-card">
+      <div class="brand-header">
+        <img src="logo.png" alt="Ben-learning Logo" class="brand-logo" onerror="this.src='https://ui-avatars.com/api/?name=Ben+Learning&background=4f46e5&color=fff'">
+        <h1>Ben-learning</h1>
+      </div>
+      <p class="auth-subtitle">Plateforme d'apprentissage en informatique</p>
+
+      <div id="error-message" class="error-msg" style="display: none;"></div>
+
+      <form id="auth-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="email"><i class="fa-regular fa-envelope"></i> Adresse e-mail</label>
+          <input type="email" id="email" placeholder="nom@exemple.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="password"><i class="fa-solid fa-lock"></i> Mot de passe</label>
+          <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+
+        <div class="auth-buttons">
+          <button type="button" id="btn-login" class="btn btn-primary"><i class="fa-solid fa-right-to-bracket"></i> Connexion</button>
+          <button type="button" id="btn-signup" class="btn btn-secondary"><i class="fa-solid fa-user-plus"></i> Créer un compte</button>
+        </div>
+      </form>
     </div>
-
-    <p class="auth-subtitle">Accédez à vos cours et devoirs d'informatique</p>
-
-    <!-- Zone d'affichage des messages d'erreur -->
-    <div id="error-message" class="error-msg" style="display: none;"></div>
-
-    <form id="auth-form" onsubmit="return false;">
-      <div class="form-group">
-        <label for="email">Adresse e-mail :</label>
-        <input type="email" id="email" placeholder="votre.email@exemple.com" required autocomplete="email">
-      </div>
-
-      <div class="form-group">
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
-      </div>
-
-      <div class="auth-buttons">
-        <button type="button" id="btn-login" class="btn primary">Se connecter</button>
-        <button type="button" id="btn-signup" class="btn secondary">S'inscrire</button>
-      </div>
-    </form>
   </div>
 
 
   <!-- ========================================== -->
-  <!-- ESPACE DE COURS (AFFICHÉ APRÈS CONNEXION)   -->
+  <!-- ESPACE MEMBRE PRINCIPAL                    -->
   <!-- ========================================== -->
-  <div id="app-container" style="display: none;">
+  <div id="app-container" class="app-layout" style="display: none;">
     
-    <!-- En-tête principal -->
-    <header class="main-header">
-      <div class="header-brand">
-        <img src="logo.png" alt="Logo Ben-learning" class="brand-logo-small">
+    <!-- Barre Latérale (Sidebar) -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="logo.png" alt="Logo" class="brand-logo-small" onerror="this.src='https://ui-avatars.com/api/?name=BL&background=4f46e5&color=fff'">
         <span class="brand-name">Ben-learning</span>
       </div>
 
-      <div class="header-user">
-        <span id="user-email-display">eleve@exemple.com</span>
-        <button id="btn-logout" class="btn logout">Déconnexion</button>
-      </div>
-    </header>
-
-    <main class="content-container">
-      <section class="welcome-section">
-        <h2>Bienvenue sur votre espace d'apprentissage</h2>
-        <p>Sélectionnez un niveau pour filtrer vos ressources pédagogiques.</p>
-      </section>
-
-      <!-- Filtres par niveau -->
-      <nav class="level-filters">
-        <button class="filter-btn active" data-filter="all">Tous les cours</button>
-        <button class="filter-btn" data-filter="1ere">1ère Année</button>
-        <button class="filter-btn" data-filter="2eme">2ème Année</button>
-        <button class="filter-btn" data-filter="3eme">3ème Année</button>
-        <button class="filter-btn" data-filter="univ">Université</button>
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="nav-link active" data-page="dashboard-page">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Tableau de bord</span>
+        </a>
+        <a href="#cours" class="nav-link" data-page="courses-page">
+          <i class="fa-solid fa-book-open"></i>
+          <span>Cours & Devoirs</span>
+        </a>
+        <a href="#videos" class="nav-link" data-page="videos-page">
+          <i class="fa-solid fa-circle-play"></i>
+          <span>Vidéos</span>
+        </a>
+        <a href="#profil" class="nav-link" data-page="profile-page">
+          <i class="fa-solid fa-user-gear"></i>
+          <span>Mon Profil</span>
+        </a>
       </nav>
 
-      <!-- Grille des cours et devoirs -->
-      <section class="courses-grid">
+      <div class="sidebar-footer">
+        <button id="btn-logout" class="btn-logout">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Déconnexion</span>
+        </button>
+      </div>
+    </aside>
 
-        <!-- Exemple 1 : Cours PDF 1ère Année -->
-        <article class="course-card" data-level="1ere">
-          <div class="card-badges">
-            <span class="badge course">Cours</span>
-            <span class="level-tag">1ère Année</span>
+    <!-- Zone de Contenu Principal -->
+    <div class="main-wrapper">
+      
+      <!-- En-tête Supérieur -->
+      <header class="top-header">
+        <div class="header-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="global-search" placeholder="Rechercher un cours, un sujet...">
+        </div>
+
+        <div class="header-user">
+          <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+          <span id="user-email-display">eleve@exemple.com</span>
+        </div>
+      </header>
+
+      <!-- Zone Dynamic des Pages -->
+      <main class="content-area">
+
+        <!-- 1. PAGE TABLEAU DE BORD -->
+        <section id="dashboard-page" class="page-section active">
+          <div class="welcome-banner">
+            <div>
+              <h2>Ravi de vous revoir ! 👋</h2>
+              <p>Accédez rapidement à vos cours d'informatique et consultez les dernières ressources.</p>
+            </div>
           </div>
-          <h3>Introduction à l'Algorithmique</h3>
-          <p>Les notions de base : variables, types de données et structures conditionnelles.</p>
-          <a href="cours/1ere-annee/algorithmique-intro.pdf" target="_blank" class="btn card-btn">Télécharger le cours (PDF)</a>
-        </article>
 
-        <!-- Exemple 2 : Devoir PDF 2ème Année -->
-        <article class="course-card" data-level="2eme">
-          <div class="card-badges">
-            <span class="badge homework">Devoir</span>
-            <span class="level-tag">2ème Année</span>
+          <!-- Cartes Statistiques -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon blue"><i class="fa-solid fa-file-pdf"></i></div>
+              <div class="stat-info">
+                <h3>12</h3>
+                <p>Cours PDF disponibles</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon orange"><i class="fa-solid fa-pen-ruler"></i></div>
+              <div class="stat-info">
+                <h3>8</h3>
+                <p>Devoirs & Exercices</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green"><i class="fa-solid fa-video"></i></div>
+              <div class="stat-info">
+                <h3>5</h3>
+                <p>Tutoriels Vidéo</p>
+              </div>
+            </div>
           </div>
-          <h3>Devoir de Contrôle N°1</h3>
-          <p>Exercices pratiques sur les boucles et les tableaux en Python.</p>
-          <a href="cours/2eme-annee/devoir1-python.pdf" target="_blank" class="btn card-btn secondary-btn">Télécharger le sujet (PDF)</a>
-        </article>
 
-        <!-- Exemple 3 : Vidéo Université -->
-        <article class="course-card" data-level="univ">
-          <div class="card-badges">
-            <span class="badge video">Vidéo</span>
-            <span class="level-tag">Université</span>
+          <h3 class="section-title">Aperçu récent</h3>
+          <div class="courses-grid">
+            <!-- Aperçu d'un cours récent -->
+            <article class="course-card" data-level="1ere">
+              <div class="card-badges">
+                <span class="badge course">Cours</span>
+                <span class="level-tag">1ère Année</span>
+              </div>
+              <h3>Introduction à l'Algorithmique</h3>
+              <p>Les notions de base : variables, types de données et structures conditionnelles.</p>
+              <a href="cours/1ere-annee/algorithmique-intro.pdf" target="_blank" class="btn card-btn">
+                <i class="fa-solid fa-download"></i> Télécharger PDF
+              </a>
+            </article>
           </div>
-          <h3>Programmation Orientée Objet</h3>
-          <p>Comprendre la création de classes, objets et l'héritage.</p>
-          <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vidéo de cours" allowfullscreen></iframe>
+        </section>
+
+        <!-- 2. PAGE COURS ET DEVOIRS -->
+        <section id="courses-page" class="page-section">
+          <div class="page-header">
+            <h2>Bibliothèque de Cours & Devoirs</h2>
+            <p>Filtrer les cours par niveau scolaire pour télécharger les supports.</p>
           </div>
-        </article>
 
-      </section>
-    </main>
+          <!-- Filtres par niveau -->
+          <nav class="level-filters">
+            <button class="filter-btn active" data-filter="all">Tous</button>
+            <button class="filter-btn" data-filter="1ere">1ère Année</button>
+            <button class="filter-btn" data-filter="2eme">2ème Année</button>
+            <button class="filter-btn" data-filter="3eme">3ème Année</button>
+            <button class="filter-btn" data-filter="univ">Université</button>
+          </nav>
 
-    <footer class="main-footer">
-      <p>&copy; 2026 Ben-learning. Tous droits réservés.</p>
-    </footer>
+          <!-- Grille des cours -->
+          <div class="courses-grid">
+            <article class="course-card" data-level="1ere">
+              <div class="card-badges">
+                <span class="badge course">Cours</span>
+                <span class="level-tag">1ère Année</span>
+              </div>
+              <h3>Introduction à l'Algorithmique</h3>
+              <p>Les notions de base : variables, types de données et structures conditionnelles.</p>
+              <a href="cours/1ere-annee/algorithmique-intro.pdf" target="_blank" class="btn card-btn">
+                <i class="fa-solid fa-download"></i> Télécharger (PDF)
+              </a>
+            </article>
+
+            <article class="course-card" data-level="2eme">
+              <div class="card-badges">
+                <span class="badge homework">Devoir</span>
+                <span class="level-tag">2ème Année</span>
+              </div>
+              <h3>Devoir de Contrôle N°1</h3>
+              <p>Exercices pratiques sur les boucles et les tableaux en Python.</p>
+              <a href="cours/2eme-annee/devoir1-python.pdf" target="_blank" class="btn card-btn secondary-btn">
+                <i class="fa-solid fa-file-arrow-down"></i> Télécharger le sujet (PDF)
+              </a>
+            </article>
+          </div>
+        </section>
+
+        <!-- 3. PAGE VIDÉOS -->
+        <section id="videos-page" class="page-section">
+          <div class="page-header">
+            <h2>Cours en Vidéo</h2>
+            <p>Visionnez les explications détaillées et travaux pratiques enregistrés.</p>
+          </div>
+
+          <div class="courses-grid">
+            <article class="course-card" data-level="univ">
+              <div class="card-badges">
+                <span class="badge video">Vidéo</span>
+                <span class="level-tag">Université</span>
+              </div>
+              <h3>Programmation Orientée Objet</h3>
+              <p>Comprendre la création de classes, objets et l'héritage.</p>
+              <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vidéo de cours" allowfullscreen></iframe>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- 4. PAGE PROFIL -->
+        <section id="profile-page" class="page-section">
+          <div class="page-header">
+            <h2>Mon Profil Élève</h2>
+            <p>Gérez vos informations personnelles et paramètres de compte.</p>
+          </div>
+
+          <div class="profile-card">
+            <div class="profile-avatar-large">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div class="profile-details">
+              <h3>Statut : <span class="badge-active">Étudiant Actif</span></h3>
+              <p><strong>E-mail :</strong> <span id="profile-email-display">-</span></p>
+              <p><strong>Plateforme :</strong> Ben-learning V2.0</p>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <footer class="main-footer">
+        <p>&copy; 2026 Ben-learning. Tous droits réservés.</p>
+      </footer>
+    </div>
 
   </div>
 
-  <!-- Fichier JavaScript Firebase principal -->
   <script type="module" src="app.js"></script>
 </body>
 </html>
