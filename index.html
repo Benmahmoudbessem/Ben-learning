@@ -8,14 +8,14 @@
   <!-- Polices Google Font & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- ========================================== -->
-  <!-- ECRAN DE CONNEXION / INSCRIPTION           -->
+  <!-- ÉCRAN DE CONNEXION / INSCRIPTION           -->
   <!-- ========================================== -->
   <div id="auth-container" class="auth-wrapper">
     <div class="auth-card">
@@ -52,7 +52,7 @@
 
 
   <!-- ========================================== -->
-  <!-- APPLICATION PRINCIPALE (TABLEAU DE BORD)   -->
+  <!-- APPLICATION PRINCIPALE                     -->
   <!-- ========================================== -->
   <div id="app-container" class="app-layout" style="display: none;">
     
@@ -64,7 +64,11 @@
       </div>
 
       <nav class="sidebar-nav">
-        <a href="#dashboard" class="nav-link active" data-page="dashboard-page">
+        <a href="#home" class="nav-link active" data-page="home-page">
+          <i class="fa-solid fa-house"></i>
+          <span>Accueil</span>
+        </a>
+        <a href="#dashboard" class="nav-link" data-page="dashboard-page">
           <i class="fa-solid fa-chart-pie"></i>
           <span>Tableau de bord</span>
         </a>
@@ -109,50 +113,80 @@
       <!-- Zone Dynamique des Pages -->
       <main class="content-area">
 
-        <!-- 1. PAGE TABLEAU DE BORD -->
-        <section id="dashboard-page" class="page-section active">
-          <div class="welcome-banner">
-            <h2>Bienvenue sur Ben-learning 👋</h2>
-            <p>Retrouvez l'ensemble de vos ressources pédagogiques, cours et travaux pratiques.</p>
+        <!-- 0. PAGE ACCUEIL ANIMÉE (NOUVELLE PAGE HOME) -->
+        <section id="home-page" class="page-section active">
+          <div class="hero-animated">
+            <div class="hero-text">
+              <span class="badge-hero">🚀 Bienvenue sur Ben-learning</span>
+              <h1>Maîtrisez l'Informatique & le Code</h1>
+              <p>Des cours interactifs, des devoirs corrigés et des vidéos pédagogiques conçus pour réussir vos examens et développer vos compétences.</p>
+              <button class="btn btn-hero nav-shortcut" data-target="courses-page">
+                <i class="fa-solid fa-rocket"></i> Explorer les cours
+              </button>
+            </div>
+            <div class="hero-illustration">
+              <div class="floating-card c1"><i class="fa-solid fa-code"></i> Algorithmie</div>
+              <div class="floating-card c2"><i class="fa-brands fa-python"></i> Python & C++</div>
+              <div class="floating-card c3"><i class="fa-solid fa-laptop-code"></i> Développement Web</div>
+              <div class="pulse-circle"></div>
+            </div>
           </div>
 
+          <h3 class="section-title">Ce que vous trouverez sur la plateforme</h3>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon blue"><i class="fa-solid fa-file-pdf"></i></div>
+              <h3>Supports de Cours PDF</h3>
+              <p>Téléchargez vos cours complets rédigés et organisés par niveau d'étude.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon orange"><i class="fa-solid fa-pen-nib"></i></div>
+              <h3>Devoirs & Exercices</h3>
+              <p>Pratiquez avec des séries d'exercices, sujets d'examens et devoirs contrôlés.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon green"><i class="fa-solid fa-play"></i></div>
+              <h3>Tutoriels Vidéo</h3>
+              <p>Regardez des explications pas à pas en vidéo pour assimiler facilement la logique de programmation.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1. PAGE TABLEAU DE BORD (COMPTEURS DYNAMIQUES) -->
+        <section id="dashboard-page" class="page-section">
+          <div class="welcome-banner">
+            <h2>Tableau de bord 👋</h2>
+            <p>Aperçu en temps réel de vos ressources pédagogiques actuelles.</p>
+          </div>
+
+          <!-- Cartes Statistiques à calcul automatique -->
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-icon blue"><i class="fa-solid fa-file-pdf"></i></div>
               <div class="stat-info">
-                <h3>12</h3>
-                <p>Cours PDF</p>
+                <h3 id="stat-count-courses">0</h3>
+                <p>Cours PDF disponibles</p>
               </div>
             </div>
             <div class="stat-card">
               <div class="stat-icon orange"><i class="fa-solid fa-pen-ruler"></i></div>
               <div class="stat-info">
-                <h3>8</h3>
-                <p>Devoirs & Sujets</p>
+                <h3 id="stat-count-homework">0</h3>
+                <p>Devoirs & Exercices</p>
               </div>
             </div>
             <div class="stat-card">
               <div class="stat-icon green"><i class="fa-solid fa-video"></i></div>
               <div class="stat-info">
-                <h3>5</h3>
+                <h3 id="stat-count-videos">0</h3>
                 <p>Vidéos Explicatives</p>
               </div>
             </div>
           </div>
 
-          <h3 class="section-title">Dernières publications</h3>
-          <div class="courses-grid">
-            <article class="course-card" data-level="1ere">
-              <div class="card-badges">
-                <span class="badge course">Cours</span>
-                <span class="level-tag">1ère Année</span>
-              </div>
-              <h3>Introduction à l'Algorithmique</h3>
-              <p>Notions fondamentales : variables, affectation, types de données et structures conditionnelles.</p>
-              <a href="cours/1ere-annee/algorithmique-intro.pdf" target="_blank" class="btn card-btn">
-                <i class="fa-solid fa-download"></i> Télécharger (PDF)
-              </a>
-            </article>
+          <h3 class="section-title">Accès rapide</h3>
+          <div class="courses-grid" id="dashboard-preview-grid">
+            <!-- Rempli dynamiquement par JS -->
           </div>
         </section>
 
@@ -171,8 +205,10 @@
             <button class="filter-btn" data-filter="univ">Université</button>
           </nav>
 
-          <div class="courses-grid">
-            <article class="course-card" data-level="1ere">
+          <div class="courses-grid" id="main-courses-grid">
+            
+            <!-- EXEMPLE 1 : COURS PDF -->
+            <article class="course-card" data-level="1ere" data-type="course">
               <div class="card-badges">
                 <span class="badge course">Cours</span>
                 <span class="level-tag">1ère Année</span>
@@ -180,11 +216,12 @@
               <h3>Introduction à l'Algorithmique</h3>
               <p>Notions fondamentales : variables, affectation, types de données et structures conditionnelles.</p>
               <a href="cours/1ere-annee/algorithmique-intro.pdf" target="_blank" class="btn card-btn">
-                <i class="fa-solid fa-download"></i> Télécharger le cours
+                <i class="fa-solid fa-download"></i> Télécharger le cours (PDF)
               </a>
             </article>
 
-            <article class="course-card" data-level="2eme">
+            <!-- EXEMPLE 2 : DEVOIR PDF -->
+            <article class="course-card" data-level="2eme" data-type="homework">
               <div class="card-badges">
                 <span class="badge homework">Devoir</span>
                 <span class="level-tag">2ème Année</span>
@@ -192,9 +229,10 @@
               <h3>Devoir de Contrôle N°1</h3>
               <p>Sujet pratique portant sur les structures répétitives (boucles) et les tableaux en Python.</p>
               <a href="cours/2eme-annee/devoir1-python.pdf" target="_blank" class="btn card-btn secondary-btn">
-                <i class="fa-solid fa-file-pdf"></i> Télécharger le sujet
+                <i class="fa-solid fa-file-pdf"></i> Télécharger le sujet (PDF)
               </a>
             </article>
+
           </div>
         </section>
 
@@ -205,8 +243,10 @@
             <p>Accédez aux explications enregistrées et séances de travaux pratiques.</p>
           </div>
 
-          <div class="courses-grid">
-            <article class="course-card" data-level="univ">
+          <div class="courses-grid" id="main-videos-grid">
+            
+            <!-- EXEMPLE 3 : VIDÉO -->
+            <article class="course-card" data-level="univ" data-type="video">
               <div class="card-badges">
                 <span class="badge video">Vidéo</span>
                 <span class="level-tag">Université</span>
@@ -217,6 +257,7 @@
                 <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vidéo cours POO" allowfullscreen></iframe>
               </div>
             </article>
+
           </div>
         </section>
 
@@ -234,7 +275,7 @@
             <div class="profile-details">
               <h3>Statut : <span class="badge-active">Compte Actif</span></h3>
               <p><strong>Adresse E-mail :</strong> <span id="profile-email-display">-</span></p>
-              <p><strong>Accès :</strong> Espace Téléchargements & Vidéos</p>
+              <p><strong>Plateforme :</strong> Ben-learning V2.0</p>
             </div>
           </div>
         </section>
@@ -248,7 +289,6 @@
 
   </div>
 
-  <!-- Fichier JavaScript Firebase -->
   <script type="module" src="app.js"></script>
 </body>
 </html>

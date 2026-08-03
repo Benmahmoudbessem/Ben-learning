@@ -7,7 +7,6 @@ import {
   onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// Configuration Firebase Ben-learning
 const firebaseConfig = {
   apiKey: "AIzaSyAe-6kFMRFzeHzIu5Q-CBbt77M5qZ5gnPU",
   authDomain: "ben-learning-91abe.firebaseapp.com",
@@ -43,34 +42,30 @@ function clearError() {
   errorMsg.style.display = "none";
 }
 
-// 1. Inscription
+// 1. Authentification
 btnSignup.addEventListener("click", () => {
   clearError();
   const email = emailInput.value.trim();
   const password = passwordInput.value;
-
   if (!email || !password) return showError("Veuillez remplir tous les champs.");
-  if (password.length < 6) return showError("Le mot de passe doit contenir au moins 6 caractères.");
+  if (password.length < 6) return showError("Le mot de passe doit faire au moins 6 caractères.");
 
   createUserWithEmailAndPassword(auth, email, password)
-    .catch((error) => showError("Erreur lors de la création : " + error.message));
+    .catch((error) => showError("Erreur : " + error.message));
 });
 
-// 2. Connexion
 btnLogin.addEventListener("click", () => {
   clearError();
   const email = emailInput.value.trim();
   const password = passwordInput.value;
-  if (!email || !password) return showError("Veuillez renseigner votre email et mot de passe.");
+  if (!email || !password) return showError("Remplissez tous les champs.");
 
   signInWithEmailAndPassword(auth, email, password)
-    .catch(() => showError("Adresse e-mail ou mot de passe incorrect."));
+    .catch(() => showError("Identifiants incorrects."));
 });
 
-// 3. Déconnexion
 btnLogout.addEventListener("click", () => signOut(auth));
 
-// 4. Écouteur d'authentification
 onAuthStateChanged(auth, (user) => {
   clearError();
   if (user) {
@@ -78,30 +73,67 @@ onAuthStateChanged(auth, (user) => {
     appContainer.style.display = "flex";
     userEmailSpan.textContent = user.email;
     if (profileEmailDisplay) profileEmailDisplay.textContent = user.email;
+
+    // Calculer automatiquement les vraies données
+    updateDashboardStats();
   } else {
     authContainer.style.display = "flex";
     appContainer.style.display = "none";
   }
 });
 
-// 5. Navigation SPA (Onglets)
+// 2. Calculateur automatique de ressources (Résout le problème des faux chiffres)
+function updateDashboardStats() {
+  const coursesCount = document.querySelectorAll('.course-card[data-type="course"]').length;
+  const homeworkCount = document.querySelectorAll('.course-card[data-type="homework"]').length;
+  const videosCount = document.querySelectorAll('.course-card[data-type="video"]').length;
+
+  document.getElementById("stat-count-courses").textContent = coursesCount;
+  document.getElementById("stat-count-homework").textContent = homeworkCount;
+  document.getElementById("stat-count-videos").textContent = videosCount;
+
+  // Dupliquer un aperçu dynamique sur le tableau de bord
+  const previewGrid = document.getElementById("dashboard-preview-grid");
+  if (previewGrid) {
+    previewGrid.innerHTML = "";
+    const firstCourse = document.querySelector('.course-card');
+    if (firstCourse) {
+      previewGrid.appendChild(firstCourse.cloneNode(true));
+    }
+  }
+}
+
+// 3. Navigation SPA (Onglets)
 const navLinks = document.querySelectorAll('.nav-link');
 const pageSections = document.querySelectorAll('.page-section');
+
+function navigateToPage(targetPageId) {
+  navLinks.forEach(l => l.classList.remove('active'));
+  pageSections.forEach(section => section.classList.remove('active'));
+
+  const activeLink = document.querySelector(`.nav-link[data-page="${targetPageId}"]`);
+  if (activeLink) activeLink.classList.add('active');
+  
+  const targetPage = document.getElementById(targetPageId);
+  if (targetPage) targetPage.classList.add('active');
+}
 
 navLinks.forEach(link => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
-    const targetPageId = link.getAttribute('data-page');
-
-    navLinks.forEach(l => l.classList.remove('active'));
-    pageSections.forEach(section => section.classList.remove('active'));
-
-    link.classList.add('active');
-    document.getElementById(targetPageId).classList.add('active');
+    navigateToPage(link.getAttribute('data-page'));
   });
 });
 
-// 6. Filtre dynamique par niveau
+// Bouton raccourci de la page d'accueil
+const heroShortcut = document.querySelector('.nav-shortcut');
+if (heroShortcut) {
+  heroShortcut.addEventListener('click', () => {
+    navigateToPage(heroShortcut.getAttribute('data-target'));
+  });
+}
+
+// 4. Filtre par niveau
 const filterButtons = document.querySelectorAll('.filter-btn');
 const courseCards = document.querySelectorAll('.course-card');
 
@@ -122,7 +154,7 @@ filterButtons.forEach(button => {
   });
 });
 
-// 7. Recherche instantanée
+// 5. Recherche globale
 const globalSearch = document.getElementById('global-search');
 if (globalSearch) {
   globalSearch.addEventListener('input', (e) => {
