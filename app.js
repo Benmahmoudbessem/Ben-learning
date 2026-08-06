@@ -4,8 +4,7 @@ import {
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
   signOut, 
-  onAuthStateChanged,
-  sendPasswordResetEmail 
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -50,8 +49,8 @@ function clearError() {
 if (btnSignup) {
   btnSignup.addEventListener("click", () => {
     clearError();
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
+    const email = emailInput?.value.trim();
+    const password = passwordInput?.value;
     if (!email || !password) return showError("Veuillez remplir tous les champs.");
 
     createUserWithEmailAndPassword(auth, email, password)
@@ -62,8 +61,8 @@ if (btnSignup) {
 if (btnLogin) {
   btnLogin.addEventListener("click", () => {
     clearError();
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
+    const email = emailInput?.value.trim();
+    const password = passwordInput?.value;
     if (!email || !password) return showError("Veuillez saisir vos identifiants.");
 
     signInWithEmailAndPassword(auth, email, password)
@@ -83,7 +82,7 @@ onAuthStateChanged(auth, (user) => {
     if (appContainer) appContainer.style.display = "flex";
     if (userEmailSpan) userEmailSpan.textContent = user.email;
 
-    // Mise à jour des informations de la page Profil
+    // Mise à jour des informations du Profil
     const profileEmailText = document.getElementById("profile-email-text");
     const infoEmail = document.getElementById("info-email");
     const profileDisplayName = document.getElementById("profile-display-name");
@@ -92,12 +91,12 @@ onAuthStateChanged(auth, (user) => {
     if (profileEmailText) profileEmailText.textContent = user.email;
     if (infoEmail) infoEmail.textContent = user.email;
 
-    // Extraction du nom à partir de l'adresse e-mail (ex: ali.ben -> ALI BEN)
+    // Extraction du nom (ex: ali.ben -> ALI BEN)
     const rawName = user.email.split('@')[0].replace(/[\._-]/g, ' ');
     const formattedName = rawName.toUpperCase();
     if (profileDisplayName) profileDisplayName.textContent = formattedName;
 
-    // Avatar dynamique avec UI-Avatars
+    // Avatar dynamique
     if (avatarImg) {
       avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(formattedName)}&background=4f46e5&color=fff&size=128`;
     }
@@ -110,23 +109,19 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // --- ACTIONS DU PROFIL ---
-// Déconnexion depuis le profil
 const btnLogoutProfile = document.getElementById("btn-logout-profile");
 if (btnLogoutProfile) {
   btnLogoutProfile.addEventListener("click", () => signOut(auth));
 }
 
-// DEMANDE DE RÉINITIALISATION (ENVOI À L'ENSEIGNANT)
+// DEMANDE DE RÉINITIALISATION (FORMSPREE)
 const btnResetPassword = document.getElementById("btn-reset-password");
 if (btnResetPassword) {
   btnResetPassword.addEventListener("click", () => {
     const user = auth.currentUser;
     if (user && user.email) {
-
-      // REMPLACE L'URL CI-DESSOUS PAR TON VRAI LIEN FORMSPREE
       const formspreeUrl = "https://formspree.io/f/xeeyylpb"; 
 
-      // Désactiver le bouton pendant l'envoi pour éviter le double-clic
       btnResetPassword.disabled = true;
       btnResetPassword.innerText = "Envoi en cours...";
 
@@ -159,82 +154,222 @@ if (btnResetPassword) {
   });
 }
 
+// --- NAVIGATION INTERNE ENTRE PAGES ---
+const navLinks = document.querySelectorAll(".sidebar-nav .nav-link");
+const pageSections = document.querySelectorAll(".page-section");
+
+function navigateToPage(pageId) {
+  pageSections.forEach(section => {
+    section.classList.remove("active");
+    if (section.id === pageId) {
+      section.classList.add("active");
+    }
+  });
+
+  navLinks.forEach(link => {
+    if (link.getAttribute("data-page") === pageId) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  });
+}
+
+navLinks.forEach(link => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    const pageId = link.getAttribute("data-page");
+    navigateToPage(pageId);
+  });
+});
+
+document.querySelectorAll(".nav-shortcut").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const targetPage = btn.getAttribute("data-target");
+    navigateToPage(targetPage);
+  });
+});
+
+// --- FILTRAGE DYNAMIQUE (NIVEAU -> SECTION) ---
+const levelFilterBtns = document.querySelectorAll("#level-filters .filter-btn");
+const sectionFiltersWrapper = document.getElementById("section-filters-wrapper");
+const sectionFiltersContainer = document.getElementById("section-filters");
+const resourceCards = document.querySelectorAll("#homework-grid .resource-card");
+
+// Mappage complet de TOUTES les sections disponibles selon le niveau sélectionné
+const sectionsByLevel = {
+  "bac": [
+    { id: "all", label: "Toutes les sections" },
+    { id: "info", label: "Sciences Info" },
+    { id: "sciences", label: "Sciences Exp / Math" },
+    { id: "eco", label: "Éco & Services" },
+    { id: "lettres", label: "Lettres" },
+    { id: "technique", label: "Technique" }
+  ],
+  "3em": [
+    { id: "all", label: "Toutes les sections" },
+    { id: "info", label: "Sciences Info" },
+    { id: "sciences", label: "Sciences Exp / Math" },
+    { id: "eco", label: "Éco & Services" },
+    { id: "lettres", label: "Lettres" },
+    { id: "technique", label: "Technique" }
+  ],
+  "2em": [
+    { id: "all", label: "Toutes les sections" },
+    { id: "info", label: "Sciences Info" },
+    { id: "sciences", label: "Sciences" },
+    { id: "eco", label: "Éco & Services" },
+    { id: "lettres", label: "Lettres" },
+    { id: "technique", label: "Technique" }
+  ],
+  "1ere": [
+    { id: "all", label: "Toutes les options" },
+    { id: "info", label: "Initiation Informatique" }
+  ],
+  "univ": [
+    { id: "all", label: "Tous les parcours" },
+    { id: "info", label: "Génie Logiciel / Informatique" }
+  ]
+};
+
+let currentLevel = "all";
+let currentSection = "all";
+
+function applyCardFilters() {
+  resourceCards.forEach(card => {
+    const cardYear = card.getAttribute("data-year");
+    const cardSection = card.getAttribute("data-section");
+
+    const matchesLevel = (currentLevel === "all" || cardYear === currentLevel);
+    const matchesSection = (currentSection === "all" || cardSection === currentSection);
+
+    if (matchesLevel && matchesSection) {
+      card.style.display = "flex";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+function renderSectionFilters(level) {
+  if (level === "all" || !sectionsByLevel[level]) {
+    sectionFiltersWrapper.style.display = "none";
+    currentSection = "all";
+    return;
+  }
+
+  sectionFiltersContainer.innerHTML = "";
+  const sections = sectionsByLevel[level];
+
+  sections.forEach((sec, index) => {
+    const btn = document.createElement("button");
+    btn.className = `filter-btn ${index === 0 ? "active" : ""}`;
+    btn.setAttribute("data-section-filter", sec.id);
+    btn.textContent = sec.label;
+
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#section-filters .filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentSection = sec.id;
+      applyCardFilters();
+    });
+
+    sectionFiltersContainer.appendChild(btn);
+  });
+
+  sectionFiltersWrapper.style.display = "block";
+  currentSection = "all";
+}
+
+levelFilterBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    levelFilterBtns.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    currentLevel = btn.getAttribute("data-filter");
+    renderSectionFilters(currentLevel);
+    applyCardFilters();
+  });
+});
+
+// --- RECHERCHE GLOBALE EN TEMPS RÉEL ---
+const globalSearchInput = document.getElementById("global-search");
+if (globalSearchInput) {
+  globalSearchInput.addEventListener("input", (e) => {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    const searchableItems = document.querySelectorAll(".searchable-item");
+
+    searchableItems.forEach(item => {
+      const textContent = item.textContent.toLowerCase();
+      if (textContent.includes(searchTerm)) {
+        item.style.display = "";
+      } else {
+        item.style.display = "none";
+      }
+    });
+  });
+}
+
 // --- RECALCUL DES COMPTEURS ---
 function recalculateStats() {
-  const courses = document.querySelectorAll('.resource-card[data-type="course"]').length;
-  const homeworks = document.querySelectorAll('.resource-card[data-type="homework"]').length;
-  const videos = document.querySelectorAll('.resource-card[data-type="video"]').length;
+  const coursesCount = document.querySelectorAll('.resource-card[data-type="course"]').length;
+  const homeworkCount = document.querySelectorAll('.resource-card[data-type="homework"]').length;
+  const videoCount = document.querySelectorAll('.resource-card[data-type="video"]').length;
 
   const statCourses = document.getElementById("stat-count-courses");
   const statHomework = document.getElementById("stat-count-homework");
   const statVideos = document.getElementById("stat-count-videos");
 
-  if (statCourses) statCourses.textContent = courses;
-  if (statHomework) statHomework.textContent = homeworks;
-  if (statVideos) statVideos.textContent = videos;
+  if (statCourses) statCourses.textContent = coursesCount;
+  if (statHomework) statHomework.textContent = homeworkCount;
+  if (statVideos) statVideos.textContent = videoCount;
 }
 
-// --- NAVIGATION ENTRE PAGES (SPA) ---
-const navLinks = document.querySelectorAll('.nav-link');
-const pageSections = document.querySelectorAll('.page-section');
+// --- GESTION DU MENU MOBILE ---
+document.addEventListener('DOMContentLoaded', () => {
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const sidebar = document.querySelector('.sidebar');
+  const sidebarOverlay = document.getElementById('sidebar-overlay');
+  const mobileNavLinks = document.querySelectorAll('.sidebar-nav .nav-link');
 
-function switchTab(pageId) {
-  navLinks.forEach(l => l.classList.remove('active'));
-  pageSections.forEach(s => s.classList.remove('active'));
+  function openSidebar() {
+    sidebar.classList.add('active');
+    sidebarOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
 
-  const activeLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
-  if (activeLink) activeLink.classList.add('active');
+  function closeSidebar() {
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 
-  const activePage = document.getElementById(pageId);
-  if (activePage) activePage.classList.add('active');
-}
-
-navLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    switchTab(link.getAttribute('data-page'));
-  });
-});
-
-document.querySelectorAll('.nav-shortcut').forEach(btn => {
-  btn.addEventListener('click', () => switchTab(btn.getAttribute('data-target')));
-});
-
-// --- BARRE DE RECHERCHE GLOBALE ---
-const globalSearch = document.getElementById('global-search');
-if (globalSearch) {
-  globalSearch.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase().trim();
-    const items = document.querySelectorAll('.searchable-item, .resource-card, .feature-box');
-
-    items.forEach(item => {
-      const text = item.textContent.toLowerCase();
-      if (term === '' || text.includes(term)) {
-        item.style.display = '';
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (sidebar.classList.contains('active')) {
+        closeSidebar();
       } else {
-        item.style.display = 'none';
+        openSidebar();
+      }
+    });
+  }
+
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', closeSidebar);
+  }
+
+  mobileNavLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        closeSidebar();
       }
     });
   });
-}
 
-// --- FILTRES PAR NIVEAU ---
-const filterButtons = document.querySelectorAll('.filter-btn');
-const resourceCards = document.querySelectorAll('.resource-card');
-
-filterButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    const filter = btn.getAttribute('data-filter');
-    resourceCards.forEach(card => {
-      const level = card.getAttribute('data-level');
-      if (filter === 'all' || level === filter) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
-    });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768 && sidebar.classList.contains('active')) {
+      closeSidebar();
+    }
   });
 });
