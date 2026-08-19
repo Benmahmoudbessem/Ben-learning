@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben-Learning | Connexion</title>
+  <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="auth-page">
+<header class="site-header"><a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><nav><a href="index.html">Accueil</a><a href="register.html">Inscription</a></nav></header>
+<main class="auth-wrap"><section class="auth-card"><span class="eyebrow">Bon retour</span><h1>Connexion étudiant</h1><p>Connecte-toi pour retrouver ta progression.</p>
+<form id="loginForm"><label>Email<input id="loginEmail" type="email" required placeholder="nom@email.com"></label><label>Mot de passe<input id="loginPassword" type="password" required minlength="6" placeholder="••••••••"></label><button class="btn primary wide" type="submit">Se connecter</button></form>
+<p class="auth-switch">Pas encore inscrit ? <a href="register.html">Créer un compte</a></p><div id="authMessage" class="form-message"></div></section></main>
+<script type="module" src="js/auth.js"></script>
+</body>
+</html>

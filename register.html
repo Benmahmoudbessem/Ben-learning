@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben-Learning | Inscription</title>
+  <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="auth-page">
+<header class="site-header"><a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><nav><a href="index.html">Accueil</a><a href="login.html">Connexion</a></nav></header>
+<main class="auth-wrap"><section class="auth-card"><span class="eyebrow">Bienvenue</span><h1>Créer un compte</h1><p>Ton inscription sera enregistrée dans Ben-Learning.</p>
+<form id="registerForm">
+  <label>Nom complet<input id="name" required placeholder="Nom et prénom"></label>
+  <label>Email<input id="email" type="email" required placeholder="nom@email.com"></label>
+  <label>Niveau
+    <select id="studentLevel" required>
+      <option value="">Choisir un niveau</option>
+      <option value="1ère">1ère</option>
+      <option value="2ème">2ème</option>
+      <option value="3ème">3ème</option>
+      <option value="Bac">Bac</option>
+    </select>
+  </label>
+  <label>Section
+    <select id="studentSection" required>
+      <option value="">Choisir une section</option>
+      <option value="Tronc commun">Tronc commun</option>
+      <option value="Informatique">Informatique</option>
+      <option value="Sciences">Sciences</option>
+      <option value="Économie">Économie</option>
+      <option value="Lettres">Lettres</option>
+      <option value="Technique">Technique</option>
+    </select>
+  </label>
+  <label>Mot de passe<input id="password" type="password" required minlength="6" placeholder="6 caractères minimum"></label>
+  <button class="btn primary wide" type="submit">Créer mon compte</button>
+</form>
+<p class="auth-switch">Déjà inscrit ? <a href="login.html">Se connecter</a></p><div id="authMessage" class="form-message"></div></section></main>
+<script type="module" src="js/auth.js"></script>
+</body>
+</html>

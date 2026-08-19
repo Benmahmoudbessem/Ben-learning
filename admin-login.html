@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben-Learning | Admin</title>
+  <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="auth-page">
+<header class="site-header"><a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><nav><a href="index.html">Retour au site</a></nav></header>
+<main class="auth-wrap"><section class="auth-card">
+  <span class="eyebrow">Administration</span>
+  <h1>Connexion Admin</h1>
+  <p>Connecte-toi avec un compte Firebase dont le champ <strong>role</strong> est <strong>admin</strong> dans Firestore.</p>
+  <form id="adminLoginForm">
+    <label>Email<input id="adminEmail" type="email" required placeholder="admin@email.com"></label>
+    <label>Mot de passe<input id="adminPassword" type="password" required minlength="6" placeholder="••••••••"></label>
+    <button class="btn primary wide" type="submit">Connexion Admin</button>
+  </form>
+  <div id="adminMessage" class="form-message"></div>
+</section></main>
+<script type="module" src="js/admin-auth.js"></script>
+</body></html>

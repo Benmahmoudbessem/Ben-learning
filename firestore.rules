@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    match /users/{userId} {
+      // Un élève peut uniquement créer son propre profil avec le rôle student.
+      allow create: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.role == 'student';
+
+      // Un utilisateur lit son profil ; l'admin peut lire tous les profils.
+      allow read: if signedIn()
+        && (request.auth.uid == userId || isAdmin());
+
+      // Empêche un élève de se promouvoir lui-même administrateur.
+      allow update: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.role == resource.data.role;
+
+      allow delete: if isAdmin();
+    }
+  }
+}

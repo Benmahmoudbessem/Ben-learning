@@ -1,0 +1,31 @@
+BEN-LEARNING V2.4 — ACTIVATION DU COMPTE ADMIN
+================================================
+
+1) Firebase Console > Authentication > Sign-in method
+   Active "Email/Password".
+
+2) Firebase Console > Firestore Database
+   Crée la base Firestore si ce n'est pas déjà fait.
+
+3) Firestore > Rules
+   Copie le contenu du fichier firestore.rules puis clique sur "Publish".
+
+4) Crée TON compte administrateur :
+   - Va sur register.html et inscris-toi avec ton propre email.
+   - Firebase crée automatiquement le document users/TON_UID avec role = student.
+
+5) Dans Firebase Console > Firestore Database > Data > users > TON_UID
+   Modifie uniquement :
+       role : "student"
+   en :
+       role : "admin"
+
+6) Va sur admin-login.html et connecte-toi avec le même email/mot de passe.
+
+7) Dans le Dashboard Admin, la section "Gestion des inscriptions" affiche
+   automatiquement tous les utilisateurs dont role = student.
+
+IMPORTANT
+---------
+Ne mets jamais role="admin" dans le formulaire public d'inscription.
+Le changement du premier admin doit être fait manuellement dans Firebase Console.

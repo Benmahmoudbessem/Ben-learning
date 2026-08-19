@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben-Learning | Dashboard Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html"><span>🛠️</span> Ben-Learning Admin</a>
+  <nav><span class="admin-identity">👤 <strong id="adminIdentity">Administrateur</strong></span><a href="index.html">Voir le site</a><button id="adminLogoutBtn" class="nav-button">Déconnexion</button></nav>
+</header>
+
+<main class="section page-top admin-page">
+  <div class="section-heading left">
+    <span class="eyebrow">Administration</span>
+    <h1>Tableau de bord</h1>
+    <p>Gère les cours et consulte en temps réel les élèves qui s’inscrivent sur Ben-Learning.</p>
+  </div>
+
+  <section class="admin-overview">
+    <article class="admin-stat-card"><span>👥</span><div><b id="adminStudentStat">0</b><small>Élèves inscrits</small></div></article>
+    <article class="admin-stat-card"><span>📚</span><div><b id="adminCourseStat">0</b><small>Cours ajoutés</small></div></article>
+    <article class="admin-stat-card"><span>🔥</span><div><b>Firebase</b><small>Base connectée</small></div></article>
+  </section>
+
+  <section class="panel admin-students-panel">
+    <div class="panel-title-row">
+      <div><h2>👥 Gestion des inscriptions</h2><p class="panel-subtitle">Chaque nouveau compte étudiant apparaît automatiquement ici.</p></div>
+      <span id="studentCount" class="badge">0</span>
+    </div>
+    <div class="student-toolbar">
+      <input id="studentSearch" type="search" placeholder="🔍 Rechercher par nom, email, niveau ou section…">
+      <span id="studentsMessage" class="firebase-status">Connexion à Firebase…</span>
+    </div>
+    <div class="student-table-wrap">
+      <table class="student-table">
+        <thead><tr><th>Nom</th><th>Email</th><th>Niveau</th><th>Section</th><th>Inscription</th></tr></thead>
+        <tbody id="studentList"><tr><td colspan="5" class="table-empty">Chargement des inscriptions…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="admin-layout">
+    <section class="panel">
+      <h2 id="formTitle">Ajouter un cours</h2>
+      <form id="courseForm" class="admin-form">
+        <input id="editId" type="hidden">
+        <label>Titre<input id="title" required placeholder="Ex. Python — Les fonctions"></label>
+        <div class="admin-two-cols">
+          <label>Niveau<select id="level" required><option value="">Choisir un niveau</option><option value="1ère">1ère</option><option value="2ème">2ème</option><option value="3ème">3ème</option><option value="Bac">Bac</option></select></label>
+          <label>Section<select id="section" required><option value="">Choisir une section</option><option value="Informatique">Informatique</option><option value="Sciences">Sciences</option><option value="Économie">Économie</option><option value="Lettres">Lettres</option><option value="Technique">Technique</option><option value="Tronc commun">Tronc commun</option></select></label>
+        </div>
+        <label>Domaine / Matière<input id="domain" required placeholder="Ex. Algorithmique, Python, Bureautique…"></label>
+        <label>Description<textarea id="description" required rows="4" placeholder="Description du cours"></textarea></label>
+        <div class="file-upload-box"><label>📂 Ajouter le fichier du cours depuis mon PC<input id="localFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.zip"></label><p id="selectedFileName" class="file-help">Aucun fichier sélectionné. Le fichier local sera enregistré dans ce navigateur.</p></div>
+        <label>🔗 Lien du fichier en ligne (optionnel)<input id="pdf" placeholder="assets/pdf/mon-cours.pdf ou lien https://…"><small class="field-help">Utilise ce champ si tu veux que le fichier soit accessible aux élèves sur d’autres appareils.</small></label>
+        <label>Lien vidéo YouTube<input id="video" placeholder="https://www.youtube.com/watch?v=..."></label>
+        <label>Chapitres (un par ligne)<textarea id="chapters" rows="5" placeholder="Introduction&#10;Variables&#10;Conditions"></textarea></label>
+        <div class="form-actions"><button class="btn primary" type="submit">Enregistrer</button><button id="cancelEdit" class="btn secondary hidden" type="button">Annuler</button></div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title-row"><h2>Cours ajoutés par l’admin</h2><span id="adminCourseCount" class="badge">0</span></div>
+      <div id="adminCourseList" class="admin-course-list"></div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer"><p>© 2026 Ben-Learning — Espace administration</p></footer>
+<script src="js/file-db.js"></script>
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>

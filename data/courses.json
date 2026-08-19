@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "title": "Algorithmique — Bases essentielles",
+    "level": "3ème",
+    "domain": "Algorithmique",
+    "icon": "🧩",
+    "description": "Variables, entrées/sorties, conditions, boucles et résolution de problèmes.",
+    "pdf": "assets/pdf/algorithmique.pdf",
+    "video": "",
+    "chapters": [
+      "Introduction à l'algorithmique",
+      "Variables et types",
+      "Structures conditionnelles",
+      "Boucles Pour et TantQue"
+    ],
+    "exercises": [
+      "Calculer la moyenne de trois notes",
+      "Déterminer le maximum de trois valeurs",
+      "Afficher les nombres pairs de 1 à N"
+    ],
+    "section": "Informatique"
+  },
+  {
+    "id": 2,
+    "title": "Python — Programmation fondamentale",
+    "level": "Bac",
+    "domain": "Python",
+    "icon": "🐍",
+    "description": "Syntaxe Python, fonctions, chaînes, listes et résolution algorithmique.",
+    "pdf": "assets/pdf/python.pdf",
+    "video": "",
+    "chapters": [
+      "Premiers programmes",
+      "Conditions et boucles",
+      "Fonctions",
+      "Listes et chaînes de caractères"
+    ],
+    "exercises": [
+      "Écrire une fonction somme",
+      "Compter les voyelles d'une chaîne",
+      "Rechercher une valeur dans une liste"
+    ],
+    "section": "Informatique"
+  },
+  {
+    "id": 3,
+    "title": "Bases de données & SQL",
+    "level": "Bac",
+    "domain": "Bases de données",
+    "icon": "🗄️",
+    "description": "Modèle relationnel, clés, requêtes SQL et manipulation de données.",
+    "pdf": "",
+    "video": "",
+    "chapters": [
+      "Modèle relationnel",
+      "SELECT et filtrage",
+      "INSERT / UPDATE / DELETE",
+      "Jointures"
+    ],
+    "exercises": [
+      "Créer une table Élève",
+      "Écrire une requête avec WHERE",
+      "Réaliser une jointure entre deux tables"
+    ],
+    "section": "Informatique"
+  },
+  {
+    "id": 4,
+    "title": "HTML & CSS — Création Web",
+    "level": "3ème",
+    "domain": "Web",
+    "icon": "🌐",
+    "description": "Construire des pages Web modernes et responsives avec HTML et CSS.",
+    "pdf": "",
+    "video": "",
+    "chapters": [
+      "Structure HTML",
+      "Texte, liens et images",
+      "CSS : couleurs et typographie",
+      "Flexbox et responsive design"
+    ],
+    "exercises": [
+      "Créer une page de présentation",
+      "Construire une carte de profil",
+      "Créer un menu responsive"
+    ],
+    "section": "Informatique"
+  },
+  {
+    "id": 5,
+    "title": "Culture numérique",
+    "level": "1ère",
+    "domain": "Culture numérique",
+    "icon": "💡",
+    "description": "Matériel, logiciels, Internet, sécurité et bonnes pratiques numériques.",
+    "pdf": "",
+    "video": "",
+    "chapters": [
+      "Composants d'un ordinateur",
+      "Systèmes et logiciels",
+      "Internet",
+      "Sécurité numérique"
+    ],
+    "exercises": [
+      "Identifier les composants",
+      "Classer matériel et logiciel",
+      "Reconnaître une tentative de phishing"
+    ],
+    "section": "Tronc commun"
+  },
+  {
+    "id": 6,
+    "title": "Excel — Fonctions de base",
+    "level": "2ème",
+    "domain": "Bureautique",
+    "icon": "📊",
+    "description": "Feuilles de calcul, formules, fonctions et mise en forme de tableaux.",
+    "pdf": "",
+    "video": "",
+    "chapters": [
+      "Cellules et références",
+      "Formules",
+      "Fonctions SOMME et MOYENNE",
+      "Mise en forme"
+    ],
+    "exercises": [
+      "Calculer une moyenne",
+      "Créer un tableau de notes",
+      "Appliquer une mise en forme conditionnelle"
+    ],
+    "section": "Informatique"
+  }
+]

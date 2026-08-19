@@ -3,646 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ben-learning — Plateforme d'Enseignement</title>
-  
-  <!-- Fonts & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Ben-Learning, plateforme gratuite d'apprentissage de l'informatique pour les élèves du lycée tunisien.">
+  <title>Ben-Learning | Accueil</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
+<header class="site-header">
+  <a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a>
+  <button class="menu-btn" id="menuBtn" aria-label="Ouvrir le menu">☰</button>
+  <nav id="mainNav">
+    <a class="active" href="index.html">Accueil</a>
+    <a href="courses.html">Cours</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="profile.html">Mon espace</a>
+    <a id="authLink" class="nav-cta" href="login.html">Connexion</a>
+  </nav>
+</header>
 
-  <!-- CONNEXION / INSCRIPTION -->
-  <div id="auth-container" class="auth-wrapper">
-    <div class="auth-card">
-      <div class="brand-header">
-        <img src="logo.png" alt="Logo Ben-learning" class="brand-logo" onerror="this.src='https://ui-avatars.com/api/?name=Ben+Learning&background=4f46e5&color=fff'">
-        <h1>Ben-learning</h1>
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Plateforme éducative gratuite</span>
+      <h1>Apprendre l’informatique simplement, à son rythme.</h1>
+      <p>Des cours, exercices, vidéos et quiz pour progresser en algorithmique, Python, bases de données et développement Web.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="courses.html">Explorer les cours</a>
+        <a class="btn secondary" href="register.html">Créer un compte</a>
       </div>
-      <p class="auth-subtitle">Espace Pédagogique d'Informatique</p>
-
-      <div id="error-message" class="error-msg" style="display: none;"></div>
-
-      <form id="auth-form" onsubmit="return false;">
-        <div class="form-group">
-          <label for="email"><i class="fa-regular fa-envelope"></i> Adresse Email</label>
-          <input type="email" id="email" placeholder="votre.email@exemple.com" required>
-        </div>
-
-        <div class="form-group">
-          <label for="password"><i class="fa-solid fa-lock"></i> Mot de passe</label>
-          <input type="password" id="password" placeholder="••••••••" required>
-        </div>
-
-        <div class="auth-buttons">
-          <button type="button" id="btn-login" class="btn btn-primary">
-            <i class="fa-solid fa-right-to-bracket"></i> Se connecter
-          </button>
-          <button type="button" id="btn-signup" class="btn btn-secondary">
-            <i class="fa-solid fa-user-plus"></i> Créer un compte
-          </button>
-        </div>
-      </form>
     </div>
-  </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="learning-panel">
+        <div class="learning-panel-top">
+          <span class="learning-label"><i></i> Ben-Learning</span>
+          <span class="free-pill">100% gratuit</span>
+        </div>
 
-  <!-- INTERFACE PRINCIPALE -->
-  <div id="app-container" class="app-layout" style="display: none;">
-    
-    <!-- Overlay pour fermer le menu au clic en dehors -->
-    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        <div class="learning-device">
+          <div class="device-glow"></div>
+          <div class="device-icon">💻</div>
+        </div>
 
-    <!-- Navigation Latérale -->
-    <aside class="sidebar">
-      <div class="sidebar-brand">
-        <img src="logo.png" alt="Logo" class="brand-logo-small" onerror="this.src='https://ui-avatars.com/api/?name=BL&background=4f46e5&color=fff'">
-        <span class="brand-name">Ben-learning</span>
-      </div>
-
-      <nav class="sidebar-nav">
-        <a href="#home" class="nav-link active" data-page="home-page">
-          <i class="fa-solid fa-house"></i>
-          <span>Accueil</span>
-        </a>
-        <a href="#dashboard" class="nav-link" data-page="dashboard-page">
-          <i class="fa-solid fa-chart-pie"></i>
-          <span>Tableau de bord</span>
-        </a>
-        <a href="#cours" class="nav-link" data-page="courses-page">
-          <i class="fa-solid fa-book-open"></i>
-          <span>Cours & Devoirs</span>
-        </a>
-        <a href="#videos" class="nav-link" data-page="videos-page">
-          <i class="fa-solid fa-circle-play"></i>
-          <span>Vidéos</span>
-        </a>
-        <a href="#profil" class="nav-link" data-page="profile-page">
-          <i class="fa-solid fa-user-gear"></i>
-          <span>Mon Profil</span>
-        </a>
-      </nav>
-
-      <div class="sidebar-footer">
-        <button id="btn-logout" class="btn-logout">
-          <i class="fa-solid fa-arrow-right-from-bracket"></i>
-          <span>Déconnexion</span>
-        </button>
-      </div>
-    </aside>
-
-    <!-- Zone de Contenu -->
-    <div class="main-wrapper">
-      
-      <!-- Top Header -->
-      <header class="top-header">
-        <div style="display: flex; align-items: center; gap: 12px; width: 100%;">
-          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Ouvrir le menu">
-            <i class="fa-solid fa-bars"></i>
-          </button>
-          
-          <div class="header-search">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="global-search" placeholder="Rechercher cours, exercices, vidéos...">
+        <div class="learning-stats">
+          <div class="learning-stat">
+            <span class="stat-emoji">📚</span>
+            <div><b>Cours</b><small>Par niveau & section</small></div>
+          </div>
+          <div class="learning-stat">
+            <span class="stat-emoji">🧠</span>
+            <div><b>Quiz</b><small>Score immédiat</small></div>
           </div>
         </div>
 
-        <div class="header-user">
-          <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
-          <span id="user-email-display">utilisateur@exemple.com</span>
+        <div class="learning-code">
+          <div><span></span><span></span><span></span></div>
+          <code><em>print</em>("Bienvenue sur Ben-Learning !")</code>
         </div>
-      </header>
-
-      <!-- Pages -->
-      <main class="content-area">
-
-        <!-- PAGE ACCUEIL -->
-        <section id="home-page" class="page-section searchable-item active">
-          <div class="home-hero hero-with-video">
-            <video class="hero-video-bg" autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80">
-              <source src="https://assets.mixkit.co/videos/preview/mixkit-coding-screen-in-close-up-1730-large.mp4" type="video/mp4">
-            </video>
-            <div class="hero-overlay"></div>
-
-            <div class="hero-content">
-              <span class="hero-tag pulse-animation"><i class="fa-solid fa-graduation-cap"></i> Espace Pédagogique Interactif</span>
-              <h1 class="typing-text">Bienvenue sur Ben-learning</h1>
-              <p>Explorez les modules de cours, séries d'exercices, sujets d'examens et tutoriels en vidéo.</p>
-              
-              <div class="hero-actions">
-                <button class="btn btn-primary nav-shortcut" data-target="courses-page">
-                  <i class="fa-solid fa-book-open"></i> Accéder aux Cours
-                </button>
-                <button class="btn btn-secondary nav-shortcut" data-target="videos-page">
-                  <i class="fa-solid fa-play"></i> Regarder les Vidéos
-                </button>
-              </div>
-            </div>
-
-            <div class="hero-illustration">
-              <img src="https://cdni.iconscout.com/illustration/premium/thumb/web-development-3454628-2918517.png" alt="Illustration Code" class="floating-img">
-            </div>
-          </div>
-
-          <div class="section-header-block">
-            <h3>Ressources et Modules de Formation</h3>
-          </div>
-
-          <div class="features-grid">
-            <div class="feature-box hover-card searchable-item">
-              <div class="feature-img-wrap">
-                <img src="im1.avif" alt="Supports de Cours PDF" class="feature-img" onerror="this.src='https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80'">
-              </div>
-              <h4>Supports de Cours PDF</h4>
-              <p>Des fiches récapitulatives et des cours complets d'informatique et d'algorithmique.</p>
-              <button class="btn-text nav-shortcut" data-target="courses-page">Découvrir <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-
-            <div class="feature-box hover-card searchable-item">
-              <div class="feature-img-wrap">
-                <img src="im2.webp" alt="Devoirs et Exercices" class="feature-img" onerror="this.src='https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80'">
-              </div>
-              <h4>Devoirs & Exercices</h4>
-              <p>Séries d'exercices corrigés et examens théoriques et pratiques pour chaque niveau.</p>
-              <button class="btn-text nav-shortcut" data-target="courses-page">S'entraîner <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-
-            <div class="feature-box hover-card searchable-item">
-              <div class="feature-img-wrap">
-                <img src="img3.gif" alt="Tutoriels Vidéo" class="feature-img" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80'">
-              </div>
-              <h4>Tutoriels Vidéo</h4>
-              <p>Démonstrations pas à pas enregistrées en direct pour la résolution de problèmes de programmation.</p>
-              <button class="btn-text nav-shortcut" data-target="videos-page">Visionner <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-          </div>
-
-          <!-- BLOC DE CONTACT ENSEIGNANT -->
-          <div class="teacher-contact-card searchable-item">
-            <div class="contact-header">
-              <div class="contact-icon-bg">
-                <i class="fa-solid fa-headset"></i>
-              </div>
-              <div>
-                <h3>Réserver une séance ou poser une question</h3>
-                <p>Besoin d'un cours particulier, d'une explication sur un devoir ou d'un lien Google Meet ? Contactez-moi directement.</p>
-              </div>
-            </div>
-
-            <div class="contact-methods-grid">
-              <a href="mailto:bessembenben2023@gmail.com?subject=Demande%20de%20cours%20/%20Meet%20-%20Ben-learning" class="contact-method-item">
-                <i class="fa-solid fa-envelope"></i>
-                <div class="method-info">
-                  <span>Envoyer un e-mail</span>
-                  <strong>bessembenben2023@gmail.com</strong>
-                </div>
-              </a>
-
-              <a href="https://wa.me/21653675201?text=Bonjour,%20je%20souhaite%20planifier%20un%20Meet%20sur%20Ben-learning" target="_blank" rel="noopener noreferrer" class="contact-method-item whatsapp">
-                <i class="fa-brands fa-whatsapp"></i>
-                <div class="method-info">
-                  <span>WhatsApp / Téléphone</span>
-                  <strong>+216 53 675 201</strong>
-                </div>
-              </a>
-
-              <a href="https://meet.google.com/new" target="_blank" rel="noopener noreferrer" class="contact-method-item meet">
-                <i class="fa-solid fa-video"></i>
-                <div class="method-info">
-                  <span>Salle de réunion</span>
-                  <strong>Ouvrir Google Meet</strong>
-                </div>
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <!-- PAGE TABLEAU DE BORD -->
-        <section id="dashboard-page" class="page-section">
-          <div class="page-title">
-            <h2>Tableau de bord</h2>
-            <p>Comptage en temps réel des ressources chargées.</p>
-          </div>
-
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-icon blue"><i class="fa-solid fa-file-pdf"></i></div>
-              <div class="stat-info">
-                <h3 id="stat-count-courses">0</h3>
-                <p>Cours PDF</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon orange"><i class="fa-solid fa-pen-ruler"></i></div>
-              <div class="stat-info">
-                <h3 id="stat-count-homework">0</h3>
-                <p>Devoirs & Sujets</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon green"><i class="fa-solid fa-video"></i></div>
-              <div class="stat-info">
-                <h3 id="stat-count-videos">0</h3>
-                <p>Vidéos Pédagogiques</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- PAGE COURS ET DEVOIRS -->
-        <section id="courses-page" class="page-section">
-          <div class="page-title">
-            <h2>Bibliothèque de Cours & Devoirs</h2>
-            <p>Sélectionnez un niveau d'études puis une section pour affiner les documents.</p>
-          </div>
-
-          <!-- Étape 1 : Filtres Niveaux -->
-          <nav class="level-filters" id="level-filters">
-            <button class="filter-btn active" data-filter="all">Tous les niveaux</button>
-            <button class="filter-btn" data-filter="bac">Baccalauréat</button>
-            <button class="filter-btn" data-filter="3em">3ème Année</button>
-            <button class="filter-btn" data-filter="2em">2ème Année</button>
-            <button class="filter-btn" data-filter="1ere">1ère Année</button>
-            <button class="filter-btn" data-filter="univ">Université</button>
-          </nav>
-
-          <!-- Étape 2 : Filtres Sections (Ajoutés directement en HTML) -->
-          <div class="section-filters-container" id="section-filters-wrapper" style="margin-top: 15px;">
-            <p class="filter-subtitle" style="font-size: 0.9rem; margin-bottom: 8px; color: #6b7280; font-weight: 600;">
-              <i class="fa-solid fa-filter"></i> Filtrer par section :
-            </p>
-            <nav class="level-filters sub-filters" id="section-filters">
-              <button class="section-filter-btn active" data-section-filter="all">Toutes les sections</button>
-              <button class="section-filter-btn" data-section-filter="info">Sciences Informatiques</button>
-              <button class="section-filter-btn" data-section-filter="sciences">Sciences Expérimentales / Math</button>
-              <button class="section-filter-btn" data-section-filter="eco">Économie & Gestion</button>
-              <button class="section-filter-btn" data-section-filter="lettres">Lettres</button>
-              <button class="section-filter-btn" data-section-filter="technique">Technique</button>
-            </nav>
-          </div>
-
-          <!-- GRILLE DES DEVOIRS ET SÉRIES D'EXERCICES -->
-          <div class="resources-grid" id="homework-grid" style="margin-top: 20px;">
-
-            <!-- ==================== BACCALAURÉAT ==================== -->
-            <article class="resource-card searchable-item" data-type="homework" data-year="bac" data-section="info">
-              <div class="card-badges">
-                <span class="badge badge-year">Bac</span>
-                <span class="badge badge-section info">Sciences Info</span>
-              </div>
-              <h3>Série : Sous-programmes & Récursivité</h3>
-              <p>Exercices pratiques corrigés sur les fonctions récursives et le traitement des chaînes en Python.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="bac" data-section="info">
-              <div class="card-badges">
-                <span class="badge badge-year">Bac</span>
-                <span class="badge badge-section info">Sciences Info</span>
-              </div>
-              <h3>Devoir de Synthèse N°1 : BDD & SQL</h3>
-              <p>Épreuve pratique et théorique complète corrigée couvrant le passage au MLD et les requêtes SQL.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="bac" data-section="sciences">
-              <div class="card-badges">
-                <span class="badge badge-year">Bac</span>
-                <span class="badge badge-section sciences">Scientifique</span>
-              </div>
-              <h3>Série & Devoir : Structures Conditionnelles</h3>
-              <p>Exercices sur la logique algorithmique, boucles `Pour` / `TantQue` et leur traduction en Python.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="bac" data-section="eco">
-              <div class="card-badges">
-                <span class="badge badge-year">Bac</span>
-                <span class="badge badge-section eco">Éco & Gestion</span>
-              </div>
-              <h3>Série Pratique : Fonctions Avancées Excel</h3>
-              <p>Exercices guidés sur `SI`, `RECHERCHEV`, tableaux croisés dynamiques et graphiques analytiques.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="bac" data-section="lettres">
-              <div class="card-badges">
-                <span class="badge badge-year">Bac</span>
-                <span class="badge badge-section lettres">Lettres</span>
-              </div>
-              <h3>Devoir de Synthèse : Culture Numérique</h3>
-              <p>Questions à choix multiples (QCM) et cas pratiques sur le Web, les médias et la sécurité.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="bac" data-section="technique">
-              <div class="card-badges">
-                <span class="badge badge-year">Bac</span>
-                <span class="badge badge-section technique">Technique</span>
-              </div>
-              <h3>Devoir : Algorithmique & Programmation</h3>
-              <p>Sujets d'entraînement sur l'analyse de problèmes et les structures de données simples.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <!-- ==================== 3ÈME ANNÉE ==================== -->
-            <article class="resource-card searchable-item" data-type="homework" data-year="3em" data-section="info">
-              <div class="card-badges">
-                <span class="badge badge-year">3ème Année</span>
-                <span class="badge badge-section info">Sciences Info</span>
-              </div>
-              <h3>Série d'exercices : Tableaux & Chaînes</h3>
-              <p>Manipulation des tableaux à 1 dimension, parcours, recherche élémentaire et méthodes sur les chaînes.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="3em" data-section="sciences">
-              <div class="card-badges">
-                <span class="badge badge-year">3ème Année</span>
-                <span class="badge badge-section sciences">Scientifique</span>
-              </div>
-              <h3>Série : Algorithmique et Logiciels</h3>
-              <p>Exercices de résolution algorithmique et initiation à la logique de programmation.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="3em" data-section="eco">
-              <div class="card-badges">
-                <span class="badge badge-year">3ème Année</span>
-                <span class="badge badge-section eco">Éco & Services</span>
-              </div>
-              <h3>Devoir Pratique : Base de Données Access</h3>
-              <p>Création d'une base de données commerciale, définition des clés primaires et requêtes de sélection.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="3em" data-section="lettres">
-              <div class="card-badges">
-                <span class="badge badge-year">3ème Année</span>
-                <span class="badge badge-section lettres">Lettres</span>
-              </div>
-              <h3>Série : Traitement de texte & Présentations</h3>
-              <p>Techniques d'organisation de documents, styles, mises en page complexes et création de diaporamas.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="3em" data-section="technique">
-              <div class="card-badges">
-                <span class="badge badge-year">3ème Année</span>
-                <span class="badge badge-section technique">Technique</span>
-              </div>
-              <h3>Série : Microcontrôleurs & Logique</h3>
-              <p>Concepts de logique combinatoire, schémas fonctionnels et bases d'interfaçage.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <!-- ==================== 2ÈME ANNÉE ==================== -->
-            <article class="resource-card searchable-item" data-type="homework" data-year="2em" data-section="info">
-              <div class="card-badges">
-                <span class="badge badge-year">2ème Année</span>
-                <span class="badge badge-section info">Sciences Info</span>
-              </div>
-              <h3>Série N°1 : Structures Éléments & Affectations</h3>
-              <p>Exercices d'initiation à l'analyse de problèmes, déclaration de variables et calculs simples.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="2em" data-section="sciences">
-              <div class="card-badges">
-                <span class="badge badge-year">2ème Année</span>
-                <span class="badge badge-section sciences">Scientifique</span>
-              </div>
-              <h3>Devoir Pratique : HTML5 & CSS3</h3>
-              <p>Création d'une page Web structurée avec insertion d'images, liens hypertexte et feuille de style.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="2em" data-section="eco">
-              <div class="card-badges">
-                <span class="badge badge-year">2ème Année</span>
-                <span class="badge badge-section eco">Éco & Services</span>
-              </div>
-              <h3>Série : Tableur & Calculs de Base</h3>
-              <p>Formules élémentaires, gestion des feuilles de calcul et mise en forme conditionnelle sous Excel.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="2em" data-section="lettres">
-              <div class="card-badges">
-                <span class="badge badge-year">2ème Année</span>
-                <span class="badge badge-section lettres">Lettres</span>
-              </div>
-              <h3>Série : Initiation au Traitement de Texte</h3>
-              <p>Prise en main d'un éditeur de texte, mise en forme de paragraphes et création de tableaux simple.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-type="homework" data-year="2em" data-section="technique">
-              <div class="card-badges">
-                <span class="badge badge-year">2ème Année</span>
-                <span class="badge badge-section technique">Technique</span>
-              </div>
-              <h3>Devoir Pratique : Dessin Assisté par Ordinateur</h3>
-              <p>Notions de base en CAO/DAO, représentation schématique et logiciels techniques.</p>
-              <div class="card-footer">
-                <a href="#" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-pdf"></i> Sujet PDF</a>
-                <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-check-double"></i> Correction</a>
-              </div>
-            </article>
-
-            <!-- ==================== 1ÈRE ANNÉE & UNIVERSITÉ ==================== -->
-            <article class="resource-card searchable-item" data-year="1ere" data-type="course" data-section="info">
-              <div class="card-badges">
-                <span class="badge badge-year">1ère Année</span>
-                <span class="badge badge-section info">Initiation</span>
-              </div>
-              <h3>Introduction à l'Algorithmique</h3>
-              <p>Notions de variables, structures conditionnelles (Si...Alors) et types de données de base.</p>
-              <div class="card-footer">
-                <a href="cours/1ere-annee/turtle.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
-                  <i class="fa-solid fa-download"></i> Télécharger PDF
-                </a>
-              </div>
-            </article>
-
-            <article class="resource-card searchable-item" data-year="univ" data-type="course" data-section="info">
-              <div class="card-badges">
-                <span class="badge badge-year">Université</span>
-                <span class="badge badge-section info">Génie Logiciel</span>
-              </div>
-              <h3>Bases de Données et SQL Avancé</h3>
-              <p>Conception du schéma relationnel, normalisation (1NF, 2NF, 3NF) et requêtes complexes.</p>
-              <div class="card-footer">
-                <a href="cours/3eme-annee/sql-bases.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
-                  <i class="fa-solid fa-download"></i> Télécharger PDF
-                </a>
-              </div>
-            </article>
-
-          </div>
-        </section>
-
-        <!-- PAGE VIDÉOS -->
-        <section id="videos-page" class="page-section">
-          <div class="page-title">
-            <h2>Tutoriels & Cours Vidéo</h2>
-            <p>Démonstrations pratiques enregistrées.</p>
-          </div>
-
-          <div class="resources-grid">
-            <article class="resource-card searchable-item" data-year="univ" data-type="video">
-              <div class="card-badges">
-                <span class="badge badge-year">Université</span>
-                <span class="badge badge-section info">POO</span>
-              </div>
-              <h3>Programmation Orientée Objet</h3>
-              <p>Les principes fondamentaux : Encapsulation, Classes et Héritage.</p>
-              
-              <div class="local-video-container">
-                <video controls preload="metadata" poster="images/poster-video.jpg">
-                  <source src="./video/v1.mp4" type="video/mp4">
-                  Votre navigateur ne prend pas en charge la lecture de cette vidéo.
-                </video>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <!-- PAGE PROFIL -->
-        <section id="profile-page" class="page-section">
-          <div class="page-title">
-            <h2>Mon Profil & Paramètres</h2>
-            <p>Gérez vos informations personnelles et suivez votre progression.</p>
-          </div>
-
-          <div class="profile-container">
-            <div class="profile-card-main">
-              <div class="profile-avatar-wrapper">
-                <img id="profile-avatar-img" src="https://ui-avatars.com/api/?name=User&background=4f46e5&color=fff&size=128" alt="Avatar Utilisateur">
-                <span class="badge-role" id="profile-role-badge">Élève</span>
-              </div>
-              <div class="profile-header-info">
-                <h3 id="profile-display-name">Utilisateur Ben-learning</h3>
-                <p id="profile-email-text">chargement...</p>
-                <span class="status-online"><i class="fa-solid fa-circle"></i> Compte Actif</span>
-              </div>
-            </div>
-
-            <div class="profile-stats-grid">
-              <div class="profile-stat-box">
-                <i class="fa-solid fa-book-reader"></i>
-                <div>
-                  <h4>Cours Consultés</h4>
-                  <span class="stat-value">12</span>
-                </div>
-              </div>
-              <div class="profile-stat-box">
-                <i class="fa-solid fa-circle-play"></i>
-                <div>
-                  <h4>Vidéos Vues</h4>
-                  <span class="stat-value">5</span>
-                </div>
-              </div>
-              <div class="profile-stat-box">
-                <i class="fa-solid fa-award"></i>
-                <div>
-                  <h4>Niveau d'étude</h4>
-                  <span class="stat-value" id="user-level-tag">Informatique</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="profile-details-grid">
-              <div class="profile-info-block">
-                <h3><i class="fa-solid fa-id-card"></i> Informations du Compte</h3>
-                <ul class="info-list">
-                  <li>
-                    <span>Adresse Email :</span>
-                    <strong id="info-email">-</strong>
-                  </li>
-                  <li>
-                    <span>Plateforme :</span>
-                    <strong>Ben-learning E-Learning</strong>
-                  </li>
-                  <li>
-                    <span>Type d'accès :</span>
-                    <strong>Membre Inscrit</strong>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="profile-info-block">
-                <h3><i class="fa-solid fa-shield-halved"></i> Sécurité & Actions</h3>
-                <p class="security-desc">Sécurisez votre compte ou réinitialisez votre mot de passe.</p>
-                
-                <div class="profile-actions-list">
-                  <button id="btn-reset-password" class="btn btn-secondary btn-full">
-                    <i class="fa-solid fa-key"></i> Réinitialiser le mot de passe
-                  </button>
-                  <button id="btn-logout-profile" class="btn btn-danger btn-full">
-                    <i class="fa-solid fa-right-from-bracket"></i> Déconnexion du compte
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-      </main>
-
-      <footer class="main-footer">
-        <p>&copy; 2026 Ben-learning. Tous droits réservés.</p>
-      </footer>
+      </div>
     </div>
+  </section>
 
-  </div>
+  <section class="section">
+    <div class="section-heading">
+      <span class="eyebrow">Tout au même endroit</span>
+      <h2>Une plateforme pensée pour progresser</h2>
+      <p>Une expérience simple pour les élèves et un espace de gestion pour l’enseignant.</p>
+    </div>
+    <div class="feature-grid">
+      <article class="feature-card"><div class="feature-icon">📚</div><h3>Cours structurés</h3><p>Contenu classé par niveau, avec chapitres, ressources et exercices.</p></article>
+      <article class="feature-card"><div class="feature-icon">🧠</div><h3>Quiz interactifs</h3><p>Correction automatique, score immédiat et historique personnel.</p></article>
+      <article class="feature-card"><div class="feature-icon">📈</div><h3>Suivi de progression</h3><p>Retrouve tes cours terminés, tes résultats et ta progression.</p></article>
+    </div>
+  </section>
 
-  <script type="module" src="app.js"></script>
+  <section class="section levels-section">
+    <div class="section-heading"><span class="eyebrow">Niveaux</span><h2>Du lycée au Bac</h2></div>
+    <div class="level-groups">
+      <article class="level-group"><h3>2ème</h3><div class="chips"><span>Informatique</span><span>Sciences</span><span>Économie</span><span>Lettres</span><span>Technique</span></div></article>
+      <article class="level-group"><h3>3ème</h3><div class="chips"><span>Informatique</span><span>Sciences</span><span>Économie</span><span>Lettres</span><span>Technique</span></div></article>
+      <article class="level-group"><h3>Bac</h3><div class="chips"><span>Informatique</span><span>Sciences</span><span>Économie</span><span>Lettres</span><span>Technique</span></div></article>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer"><p>© 2026 Ben-Learning — Bessem Ben Mahmoud</p><a href="admin-login.html">Administration</a></footer>
+<script src="js/app.js"></script>
 </body>
 </html>

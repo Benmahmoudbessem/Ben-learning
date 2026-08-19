@@ -1,0 +1,36 @@
+@media(max-width:950px){.hero{grid-template-columns:1fr;padding-top:55px}.hero-visual{min-height:330px}.feature-grid,.course-grid{grid-template-columns:repeat(2,1fr)}.stats-grid{grid-template-columns:repeat(2,1fr)}.admin-layout,.dashboard-columns,.detail-grid{grid-template-columns:1fr}.filter-bar{grid-template-columns:1fr 1fr}.filter-bar input{grid-column:1/-1}}
+@media(max-width:700px){.site-header{padding:13px 5%;flex-wrap:wrap}.menu-btn{display:block}.site-header nav{display:none;width:100%;flex-direction:column;align-items:stretch}.site-header nav.open{display:flex}.site-header nav a,.nav-button{text-align:left}.hero,.section{padding-left:5%;padding-right:5%}.hero{min-height:auto}.hero h1{font-size:2.65rem}.hero-visual{min-height:300px}.hero-orb{width:190px;height:190px;font-size:5rem;right:25px}.stat-card{right:0}.code-card{left:0}.feature-grid,.course-grid,.stats-grid{grid-template-columns:1fr}.filter-bar{grid-template-columns:1fr}.filter-bar input{grid-column:auto}.course-detail-shell{padding:22px}.course-detail-hero{flex-direction:column}.course-detail-hero h1{font-size:2rem}.welcome-panel{align-items:flex-start}.avatar{width:58px;height:58px}.site-footer{flex-direction:column}.auth-card{padding:25px}}
+@media(max-width:950px){.level-groups{grid-template-columns:1fr}.filter-bar-4{grid-template-columns:1fr 1fr}.filter-bar-4 input{grid-column:1/-1}}
+@media(max-width:700px){.filter-bar-4,.admin-two-cols{grid-template-columns:1fr}.filter-bar-4 input{grid-column:auto}}
+
+/* V2.3 — responsive du nouvel accueil */
+@media(max-width:1100px){
+  .hero{grid-template-columns:minmax(0,1fr) minmax(360px,.82fr);gap:38px;padding:54px 42px}
+  .hero h1{font-size:clamp(2.8rem,5.8vw,4rem)}
+  .learning-panel{min-height:420px}
+}
+@media(max-width:950px){
+  .hero{width:min(100% - 30px,760px);grid-template-columns:1fr;text-align:center;padding:52px 42px 42px}
+  .hero-copy{max-width:650px;margin:0 auto}
+  .hero h1,.hero p{margin-left:auto;margin-right:auto}
+  .hero-actions{justify-content:center}
+  .hero-visual{margin-top:8px}
+  .learning-panel{width:min(100%,520px)}
+}
+@media(max-width:700px){
+  .hero{width:calc(100% - 20px);margin-top:10px;padding:38px 20px 24px;border-radius:24px}
+  .hero h1{font-size:clamp(2.35rem,11vw,3.05rem);line-height:1.03}
+  .hero p{font-size:1rem;line-height:1.65}
+  .hero-actions{display:grid;grid-template-columns:1fr;width:100%}
+  .hero-actions .btn{width:100%}
+  .learning-panel{min-height:auto;padding:18px;border-radius:23px}
+  .learning-device{height:170px}
+  .device-glow{width:150px;height:150px}
+  .device-icon{font-size:4.8rem}
+  .learning-stats{grid-template-columns:1fr}
+  .learning-code code{font-size:.72rem;white-space:normal;overflow-wrap:anywhere}
+}
+
+/* V2.4 — responsive inscriptions admin */
+@media(max-width:950px){.admin-overview{grid-template-columns:1fr 1fr}.student-toolbar{align-items:stretch;flex-direction:column}.firebase-status{white-space:normal}}
+@media(max-width:700px){.admin-overview{grid-template-columns:1fr}.admin-identity{display:none}.student-table-wrap{margin-left:0;margin-right:0}.panel-title-row{align-items:flex-start}.panel-title-row>div{min-width:0}}
