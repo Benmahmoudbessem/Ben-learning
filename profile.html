@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Ben-Learning | Mon espace</title>
+  <meta name="theme-color" content="#2563eb">
   <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-<header class="site-header"><a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><button class="menu-btn" id="menuBtn">☰</button><nav id="mainNav"><a href="index.html">Accueil</a><a href="courses.html">Cours</a><a href="quiz.html">Quiz</a><a class="active" href="profile.html">Mon espace</a><button id="logoutBtn" class="nav-button">Déconnexion</button></nav></header>
+<header class="site-header" id="siteHeader"><a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button><nav id="mainNav"><a href="index.html">Accueil</a><a href="courses.html">Cours</a><a href="quiz.html">Quiz</a><a href="chat.html">Chat</a><a href="notifications.html" class="notification-nav-link">Notifications <span id="navNotificationBadge" class="nav-notification-badge hidden">0</span></a><a class="active" href="profile.html">Mon espace</a><button id="logoutBtn" class="nav-button">Déconnexion</button></nav></header>
 <main class="section page-top dashboard-page">
   <section class="welcome-panel"><div><span class="eyebrow">Tableau de bord</span><h1 id="welcomeName">Bienvenue 👋</h1><p id="profileMeta"></p></div><div class="avatar" id="avatar">BL</div></section>
   <section class="stats-grid"><article class="stat-box"><span>📚</span><div><b id="completedCount">0</b><small>Cours terminés</small></div></article><article class="stat-box"><span>📝</span><div><b id="quizCount">0</b><small>Quiz effectués</small></div></article><article class="stat-box"><span>⭐</span><div><b id="bestScore">0%</b><small>Meilleur score</small></div></article><article class="stat-box"><span>📈</span><div><b id="progressValue">0%</b><small>Progression</small></div></article></section>
+  <section class="student-tools-grid">
+    <a class="student-tool-card" href="chat.html"><span>💬</span><div><b>Chat administration</b><small>Pose une question et reçois une réponse.</small></div><strong>→</strong></a>
+    <a class="student-tool-card" href="notifications.html"><span>🔔</span><div><b>Notifications</b><small><em id="profileNotificationCount">0</em> notification(s) non lue(s).</small></div><strong>→</strong></a>
+  </section>
   <div class="dashboard-columns"><section class="panel"><h2>Mes cours terminés</h2><div id="completedCourses" class="mini-list"></div></section><section class="panel"><h2>Historique des quiz</h2><div id="quizHistory" class="mini-list"></div></section></div>
 </main>
 <footer class="site-footer"><p>© 2026 Ben-Learning</p></footer>

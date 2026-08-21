@@ -31,6 +31,20 @@ function friendlyFirebaseError(error) {
   return messages[code] || `Erreur Firebase : ${error?.message || 'opération impossible'}`;
 }
 
+function saveSession(user, data = {}) {
+  const session = {
+    uid: user.uid,
+    name: data.name || user.email?.split('@')[0] || 'Utilisateur',
+    email: user.email,
+    level: data.level || '',
+    section: data.section || '',
+    role: data.role || 'student',
+    status: data.status || 'pending'
+  };
+  localStorage.setItem('bl_session', JSON.stringify(session));
+  return session;
+}
+
 const registerForm = document.getElementById('registerForm');
 if (registerForm) {
   registerForm.addEventListener('submit', async (e) => {
@@ -49,35 +63,28 @@ if (registerForm) {
 
     try {
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Création en cours…';
-      msg('Création du compte…', true);
+      submitBtn.textContent = 'Envoi de la demande…';
+      msg('Création du compte et envoi à l’administration…', true);
 
       const credential = await createUserWithEmailAndPassword(auth, email, password);
       const user = credential.user;
-
-      await setDoc(doc(db, 'users', user.uid), {
+      const profile = {
         uid: user.uid,
         name,
         email,
         level,
         section,
         role: 'student',
-        status: 'active',
+        status: 'pending',
         createdAt: serverTimestamp(),
         createdAtIso: new Date().toISOString()
-      });
+      };
 
-      localStorage.setItem('bl_session', JSON.stringify({
-        uid: user.uid,
-        name,
-        email,
-        level,
-        section,
-        role: 'student'
-      }));
+      await setDoc(doc(db, 'users', user.uid), profile);
+      saveSession(user, profile);
 
-      msg('Compte créé avec succès ✅', true);
-      setTimeout(() => location.href = 'profile.html', 450);
+      msg('Demande envoyée ✅ En attente de validation par l’administrateur.', true);
+      setTimeout(() => location.href = 'status.html', 650);
     } catch (error) {
       console.error(error);
       msg(friendlyFirebaseError(error));
@@ -103,6 +110,7 @@ if (loginForm) {
       const credential = await signInWithEmailAndPassword(auth, email, password);
       const user = credential.user;
       let userDoc = await getDoc(doc(db, 'users', user.uid));
+
       if (!userDoc.exists()) {
         await setDoc(doc(db, 'users', user.uid), {
           uid: user.uid,
@@ -111,25 +119,32 @@ if (loginForm) {
           level: '',
           section: '',
           role: 'student',
-          status: 'active',
+          status: 'pending',
           createdAt: serverTimestamp(),
           createdAtIso: new Date().toISOString()
         });
         userDoc = await getDoc(doc(db, 'users', user.uid));
       }
-      const data = userDoc.exists() ? userDoc.data() : {};
 
-      const session = {
-        uid: user.uid,
-        name: data.name || user.email?.split('@')[0] || 'Utilisateur',
-        email: user.email,
-        level: data.level || '',
-        section: data.section || '',
-        role: data.role || 'student'
-      };
-      localStorage.setItem('bl_session', JSON.stringify(session));
+      const data = userDoc.data() || {};
+      const session = saveSession(user, data);
 
-      location.href = session.role === 'admin' ? 'admin.html' : 'profile.html';
+      if (session.role === 'admin') {
+        location.href = 'admin.html';
+        return;
+      }
+
+      if (session.status !== 'approved') {
+        location.href = 'status.html';
+        return;
+      }
+
+      const params = new URLSearchParams(location.search);
+      const requested = params.get('redirect');
+      const safeRedirect = requested && !requested.includes('://') && !requested.startsWith('//')
+        ? requested
+        : null;
+      location.href = safeRedirect || 'profile.html';
     } catch (error) {
       console.error(error);
       msg(friendlyFirebaseError(error));

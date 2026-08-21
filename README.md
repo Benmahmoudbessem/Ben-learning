@@ -1,70 +1,75 @@
-# Ben-Learning V2.3
+# Ben-Learning V2.8
 
-Plateforme e-learning statique, prête pour VS Code et GitHub Pages.
+Plateforme e-learning statique (HTML/CSS/JavaScript) avec Firebase Authentication + Firestore.
 
-## Fonctionnalités
-- Accueil professionnel et responsive
-- Catalogue dynamique de cours avec recherche et filtres
-- Niveaux : 1ère, 2ème, 3ème et Bac
-- Sections pour 2ème, 3ème et Bac : Informatique, Sciences, Économie, Lettres et Technique
-- Fiche de cours avec chapitres, exercices, fichier du cours et vidéo YouTube
-- Inscription / connexion étudiant en mode démo localStorage
-- Tableau de bord : cours terminés, progression, scores et historique quiz
-- Quiz QCM avec correction automatique
-- Espace administrateur : ajouter, modifier et supprimer des cours
-- Ajout d'un fichier de cours depuis le PC : PDF, Word, PowerPoint, Excel, TXT ou ZIP
-- Aucun Firebase Storage requis
+## Nouveautés V2.8
 
-## Test local
-Le chargement des fichiers JSON nécessite un petit serveur local.
-Dans VS Code, installe l'extension **Live Server**, puis clic droit sur `index.html` > **Open with Live Server**.
+- Validation des inscriptions par l'administrateur : En attente / Accepté / Refusé.
+- Les nouveaux élèves ne peuvent pas ouvrir les cours et quiz avant validation.
+- Page de suivi de l'inscription (`status.html`).
+- Chat Firebase élève ↔ administration (`chat.html`).
+- Centre de notifications (`notifications.html`).
+- Notification automatique après acceptation/refus et après une réponse Admin dans le chat.
+- Envoi manuel d'une notification à un élève ou à tous depuis l'Admin.
+- Compteurs Admin : élèves, inscriptions en attente, messages non lus, cours.
 
-## Administration
-- Email : `admin@ben-learning.com`
-- Mot de passe : `admin123`
+## Important : règles Firestore
 
-> Ces identifiants sont un mode démo. Pour une vraie publication, l'authentification Admin doit être remplacée par Firebase Authentication + rôle Admin dans Firestore.
+Avant de tester V2.8, ouvre Firebase Console > Firestore Database > Rules et publie le contenu du fichier `firestore.rules` fourni dans ce projet.
 
-## Ajouter un cours depuis ton PC
-Dans `admin.html` :
-1. Choisis le niveau : 2ème, 3ème ou Bac.
-2. Choisis la section : Informatique, Sciences, Économie, Lettres ou Technique.
-3. Remplis le titre, le domaine et la description.
-4. Dans **Ajouter le fichier du cours depuis mon PC**, choisis ton PDF/Word/PowerPoint/etc.
-5. Clique sur **Enregistrer**.
+Sans ces règles, l'acceptation/refus, le chat et les notifications seront refusés par Firebase.
 
-Le fichier est enregistré dans **IndexedDB**, c'est-à-dire dans le navigateur de cet ordinateur.
+## Flux d'inscription
 
-### Important pour GitHub Pages
-Un fichier choisi directement depuis ton PC n'est pas automatiquement envoyé sur GitHub et ne sera donc pas visible par les élèves utilisant un autre ordinateur ou téléphone. C'est une limitation de sécurité du navigateur, pas de Ben-Learning.
+1. L'élève crée son compte.
+2. Son profil Firestore reçoit `role: student` et `status: pending`.
+3. Il peut consulter `status.html`, le chat et ses notifications.
+4. Les cours et quiz restent bloqués.
+5. L'Admin ouvre `admin.html` puis clique **Accepter** ou **Refuser**.
+6. L'élève reçoit immédiatement une notification.
+7. Si accepté (`status: approved`), l'accès aux cours et quiz est ouvert.
 
-Pour rendre un fichier disponible à tous gratuitement :
-- ajoute-le dans `assets/pdf/` dans ton dépôt GitHub puis indique son chemin, par exemple `assets/pdf/python.pdf`, ou
-- utilise un lien public/externe dans le champ **Lien du fichier en ligne**.
+## Compte administrateur
 
-## Vidéos
-Utilise de préférence YouTube en mode non répertorié puis colle le lien dans l'espace Admin.
+Le compte Admin doit avoir dans `users/{UID}` :
 
-## Firebase
-`js/firebase.example.js` montre où mettre ta configuration pour migrer l'authentification et les données vers Firebase Authentication + Firestore, sans utiliser Firebase Storage.
+```text
+role = "admin"
+```
 
-## GitHub Pages
-1. Crée un dépôt GitHub.
-2. Envoie tous les fichiers du projet.
-3. Settings > Pages.
-4. Source : Deploy from a branch.
-5. Branch : `main` / `(root)`.
-6. Save.
+Le premier rôle Admin se configure manuellement dans Firebase Console.
 
-## V2.4 — Firebase + gestion des inscriptions
+## Collections Firestore utilisées
 
-Cette version utilise le projet Firebase `ben-mahmoud-learning` fourni par le propriétaire du projet.
+- `users`
+- `chatMessages`
+- `notifications`
 
-- Les inscriptions utilisent Firebase Authentication Email/Password.
-- Chaque inscription crée aussi un document `users/{uid}` dans Firestore.
-- L'espace Admin affiche en temps réel les utilisateurs dont `role = student`.
-- Le rôle administrateur est vérifié depuis Firestore : `users/{uid}.role = "admin"`.
-- Les règles proposées sont dans `firestore.rules`.
-- Lis `FIREBASE-ADMIN-SETUP.txt` avant le premier accès administrateur.
+Elles sont créées automatiquement lors de l'utilisation de la plateforme.
 
-Les fichiers de cours choisis depuis le PC restent stockés localement dans IndexedDB, comme dans V2.3. Firebase Storage n'est pas utilisé.
+## Lancer en local
+
+Ouvre le dossier avec VS Code puis lance `index.html` avec **Live Server**.
+
+
+## Nouveautés V2.8
+- Bio du créateur en arabe sur la page d’accueil.
+- Grand bandeau indiquant que la plateforme est mise à jour continuellement selon les cours et les séances.
+- Section Contact pour séances en ligne Google Meet.
+- Email : bessembenben2023@gmail.com
+- WhatsApp : +216 53 675 201
+- Emplacement photo : `assets/images/profil-bessem.svg`. Pour utiliser une vraie photo, remplace la source dans `index.html` ou remplace ce fichier par ton image.
+
+
+## Photo du créateur
+La photo de Bessem est intégrée dans `assets/images/profil-bessem.png` et affichée sur la page d’accueil.
+
+
+## V2.8.2 — Ultra responsive smartphone
+- Menu hamburger animé sur toutes les pages.
+- Zones tactiles >= 44 px.
+- Formulaires iPhone/Android sans zoom automatique.
+- Tableaux Admin scrollables horizontalement.
+- Chat, notifications, profil et statut optimisés petit écran.
+- Mise en page 320 px à grand écran + safe-area iPhone.
+- Réduction automatique des animations si le téléphone demande « réduire les animations ».

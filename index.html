@@ -2,16 +2,17 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Ben-Learning, plateforme gratuite d'apprentissage de l'informatique pour les élèves du lycée tunisien.">
   <title>Ben-Learning | Accueil</title>
+  <meta name="theme-color" content="#2563eb">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body>
-<header class="site-header">
-  <a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a>
-  <button class="menu-btn" id="menuBtn" aria-label="Ouvrir le menu">☰</button>
+<body class="home-page">
+<header class="site-header" id="siteHeader">
+  <a class="brand" href="index.html"><span class="brand-icon">🎓</span><span>Ben-Learning</span></a>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button>
   <nav id="mainNav">
     <a class="active" href="index.html">Accueil</a>
     <a href="courses.html">Cours</a>
@@ -22,71 +23,227 @@
 </header>
 
 <main>
-  <section class="hero">
-    <div class="hero-copy">
-      <span class="eyebrow">Plateforme éducative gratuite</span>
-      <h1>Apprendre l’informatique simplement, à son rythme.</h1>
-      <p>Des cours, exercices, vidéos et quiz pour progresser en algorithmique, Python, bases de données et développement Web.</p>
+  <section class="hero home-hero">
+    <div class="hero-decoration hero-decoration-one"></div>
+    <div class="hero-decoration hero-decoration-two"></div>
+
+    <div class="hero-copy hero-reveal">
+      <div class="hero-badge"><span class="live-dot"></span> Plateforme éducative 100% gratuite</div>
+      <h1>Apprends l’informatique <span class="gradient-text">autrement.</span></h1>
+      <p class="hero-lead">Une plateforme moderne pour réviser, pratiquer et progresser du <strong>1ère</strong> jusqu’au <strong>Bac</strong>, avec des cours structurés, des ressources et des quiz interactifs.</p>
       <div class="hero-actions">
-        <a class="btn primary" href="courses.html">Explorer les cours</a>
-        <a class="btn secondary" href="register.html">Créer un compte</a>
+        <a class="btn primary btn-glow" href="courses.html"><span>Explorer les cours</span><b>→</b></a>
+        <a class="btn secondary" href="register.html">Créer un compte gratuit</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item"><span>✓</span> Gratuit</div>
+        <div class="trust-item"><span>✓</span> Accessible partout</div>
+        <div class="trust-item"><span>✓</span> Progression suivie</div>
       </div>
     </div>
-    <div class="hero-visual" aria-hidden="true">
-      <div class="learning-panel">
+
+    <div class="hero-visual hero-reveal" aria-hidden="true">
+      <div class="learning-panel premium-panel">
+        <div class="panel-shine"></div>
         <div class="learning-panel-top">
-          <span class="learning-label"><i></i> Ben-Learning</span>
-          <span class="free-pill">100% gratuit</span>
+          <span class="learning-label"><i></i> Espace d’apprentissage</span>
+          <span class="free-pill">EN LIGNE</span>
         </div>
 
         <div class="learning-device">
+          <div class="device-ring ring-one"></div>
+          <div class="device-ring ring-two"></div>
           <div class="device-glow"></div>
           <div class="device-icon">💻</div>
+          <div class="floating-badge badge-code">&lt;/&gt;</div>
+          <div class="floating-badge badge-score">A+</div>
         </div>
 
         <div class="learning-stats">
           <div class="learning-stat">
             <span class="stat-emoji">📚</span>
-            <div><b>Cours</b><small>Par niveau & section</small></div>
+            <div><b>Cours organisés</b><small>Par niveau et section</small></div>
           </div>
           <div class="learning-stat">
             <span class="stat-emoji">🧠</span>
-            <div><b>Quiz</b><small>Score immédiat</small></div>
+            <div><b>Quiz interactifs</b><small>Résultat immédiat</small></div>
           </div>
         </div>
 
         <div class="learning-code">
-          <div><span></span><span></span><span></span></div>
-          <code><em>print</em>("Bienvenue sur Ben-Learning !")</code>
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <code><em>def</em> apprendre():<br>&nbsp;&nbsp;<strong>return</strong> "Ben-Learning 🚀"</code>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="section-heading">
-      <span class="eyebrow">Tout au même endroit</span>
-      <h2>Une plateforme pensée pour progresser</h2>
-      <p>Une expérience simple pour les élèves et un espace de gestion pour l’enseignant.</p>
-    </div>
-    <div class="feature-grid">
-      <article class="feature-card"><div class="feature-icon">📚</div><h3>Cours structurés</h3><p>Contenu classé par niveau, avec chapitres, ressources et exercices.</p></article>
-      <article class="feature-card"><div class="feature-icon">🧠</div><h3>Quiz interactifs</h3><p>Correction automatique, score immédiat et historique personnel.</p></article>
-      <article class="feature-card"><div class="feature-icon">📈</div><h3>Suivi de progression</h3><p>Retrouve tes cours terminés, tes résultats et ta progression.</p></article>
+  <section class="update-banner-wrap reveal-section" aria-label="Information sur les mises à jour">
+    <div class="update-banner">
+      <div class="update-pulse" aria-hidden="true"><span></span></div>
+      <div class="update-banner-copy">
+        <span class="update-kicker">PLATEFORME EN ÉVOLUTION</span>
+        <h2>🔄 Ben-Learning est en mise à jour continue</h2>
+        <p>Les cours, exercices, quiz et ressources sont enrichis régulièrement selon l’avancement des cours et des séances.</p>
+      </div>
+      <div class="update-live"><i></i> Contenu actualisé</div>
     </div>
   </section>
 
-  <section class="section levels-section">
-    <div class="section-heading"><span class="eyebrow">Niveaux</span><h2>Du lycée au Bac</h2></div>
-    <div class="level-groups">
-      <article class="level-group"><h3>2ème</h3><div class="chips"><span>Informatique</span><span>Sciences</span><span>Économie</span><span>Lettres</span><span>Technique</span></div></article>
-      <article class="level-group"><h3>3ème</h3><div class="chips"><span>Informatique</span><span>Sciences</span><span>Économie</span><span>Lettres</span><span>Technique</span></div></article>
-      <article class="level-group"><h3>Bac</h3><div class="chips"><span>Informatique</span><span>Sciences</span><span>Économie</span><span>Lettres</span><span>Technique</span></div></article>
+  <section class="home-stats reveal-section">
+    <div class="home-stat"><strong data-count="4">4</strong><span>Niveaux</span></div>
+    <div class="home-stat"><strong data-count="5">5</strong><span>Sections</span></div>
+    <div class="home-stat"><strong>100%</strong><span>Gratuit</span></div>
+    <div class="home-stat"><strong>24/7</strong><span>Accessible</span></div>
+  </section>
+
+  <section class="section levels-section home-levels">
+    <div class="section-heading reveal-section">
+      <span class="eyebrow">Parcours scolaire</span>
+      <h2>Choisis ton niveau et commence à progresser</h2>
+      <p>Des ressources organisées pour accompagner les élèves à chaque étape du lycée.</p>
+    </div>
+
+    <div class="level-groups level-groups-four">
+      <article class="level-group level-card level-first reveal-section">
+        <div class="level-number">01</div>
+        <div class="level-icon">🌱</div>
+        <h3>1ère</h3>
+        <p class="level-description">Découvrir les bases du numérique et développer les premiers réflexes logiques.</p>
+        <div class="chips"><span>Tronc commun</span><span>Culture numérique</span><span>Algorithmique</span></div>
+        <a class="level-link" href="courses.html">Voir les cours <b>→</b></a>
+      </article>
+
+      <article class="level-group level-card reveal-section">
+        <div class="level-number">02</div>
+        <div class="level-icon">🧭</div>
+        <h3>2ème</h3>
+        <p class="level-description">Renforcer les acquis avec des contenus adaptés aux différentes sections.</p>
+        <div class="chips"><span>Informatique</span><span>Sciences</span><span>Économie</span><span>Lettres</span><span>Technique</span></div>
+        <a class="level-link" href="courses.html">Voir les cours <b>→</b></a>
+      </article>
+
+      <article class="level-group level-card reveal-section">
+        <div class="level-number">03</div>
+        <div class="level-icon">💡</div>
+        <h3>3ème</h3>
+        <p class="level-description">Approfondir les notions et préparer efficacement l’année du Bac.</p>
+        <div class="chips"><span>Informatique</span><span>Sciences</span><span>Économie</span><span>Lettres</span><span>Technique</span></div>
+        <a class="level-link" href="courses.html">Voir les cours <b>→</b></a>
+      </article>
+
+      <article class="level-group level-card level-bac reveal-section">
+        <div class="level-number">04</div>
+        <div class="level-icon">🎯</div>
+        <h3>Bac</h3>
+        <p class="level-description">Réviser, s’entraîner et consolider les compétences essentielles avant l’examen.</p>
+        <div class="chips"><span>Informatique</span><span>Sciences</span><span>Économie</span><span>Lettres</span><span>Technique</span></div>
+        <a class="level-link" href="courses.html">Voir les cours <b>→</b></a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section feature-section-modern">
+    <div class="section-heading reveal-section">
+      <span class="eyebrow">Une expérience complète</span>
+      <h2>Tout ce qu’il faut pour mieux apprendre</h2>
+      <p>Une interface claire, des contenus structurés et un suivi personnel dans un seul espace.</p>
+    </div>
+
+    <div class="feature-grid modern-feature-grid">
+      <article class="feature-card modern-feature-card reveal-section">
+        <div class="feature-icon gradient-icon">📚</div>
+        <span class="feature-kicker">APPRENDRE</span>
+        <h3>Cours structurés</h3>
+        <p>Retrouve les ressources par niveau, section et domaine pour aller directement à l’essentiel.</p>
+      </article>
+      <article class="feature-card modern-feature-card reveal-section">
+        <div class="feature-icon gradient-icon">🧠</div>
+        <span class="feature-kicker">S’ENTRAÎNER</span>
+        <h3>Quiz interactifs</h3>
+        <p>Teste tes connaissances, obtiens ton score immédiatement et identifie ce qu’il faut revoir.</p>
+      </article>
+      <article class="feature-card modern-feature-card reveal-section">
+        <div class="feature-icon gradient-icon">📈</div>
+        <span class="feature-kicker">PROGRESSER</span>
+        <h3>Suivi personnel</h3>
+        <p>Consulte tes activités et tes résultats depuis ton espace étudiant sécurisé.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section creator-section">
+    <div class="creator-card reveal-section">
+      <div class="creator-photo-column">
+        <div class="creator-photo-frame">
+          <img src="assets/images/profil-bessem.png" alt="Photo de Bessem Ben Mahmoud" id="creatorPhoto">
+          <span class="creator-photo-ring" aria-hidden="true"></span>
+        </div>
+        <div class="creator-signature">
+          <strong>Bessem Ben Mahmoud</strong>
+          <span>Fondateur & développeur de Ben-Learning</span>
+        </div>
+      </div>
+
+      <div class="creator-copy" dir="rtl" lang="ar">
+        <span class="creator-eyebrow">عن صاحب المنصّة</span>
+        <h2>منصّة تعليمية صنعتها بحبّ للتعلّم والتطوّر</h2>
+        <p>أنا <strong>باسم بن محمود</strong>، قمت بتصميم وتطوير منصّة <strong>Ben-Learning</strong> بهدف توفير فضاء تعليمي مجاني، منظّم وتفاعلي يساعد التلاميذ على فهم الإعلامية، مراجعة الدروس، إنجاز التمارين واختبار مكتسباتهم بطريقة أبسط وأكثر وضوحاً.</p>
+        <p>أعمل باستمرار على تطوير المنصّة وإضافة محتويات وموارد جديدة حسب تقدّم الدروس والحصص، حتى تبقى Ben-Learning مواكبة لحاجيات التلاميذ طوال السنة الدراسية.</p>
+        <div class="creator-values">
+          <span>🎓 تعليم منظّم</span>
+          <span>💻 تعلّم رقمي</span>
+          <span>🚀 تطوير مستمر</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact-section" id="contact">
+    <div class="section-heading reveal-section">
+      <span class="eyebrow">Séances en ligne</span>
+      <h2>Besoin d’accompagnement ? Contacte-moi</h2>
+      <p>Des séances à distance peuvent être organisées sur Google Meet. Envoie ta demande par email ou WhatsApp pour fixer un rendez-vous.</p>
+    </div>
+
+    <div class="contact-grid">
+      <a class="contact-card reveal-section" href="mailto:bessembenben2023@gmail.com?subject=Demande%20de%20s%C3%A9ance%20Google%20Meet">
+        <span class="contact-icon">✉️</span>
+        <div><small>Email</small><strong>bessembenben2023@gmail.com</strong><p>Écris-moi pour les cours, questions ou réservations.</p></div>
+        <b>→</b>
+      </a>
+
+      <a class="contact-card reveal-section whatsapp-card" href="https://wa.me/21653675201?text=Bonjour%20Bessem%2C%20je%20souhaite%20r%C3%A9server%20une%20s%C3%A9ance%20en%20ligne%20sur%20Google%20Meet." target="_blank" rel="noopener noreferrer">
+        <span class="contact-icon">💬</span>
+        <div><small>WhatsApp</small><strong>+216 53 675 201</strong><p>Message rapide pour demander une séance en ligne.</p></div>
+        <b>→</b>
+      </a>
+
+      <a class="contact-card reveal-section meet-card" href="mailto:bessembenben2023@gmail.com?subject=R%C3%A9servation%20Google%20Meet&body=Bonjour%20Bessem%2C%0A%0AJe%20souhaite%20r%C3%A9server%20une%20s%C3%A9ance%20Google%20Meet.%0ANiveau%20%3A%20%0ASection%20%3A%20%0ADisponibilit%C3%A9%20%3A%20">
+        <span class="contact-icon">🎥</span>
+        <div><small>Google Meet</small><strong>Réserver une séance</strong><p>Indique ton niveau, ta section et tes disponibilités.</p></div>
+        <b>→</b>
+      </a>
+    </div>
+  </section>
+
+  <section class="section home-cta-wrap reveal-section">
+    <div class="home-cta">
+      <div>
+        <span class="cta-label">Prêt à commencer ?</span>
+        <h2>Ton espace d’apprentissage t’attend.</h2>
+        <p>Crée gratuitement ton compte et accède aux cours et quiz Ben-Learning.</p>
+      </div>
+      <a class="btn cta-button" href="register.html">Créer mon compte <span>→</span></a>
     </div>
   </section>
 </main>
 
-<footer class="site-footer"><p>© 2026 Ben-Learning — Bessem Ben Mahmoud</p><a href="admin-login.html">Administration</a></footer>
+<footer class="site-footer">
+  <div><strong>🎓 Ben-Learning</strong><p>Apprendre aujourd’hui, réussir demain.</p></div>
+  <div class="footer-links"><a href="index.html">Accueil</a><a href="#contact">Contact</a><a href="login.html">Connexion</a><a href="admin-login.html">Administration</a></div>
+  <p>© 2026 Ben-Learning — Bessem Ben Mahmoud</p>
+</footer>
 <script src="js/app.js"></script>
 </body>
 </html>

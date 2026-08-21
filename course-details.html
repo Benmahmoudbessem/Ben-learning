@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Ben-Learning | Détail du cours</title>
+  <meta name="theme-color" content="#2563eb">
   <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
 </head>
-<body>
-<header class="site-header"><a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><button class="menu-btn" id="menuBtn">☰</button><nav id="mainNav"><a href="index.html">Accueil</a><a class="active" href="courses.html">Cours</a><a href="quiz.html">Quiz</a><a href="profile.html">Mon espace</a><a id="authLink" class="nav-cta" href="login.html">Connexion</a></nav></header>
+<body class="auth-checking" data-protected-scripts="js/file-db.js,js/course-details.js">
+<header class="site-header" id="siteHeader"><a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button><nav id="mainNav"><a href="index.html">Accueil</a><a class="active" href="courses.html">Cours</a><a href="quiz.html">Quiz</a><a href="chat.html">Chat</a><a href="notifications.html">Notifications</a><a href="profile.html">Mon espace</a><a id="authLink" class="nav-cta" href="login.html">Connexion</a></nav></header>
 <main class="section page-top">
   <a class="back-link" href="courses.html">← Retour aux cours</a>
   <div id="courseDetail" class="course-detail-shell"><div class="loading">Chargement du cours…</div></div>
 </main>
 <footer class="site-footer"><p>© 2026 Ben-Learning</p></footer>
-<script src="js/app.js"></script><script src="js/file-db.js"></script><script src="js/course-details.js"></script>
+<script src="js/app.js"></script><script type="module" src="js/auth-guard.js"></script>
 </body>
 </html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Ben-Learning | Chat</title>
+  <meta name="theme-color" content="#2563eb">
+  <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<header class="site-header" id="siteHeader">
+  <a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button>
+  <nav id="mainNav"><a href="index.html">Accueil</a><a href="status.html">Mon inscription</a><a class="active" href="chat.html">Chat</a><a href="notifications.html">Notifications</a><a href="profile.html">Mon espace</a><button id="chatLogoutBtn" class="nav-button">Déconnexion</button></nav>
+</header>
+<main class="section page-top communication-page">
+  <div class="section-heading left"><span class="eyebrow">Assistance</span><h1>💬 Chat avec l’administration</h1><p>Pose une question sur ton inscription, les cours ou la plateforme.</p></div>
+  <section class="chat-shell">
+    <div class="chat-head"><div class="chat-admin-avatar">BL</div><div><b>Administration Ben-Learning</b><small>Conversation avec <span id="chatStudentName">Élève</span></small></div><span class="online-pill"><i></i> Messagerie</span></div>
+    <div id="chatMessages" class="chat-messages"><div class="chat-empty"><span>⏳</span><p>Chargement de la conversation…</p></div></div>
+    <form id="chatForm" class="chat-form"><textarea id="chatInput" rows="2" maxlength="1000" required placeholder="Écris ton message…"></textarea><button class="btn primary" type="submit">Envoyer</button></form>
+  </section>
+</main>
+<script src="js/app.js"></script><script type="module" src="js/chat.js"></script>
+</body>
+</html>

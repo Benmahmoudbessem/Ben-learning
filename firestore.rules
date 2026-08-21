@@ -7,23 +7,62 @@ service cloud.firestore {
 
     function isAdmin() {
       return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
     match /users/{userId} {
-      // Un élève peut uniquement créer son propre profil avec le rôle student.
+      // Toute nouvelle inscription doit être créée comme étudiant en attente.
       allow create: if signedIn()
         && request.auth.uid == userId
-        && request.resource.data.role == 'student';
+        && request.resource.data.role == 'student'
+        && request.resource.data.status == 'pending';
 
-      // Un utilisateur lit son profil ; l'admin peut lire tous les profils.
+      // L'élève lit son profil ; l'admin lit tous les profils.
       allow read: if signedIn()
         && (request.auth.uid == userId || isAdmin());
 
-      // Empêche un élève de se promouvoir lui-même administrateur.
-      allow update: if signedIn()
-        && request.auth.uid == userId
-        && request.resource.data.role == resource.data.role;
+      // L'élève peut modifier ses informations, mais jamais son rôle ni son statut.
+      // L'admin peut modifier le statut d'une inscription.
+      allow update: if isAdmin()
+        || (signedIn()
+          && request.auth.uid == userId
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.status == resource.data.status);
+
+      allow delete: if isAdmin();
+    }
+
+    match /chatMessages/{messageId} {
+      // Un élève ne lit que sa conversation. L'admin peut lire toutes les conversations.
+      allow read: if isAdmin()
+        || (signedIn() && resource.data.studentId == request.auth.uid);
+
+      // L'élève peut écrire uniquement dans sa propre conversation.
+      // L'admin peut répondre à n'importe quel élève.
+      allow create: if isAdmin()
+        || (signedIn()
+          && request.resource.data.studentId == request.auth.uid
+          && request.resource.data.senderId == request.auth.uid
+          && request.resource.data.senderRole == 'student');
+
+      // L'admin utilise update pour marquer les messages comme lus.
+      allow update, delete: if isAdmin();
+    }
+
+    match /notifications/{notificationId} {
+      // Un élève lit seulement ses notifications. L'admin peut les consulter.
+      allow read: if isAdmin()
+        || (signedIn() && resource.data.userId == request.auth.uid);
+
+      // Seul l'admin crée les notifications.
+      allow create: if isAdmin();
+
+      // L'élève peut uniquement changer le champ read de sa propre notification.
+      allow update: if isAdmin()
+        || (signedIn()
+          && resource.data.userId == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']));
 
       allow delete: if isAdmin();
     }

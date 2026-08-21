@@ -1,31 +1,68 @@
-BEN-LEARNING V2.4 — ACTIVATION DU COMPTE ADMIN
-================================================
+BEN-LEARNING V2.7 — CONFIGURATION FIREBASE OBLIGATOIRE
+======================================================
 
-1) Firebase Console > Authentication > Sign-in method
-   Active "Email/Password".
+Cette version ajoute :
+- Validation des inscriptions (pending / approved / rejected)
+- Chat élève ↔ administration
+- Notifications Firebase
 
-2) Firebase Console > Firestore Database
-   Crée la base Firestore si ce n'est pas déjà fait.
+1) FIREBASE AUTHENTICATION
+--------------------------
+Firebase Console > Authentication > Sign-in method > Email/Password > Activer.
 
-3) Firestore > Rules
-   Copie le contenu du fichier firestore.rules puis clique sur "Publish".
+2) FIRESTORE DATABASE
+---------------------
+Firebase Console > Firestore Database > Rules.
 
-4) Crée TON compte administrateur :
-   - Va sur register.html et inscris-toi avec ton propre email.
-   - Firebase crée automatiquement le document users/TON_UID avec role = student.
+IMPORTANT : remplace les anciennes règles par le contenu COMPLET du fichier :
+firestore.rules
 
-5) Dans Firebase Console > Firestore Database > Data > users > TON_UID
-   Modifie uniquement :
-       role : "student"
-   en :
-       role : "admin"
+Puis clique sur PUBLISH / PUBLIER.
 
-6) Va sur admin-login.html et connecte-toi avec le même email/mot de passe.
+Sans ces nouvelles règles :
+- l'Admin ne pourra pas accepter/refuser les inscriptions ;
+- le chat ne fonctionnera pas ;
+- les notifications ne fonctionneront pas.
 
-7) Dans le Dashboard Admin, la section "Gestion des inscriptions" affiche
-   automatiquement tous les utilisateurs dont role = student.
+3) COMPTE ADMIN
+---------------
+Ton compte Admin doit exister dans :
+Firestore > users > TON_UID
 
-IMPORTANT
----------
-Ne mets jamais role="admin" dans le formulaire public d'inscription.
-Le changement du premier admin doit être fait manuellement dans Firebase Console.
+Le champ doit être :
+role = "admin"
+
+Le statut du compte Admin n'est pas utilisé pour l'accès admin.
+
+4) NOUVELLE INSCRIPTION
+-----------------------
+Un nouvel élève reçoit automatiquement :
+role = "student"
+status = "pending"
+
+Il peut se connecter mais il NE PEUT PAS ouvrir les cours ni les quiz.
+Il voit la page status.html et peut utiliser le chat/notifications.
+
+5) VALIDATION PAR L'ADMIN
+-------------------------
+Admin > Gestion des inscriptions :
+- Accepter -> status = "approved"
+- Refuser  -> status = "rejected"
+
+Une notification est créée automatiquement pour l'élève.
+
+6) ANCIENS COMPTES
+------------------
+Les comptes créés avec les versions précédentes peuvent avoir :
+status = "active"
+
+Dans V2.7, ils seront considérés comme non validés jusqu'à ce que l'Admin
+clique sur "Accepter" dans le tableau des inscriptions.
+
+7) COLLECTIONS CRÉÉES AUTOMATIQUEMENT
+--------------------------------------
+users
+chatMessages
+notifications
+
+Tu ne dois pas créer ces collections manuellement.

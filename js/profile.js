@@ -1,6 +1,8 @@
 import { auth, db } from './firebase.js';
 import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js';
-import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
+import { collection, doc, getDoc, onSnapshot, query, where } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
+
+let stopNotifications = null;
 
 function fmtDate(v) {
   return new Date(v).toLocaleDateString('fr-FR');
@@ -30,6 +32,17 @@ function renderProfile(session) {
     : '<p>Aucun quiz effectué pour le moment.</p>';
 }
 
+function listenNotificationCount(uid) {
+  if (stopNotifications) stopNotifications();
+  const q = query(collection(db, 'notifications'), where('userId', '==', uid));
+  stopNotifications = onSnapshot(q, snapshot => {
+    const unread = snapshot.docs.filter(d => d.data().read === false).length;
+    document.getElementById('profileNotificationCount').textContent = unread;
+    document.getElementById('navNotificationBadge').textContent = unread;
+    document.getElementById('navNotificationBadge').classList.toggle('hidden', unread === 0);
+  }, console.warn);
+}
+
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     localStorage.removeItem('bl_session');
@@ -37,30 +50,33 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-  let session = JSON.parse(localStorage.getItem('bl_session') || 'null');
-  if (!session || session.uid !== user.uid) {
-    try {
-      const snap = await getDoc(doc(db, 'users', user.uid));
-      const data = snap.exists() ? snap.data() : {};
-      session = {
-        uid: user.uid,
-        name: data.name || user.email?.split('@')[0] || 'Élève',
-        email: user.email,
-        level: data.level || '',
-        section: data.section || '',
-        role: data.role || 'student'
-      };
-      localStorage.setItem('bl_session', JSON.stringify(session));
-    } catch (error) {
-      console.error(error);
-      session = { uid: user.uid, name: 'Élève', email: user.email, level: '', section: '', role: 'student' };
+  try {
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    const data = snap.exists() ? snap.data() : {};
+    if (data.role !== 'admin' && data.status !== 'approved') {
+      location.href = 'status.html';
+      return;
     }
+    const session = {
+      uid: user.uid,
+      name: data.name || user.email?.split('@')[0] || 'Élève',
+      email: user.email,
+      level: data.level || '',
+      section: data.section || '',
+      role: data.role || 'student',
+      status: data.status || 'approved'
+    };
+    localStorage.setItem('bl_session', JSON.stringify(session));
+    renderProfile(session);
+    listenNotificationCount(user.uid);
+  } catch (error) {
+    console.error(error);
+    location.href = 'status.html';
   }
-
-  renderProfile(session);
 });
 
 document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+  if (stopNotifications) stopNotifications();
   try { await signOut(auth); } catch (error) { console.warn(error); }
   localStorage.removeItem('bl_session');
   location.href = 'login.html';

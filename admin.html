@@ -2,46 +2,74 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Ben-Learning | Dashboard Admin</title>
+  <meta name="theme-color" content="#2563eb">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-<header class="site-header">
-  <a class="brand" href="index.html"><span>🛠️</span> Ben-Learning Admin</a>
-  <nav><span class="admin-identity">👤 <strong id="adminIdentity">Administrateur</strong></span><a href="index.html">Voir le site</a><button id="adminLogoutBtn" class="nav-button">Déconnexion</button></nav>
+<header class="site-header" id="siteHeader">
+  <a class="brand" href="index.html"><span>🛠️</span> <span class="brand-text">Ben-Learning Admin</span></a>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button>
+  <nav id="mainNav"><span class="admin-identity">👤 <strong id="adminIdentity">Administrateur</strong></span><a href="index.html">Voir le site</a><button id="adminLogoutBtn" class="nav-button">Déconnexion</button></nav>
 </header>
 
 <main class="section page-top admin-page">
   <div class="section-heading left">
     <span class="eyebrow">Administration</span>
     <h1>Tableau de bord</h1>
-    <p>Gère les cours et consulte en temps réel les élèves qui s’inscrivent sur Ben-Learning.</p>
+    <p>Valide les inscriptions, échange avec les élèves, envoie des notifications et gère les cours.</p>
   </div>
 
-  <section class="admin-overview">
+  <section class="admin-overview admin-overview-four">
     <article class="admin-stat-card"><span>👥</span><div><b id="adminStudentStat">0</b><small>Élèves inscrits</small></div></article>
+    <article class="admin-stat-card"><span>⏳</span><div><b id="adminPendingStat">0</b><small>En attente</small></div></article>
+    <article class="admin-stat-card"><span>💬</span><div><b id="adminUnreadChatStat">0</b><small>Messages non lus</small></div></article>
     <article class="admin-stat-card"><span>📚</span><div><b id="adminCourseStat">0</b><small>Cours ajoutés</small></div></article>
-    <article class="admin-stat-card"><span>🔥</span><div><b>Firebase</b><small>Base connectée</small></div></article>
   </section>
 
   <section class="panel admin-students-panel">
     <div class="panel-title-row">
-      <div><h2>👥 Gestion des inscriptions</h2><p class="panel-subtitle">Chaque nouveau compte étudiant apparaît automatiquement ici.</p></div>
+      <div><h2>👥 Validation des inscriptions</h2><p class="panel-subtitle">Chaque nouveau compte arrive en attente. Accepte ou refuse la demande depuis cette page.</p></div>
       <span id="studentCount" class="badge">0</span>
     </div>
     <div class="student-toolbar">
-      <input id="studentSearch" type="search" placeholder="🔍 Rechercher par nom, email, niveau ou section…">
+      <input id="studentSearch" type="search" placeholder="🔍 Rechercher par nom, email, niveau, section ou statut…">
       <span id="studentsMessage" class="firebase-status">Connexion à Firebase…</span>
     </div>
     <div class="student-table-wrap">
       <table class="student-table">
-        <thead><tr><th>Nom</th><th>Email</th><th>Niveau</th><th>Section</th><th>Inscription</th></tr></thead>
-        <tbody id="studentList"><tr><td colspan="5" class="table-empty">Chargement des inscriptions…</td></tr></tbody>
+        <thead><tr><th>Élève</th><th>Niveau</th><th>Section</th><th>Statut</th><th>Inscription</th><th>Actions</th></tr></thead>
+        <tbody id="studentList"><tr><td colspan="6" class="table-empty">Chargement des inscriptions…</td></tr></tbody>
       </table>
     </div>
   </section>
+
+  <div class="admin-communication-grid">
+    <section class="panel admin-chat-panel">
+      <div class="panel-title-row"><div><h2>💬 Chat élèves</h2><p class="panel-subtitle">Sélectionne un élève pour consulter la conversation et répondre.</p></div><span id="adminChatUnreadBadge" class="badge">0 non lu</span></div>
+      <label class="admin-select-label">Conversation
+        <select id="adminChatStudent"><option value="">Choisir un élève…</option></select>
+      </label>
+      <div id="adminChatMessages" class="chat-messages admin-chat-messages"><div class="chat-empty"><span>💬</span><p>Sélectionne un élève.</p></div></div>
+      <form id="adminChatForm" class="chat-form">
+        <textarea id="adminChatInput" rows="2" maxlength="1000" placeholder="Répondre à l’élève…" disabled></textarea>
+        <button class="btn primary" type="submit" disabled>Envoyer</button>
+      </form>
+    </section>
+
+    <section class="panel admin-notification-panel">
+      <div class="panel-title-row"><div><h2>🔔 Envoyer une notification</h2><p class="panel-subtitle">Envoie une annonce à un élève ou à tous les élèves.</p></div></div>
+      <form id="adminNotificationForm" class="admin-form compact-form">
+        <label>Destinataire<select id="notificationTarget" required><option value="all">Tous les élèves</option></select></label>
+        <label>Titre<input id="notificationTitle" maxlength="80" required placeholder="Ex. Nouveau cours disponible"></label>
+        <label>Message<textarea id="notificationBody" rows="5" maxlength="600" required placeholder="Écris le message de notification…"></textarea></label>
+        <button class="btn primary" type="submit">Envoyer la notification</button>
+        <p id="notificationAdminMessage" class="form-message"></p>
+      </form>
+    </section>
+  </div>
 
   <div class="admin-layout">
     <section class="panel">
@@ -71,6 +99,7 @@
 </main>
 
 <footer class="site-footer"><p>© 2026 Ben-Learning — Espace administration</p></footer>
+<script src="js/app.js"></script>
 <script src="js/file-db.js"></script>
 <script type="module" src="js/admin.js"></script>
 </body>

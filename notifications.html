@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Ben-Learning | Notifications</title>
+  <meta name="theme-color" content="#2563eb">
+  <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<header class="site-header" id="siteHeader">
+  <a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button>
+  <nav id="mainNav"><a href="index.html">Accueil</a><a href="status.html">Mon inscription</a><a href="chat.html">Chat</a><a class="active" href="notifications.html">Notifications</a><a href="profile.html">Mon espace</a><button id="notificationsLogoutBtn" class="nav-button">Déconnexion</button></nav>
+</header>
+<main class="section page-top communication-page">
+  <div class="notification-heading"><div class="section-heading left"><span class="eyebrow">Centre d’informations</span><h1>🔔 Mes notifications</h1><p>Retrouve ici la validation de ton inscription et les annonces de l’administration.</p></div><div class="notification-actions"><span class="unread-counter"><b id="notificationUnread">0</b> non lue(s)</span><button id="markAllRead" class="btn secondary">Tout marquer comme lu</button></div></div>
+  <section id="notificationList" class="notification-list"><div class="notification-empty"><span>⏳</span><p>Chargement des notifications…</p></div></section>
+</main>
+<script src="js/app.js"></script><script type="module" src="js/notifications.js"></script>
+</body>
+</html>
