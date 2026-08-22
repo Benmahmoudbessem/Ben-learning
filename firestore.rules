@@ -1,70 +1,88 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function signedIn() {
-      return request.auth != null;
-    }
-
-    function isAdmin() {
-      return signedIn()
-        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
-        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
-    }
+    function signedIn() { return request.auth != null; }
+    function userDoc() { return get(/databases/$(database)/documents/users/$(request.auth.uid)); }
+    function hasProfile() { return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)); }
+    function isAdmin() { return hasProfile() && userDoc().data.role == 'admin'; }
+    function isApprovedStudent() { return hasProfile() && userDoc().data.role == 'student' && userDoc().data.status == 'approved'; }
+    function learningMember() { return isAdmin() || isApprovedStudent(); }
 
     match /users/{userId} {
-      // Toute nouvelle inscription doit être créée comme étudiant en attente.
       allow create: if signedIn()
         && request.auth.uid == userId
         && request.resource.data.role == 'student'
         && request.resource.data.status == 'pending';
-
-      // L'élève lit son profil ; l'admin lit tous les profils.
-      allow read: if signedIn()
-        && (request.auth.uid == userId || isAdmin());
-
-      // L'élève peut modifier ses informations, mais jamais son rôle ni son statut.
-      // L'admin peut modifier le statut d'une inscription.
+      allow read: if signedIn() && (request.auth.uid == userId || isAdmin());
       allow update: if isAdmin()
-        || (signedIn()
-          && request.auth.uid == userId
+        || (signedIn() && request.auth.uid == userId
           && request.resource.data.role == resource.data.role
           && request.resource.data.status == resource.data.status);
-
       allow delete: if isAdmin();
     }
 
-    match /chatMessages/{messageId} {
-      // Un élève ne lit que sa conversation. L'admin peut lire toutes les conversations.
-      allow read: if isAdmin()
-        || (signedIn() && resource.data.studentId == request.auth.uid);
+    // Catalogue cloud : visible seulement aux comptes validés.
+    match /courses/{courseId} {
+      allow read: if learningMember();
+      allow create, update, delete: if isAdmin();
+    }
 
-      // L'élève peut écrire uniquement dans sa propre conversation.
-      // L'admin peut répondre à n'importe quel élève.
+    // Planning Google Meet.
+    match /sessions/{sessionId} {
+      allow read: if learningMember();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Devoirs publiés par l'administration.
+    match /homework/{homeworkId} {
+      allow read: if learningMember();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Rendus : texte / lien uniquement, sans Firebase Storage.
+    match /homeworkSubmissions/{submissionId} {
+      allow read: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid);
+      allow create: if isApprovedStudent() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin()
+        || (isApprovedStudent()
+          && resource.data.userId == request.auth.uid
+          && request.resource.data.userId == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['answerText','answerUrl','status','submittedAt','submittedAtIso']));
+      allow delete: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid);
+    }
+
+    match /chatMessages/{messageId} {
+      // Le chat reste disponible pendant la validation de l'inscription.
+      allow read: if isAdmin() || (signedIn() && resource.data.studentId == request.auth.uid);
       allow create: if isAdmin()
         || (signedIn()
           && request.resource.data.studentId == request.auth.uid
           && request.resource.data.senderId == request.auth.uid
           && request.resource.data.senderRole == 'student');
-
-      // L'admin utilise update pour marquer les messages comme lus.
       allow update, delete: if isAdmin();
     }
 
     match /notifications/{notificationId} {
-      // Un élève lit seulement ses notifications. L'admin peut les consulter.
-      allow read: if isAdmin()
-        || (signedIn() && resource.data.userId == request.auth.uid);
-
-      // Seul l'admin crée les notifications.
+      allow read: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
       allow create: if isAdmin();
-
-      // L'élève peut uniquement changer le champ read de sa propre notification.
       allow update: if isAdmin()
-        || (signedIn()
-          && resource.data.userId == request.auth.uid
+        || (signedIn() && resource.data.userId == request.auth.uid
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']));
-
       allow delete: if isAdmin();
+    }
+
+    match /courseProgress/{progressId} {
+      allow read: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid);
+      allow create: if isApprovedStudent() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid && request.resource.data.userId == request.auth.uid);
+      allow delete: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid);
+    }
+
+    match /quizResults/{resultId} {
+      allow read: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid);
+      allow create: if isApprovedStudent() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid && request.resource.data.userId == request.auth.uid);
+      allow delete: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid);
     }
   }
 }

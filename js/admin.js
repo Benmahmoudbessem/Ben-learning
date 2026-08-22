@@ -8,6 +8,9 @@ import {
   collection,
   doc,
   getDoc,
+  getDocs,
+  setDoc,
+  deleteDoc,
   onSnapshot,
   query,
   serverTimestamp,
@@ -45,12 +48,15 @@ function esc(v = '') {
 }
 
 function normalizeCourse(c) {
-  if (c.section) return c;
-  const old = String(c.level || '');
-  if (old.startsWith('Bac ')) return {...c, level:'Bac', section:old.replace('Bac ', '')};
-  if (old.startsWith('3ème ')) return {...c, level:'3ème', section:old.replace('3ème ', '')};
-  if (old.startsWith('2ème ')) return {...c, level:'2ème', section:old.replace('2ème ', '')};
-  return {...c, section:old === '1ère' ? 'Tronc commun' : 'Informatique'};
+  if (!c) return c;
+  if (!c.section) {
+    const old = String(c.level || '');
+    if (old.startsWith('Bac ')) c = {...c, level:'Bac', section:old.replace('Bac ', '')};
+    else if (old.startsWith('3ème ')) c = {...c, level:'3ème', section:old.replace('3ème ', '')};
+    else if (old.startsWith('2ème ')) c = {...c, level:'2ème', section:old.replace('2ème ', '')};
+    else c = {...c, section:old === '1ère' ? 'Tronc commun' : 'Informatique'};
+  }
+  return {...c, trimester:String(c.trimester || '1'), resourceType:c.resourceType || 'Cours', chapter:c.chapter || (c.chapters || [])[0] || ''};
 }
 
 courses = courses.map(normalizeCourse);
@@ -308,7 +314,7 @@ function renderCourses() {
   list.innerHTML = courses.length ? courses.map(c => `
     <article class="admin-course-item">
       <h3>${esc(c.title)}</h3>
-      <div class="course-meta"><span>${esc(c.level)}</span><span>${esc(c.section || '')}</span><span>${esc(c.domain)}</span></div>
+      <div class="course-meta"><span>${esc(c.level)}</span><span>${esc(c.section || '')}</span><span>T${esc(c.trimester || '1')}</span><span>${esc(c.domain)}</span><span>${esc(c.resourceType || 'Cours')}</span></div>
       <p>${esc(c.description)}</p>
       ${c.localFileName ? `<p class="local-file-badge">📎 Fichier local : ${esc(c.localFileName)}</p>` : ''}
       ${c.pdf ? '<p class="online-file-badge">🔗 Fichier en ligne configuré</p>' : ''}
@@ -349,16 +355,22 @@ function initCourseAdmin() {
         title: document.getElementById('title').value.trim(),
         level: document.getElementById('level').value,
         section: document.getElementById('section').value,
+        trimester: document.getElementById('trimester').value,
+        resourceType: document.getElementById('resourceType').value,
         domain: document.getElementById('domain').value.trim(),
+        chapter: document.getElementById('chapter').value.trim(),
         description: document.getElementById('description').value.trim(),
         pdf: document.getElementById('pdf').value.trim(),
         video: document.getElementById('video').value.trim(),
         chapters: document.getElementById('chapters').value.split('\n').map(x => x.trim()).filter(Boolean),
-        exercises: oldCourse?.exercises || [],
+        exercises: document.getElementById('exercises').value.split('\n').map(x => x.trim()).filter(Boolean),
         icon: oldCourse?.icon || '📘',
         localFileKey,
         localFileName
       };
+      const cloudCourse = {...course, updatedAtIso:new Date().toISOString(), updatedBy:adminUser?.uid || ''};
+      delete cloudCourse.localFileKey;
+      await setDoc(doc(db, 'courses', String(id)), cloudCourse, {merge:true});
       if (editId) courses = courses.map(c => String(c.id) === String(editId) ? course : c);
       else courses.unshift(course);
       save();
@@ -382,11 +394,15 @@ window.editCourse = function(id) {
   document.getElementById('title').value = c.title;
   document.getElementById('level').value = c.level;
   document.getElementById('section').value = c.section || 'Informatique';
+  document.getElementById('trimester').value = String(c.trimester || '1');
+  document.getElementById('resourceType').value = c.resourceType || 'Cours';
   document.getElementById('domain').value = c.domain;
+  document.getElementById('chapter').value = c.chapter || '';
   document.getElementById('description').value = c.description;
   document.getElementById('pdf').value = c.pdf || '';
   document.getElementById('video').value = c.video || '';
   document.getElementById('chapters').value = (c.chapters || []).join('\n');
+  document.getElementById('exercises').value = (c.exercises || []).join('\n');
   localFile.value = '';
   selectedFileName.textContent = c.localFileName ? `Fichier local actuel : ${c.localFileName}. Choisis un nouveau fichier uniquement pour le remplacer.` : 'Aucun fichier local associé.';
   document.getElementById('formTitle').textContent = 'Modifier le cours';
@@ -398,9 +414,31 @@ window.deleteCourse = async function(id) {
   if (!confirm('Supprimer ce cours ?')) return;
   const c = courses.find(x => String(x.id) === String(id));
   try { if (c?.localFileKey) await deleteCourseFile(c.localFileKey); } catch (err) { console.warn(err); }
+  try { await deleteDoc(doc(db, 'courses', String(id))); } catch (err) { console.warn('Suppression cloud impossible', err); }
   courses = courses.filter(x => String(x.id) !== String(id));
   save();
 };
+
+async function loadCloudCourses() {
+  try {
+    const snap = await getDocs(collection(db, 'courses'));
+    const remote = snap.docs.map(d => normalizeCourse({id:d.id, ...d.data()}));
+    const remoteIds = new Set(remote.map(c => String(c.id)));
+    const localOnly = courses.filter(c => !remoteIds.has(String(c.id)));
+    await Promise.all(localOnly.map(async c => {
+      const cloud = {...normalizeCourse(c), migratedAtIso:new Date().toISOString(), migratedBy:adminUser?.uid || ''};
+      delete cloud.localFileKey;
+      try { await setDoc(doc(db, 'courses', String(c.id)), cloud, {merge:true}); } catch (e) { console.warn('Migration cours locale impossible', c.id, e); }
+    }));
+    const map = new Map(courses.map(c => [String(c.id), c]));
+    remote.forEach(c => map.set(String(c.id), {...map.get(String(c.id)), ...c}));
+    courses = [...map.values()];
+    localStorage.setItem('bl_admin_courses', JSON.stringify(courses));
+    renderCourses();
+  } catch (error) {
+    console.warn('Impossible de charger les cours Firestore', error);
+  }
+}
 
 onAuthStateChanged(auth, async user => {
   if (!user) {
@@ -422,6 +460,7 @@ onAuthStateChanged(auth, async user => {
     localStorage.setItem('bl_admin_session', 'true');
     document.getElementById('adminIdentity').textContent = data.name || user.email || 'Administrateur';
     initCourseAdmin();
+    await loadCloudCourses();
     listenToStudents();
     listenUnreadChats();
   } catch (error) {

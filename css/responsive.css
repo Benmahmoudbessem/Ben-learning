@@ -243,3 +243,36 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent;touch-act
   .home-hero{padding-top:26px!important}.hero-visual{display:none}
   .chat-messages{height:42dvh!important}
 }
+
+/* V2.9 — Dashboard élève ultra-responsive */
+@media(max-width:1050px){
+  .learning-overview-grid{grid-template-columns:1fr}
+  .dashboard-tools-three{grid-template-columns:1fr 1fr}
+  .dashboard-course-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:700px){
+  .dashboard-welcome{padding:24px 18px!important}
+  .profile-badges{gap:6px}.profile-badges span{font-size:.66rem;padding:6px 8px}
+  .dashboard-stats{grid-template-columns:1fr 1fr!important}
+  .learning-overview-grid{gap:13px}
+  .progress-overview-card{grid-template-columns:1fr;text-align:center;justify-items:center;padding:21px 16px!important}
+  .progress-ring{width:136px;height:136px}.progress-ring strong{font-size:1.65rem}
+  .learning-meta-row{justify-content:center}.continue-card{min-height:auto}
+  .dashboard-tools-three{grid-template-columns:1fr}
+  .dashboard-section-title{align-items:flex-start!important}.dashboard-section-title .btn{width:100%}
+  .dashboard-course-grid{grid-template-columns:1fr;gap:12px}.dashboard-course-card{min-height:auto;padding:17px}
+  .dashboard-bottom-grid{grid-template-columns:1fr!important}.dashboard-bottom-grid .panel{min-height:auto}
+  .quiz-history-item{align-items:flex-start}.mini-panel-link{font-size:.7rem}
+}
+@media(max-width:420px){
+  .dashboard-stats{grid-template-columns:1fr!important}.dashboard-stats .stat-box{min-height:84px}
+  .progress-ring{width:122px;height:122px}.progress-ring::before{inset:11px}
+  .progress-overview-copy h2{font-size:1.2rem}.learning-meta-row{display:grid;grid-template-columns:1fr;width:100%}
+  .learning-meta-row span{text-align:center}.dashboard-course-card .btn{width:100%}
+}
+
+/* V4.0 responsive */
+@media(max-width:1180px){.filter-bar-v4{grid-template-columns:repeat(3,1fr)}.filter-bar-v4 input{grid-column:1/-1}.v4-showcase-grid{grid-template-columns:1fr 1fr}.admin-pedagogy-grid{grid-template-columns:1fr}.submission-item{grid-template-columns:170px 1fr}.grade-form{grid-column:1/-1}.dashboard-tools-v4{grid-template-columns:1fr 1fr!important}}
+@media(max-width:800px){.ai-layout{grid-template-columns:1fr}.ai-chat{min-height:520px}.homework-grid{grid-template-columns:1fr}.session-card{grid-template-columns:72px 1fr}.session-date{min-height:72px}.session-date b{font-size:1.55rem}.dashboard-v4-glance{grid-template-columns:1fr}.submission-item{grid-template-columns:1fr}.grade-form{grid-column:auto}}
+@media(max-width:700px){.filter-bar-v4{grid-template-columns:1fr 1fr}.filter-bar-v4 input{grid-column:1/-1}.pedagogy-path{gap:6px}.pedagogy-path span{font-size:.66rem}.pedagogy-path b{font-size:.7rem}.v4-showcase-grid{grid-template-columns:1fr}.v4-showcase-card{min-height:auto}.dashboard-tools-v4{grid-template-columns:1fr!important}.homework-summary{grid-template-columns:1fr 1fr 1fr}.admin-pedagogy-grid{gap:13px}.v4-admin-item{flex-direction:column}.v4-admin-actions{justify-content:flex-start;width:100%}.v4-admin-actions .btn{flex:1}.ai-message>div{max-width:88%}.pwa-install-btn{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));font-size:.75rem}}
+@media(max-width:480px){.filter-bar-v4{grid-template-columns:1fr}.filter-bar-v4 input{grid-column:auto}.homework-summary{gap:7px}.homework-summary>div{padding:13px 9px}.homework-summary b{font-size:1.25rem}.homework-summary span{font-size:.63rem}.homework-card{padding:16px}.homework-top{flex-direction:column}.session-card{grid-template-columns:1fr}.session-date{display:flex;gap:6px;justify-content:flex-start;padding:10px 13px;min-height:auto;width:max-content}.session-date b{font-size:1rem}.session-body .btn{width:100%}.ai-form{grid-template-columns:1fr}.ai-form .btn{width:100%}.ai-messages{padding:14px}.ai-message>span{flex-basis:34px;height:34px}.ai-message>div{max-width:92%;padding:10px}.pedagogy-path b{display:none}.pedagogy-path span{flex:1 1 30%;text-align:center}.pwa-install-btn{left:12px;right:12px;width:calc(100% - 24px)}}

@@ -1,75 +1,69 @@
-# Ben-Learning V2.8
+# Ben-Learning V4.0
 
-Plateforme e-learning statique (HTML/CSS/JavaScript) avec Firebase Authentication + Firestore.
+Plateforme e-learning responsive HTML/CSS/JavaScript avec Firebase Authentication + Firestore, déployable sur GitHub Pages sans Firebase Storage.
 
-## Nouveautés V2.8
+## Ce que contient V4.0
 
-- Validation des inscriptions par l'administrateur : En attente / Accepté / Refusé.
-- Les nouveaux élèves ne peuvent pas ouvrir les cours et quiz avant validation.
-- Page de suivi de l'inscription (`status.html`).
-- Chat Firebase élève ↔ administration (`chat.html`).
-- Centre de notifications (`notifications.html`).
-- Notification automatique après acceptation/refus et après une réponse Admin dans le chat.
-- Envoi manuel d'une notification à un élève ou à tous depuis l'Admin.
-- Compteurs Admin : élèves, inscriptions en attente, messages non lus, cours.
+- Validation des inscriptions : pending / approved / rejected.
+- Espace Admin avec liste des élèves, chat et notifications.
+- Cours protégés après validation du compte.
+- Organisation pédagogique : Niveau → Section → Trimestre → Domaine → Chapitre.
+- Cours Admin synchronisés dans Firestore pour être visibles sur les autres appareils.
+- Fichier local possible côté Admin pour prévisualisation ; pour le partager aux élèves, utiliser un lien public.
+- Tableau de bord élève : progression, cours terminés, quiz, activité récente.
+- Quiz par domaine et historique des scores.
+- Planning de séances avec lien Google Meet.
+- Devoirs : sujet, date limite, réponse texte/lien, rendu, note et commentaire de l'Admin.
+- Notifications automatiques pour nouvelles séances, nouveaux devoirs et corrections.
+- Assistant pédagogique « Ben IA » en mode local gratuit : recommandations basées sur progression, quiz, planning et devoirs.
+- PWA installable sur smartphone/PC (manifest + service worker).
+- Interface ultra-responsive iPhone / Android / tablette / PC.
 
-## Important : règles Firestore
+## Pourquoi l'assistant est en mode local ?
 
-Avant de tester V2.8, ouvre Firebase Console > Firestore Database > Rules et publie le contenu du fichier `firestore.rules` fourni dans ce projet.
+Le site est hébergé sur GitHub Pages et le projet doit rester gratuit. Une clé d'API d'IA ne doit jamais être placée dans un fichier JavaScript public. Le mode local fonctionne sans clé et utilise les données pédagogiques de l'élève. Une IA générative externe pourra être ajoutée plus tard avec un backend sécurisé.
 
-Sans ces règles, l'acceptation/refus, le chat et les notifications seront refusés par Firebase.
-
-## Flux d'inscription
-
-1. L'élève crée son compte.
-2. Son profil Firestore reçoit `role: student` et `status: pending`.
-3. Il peut consulter `status.html`, le chat et ses notifications.
-4. Les cours et quiz restent bloqués.
-5. L'Admin ouvre `admin.html` puis clique **Accepter** ou **Refuser**.
-6. L'élève reçoit immédiatement une notification.
-7. Si accepté (`status: approved`), l'accès aux cours et quiz est ouvert.
-
-## Compte administrateur
-
-Le compte Admin doit avoir dans `users/{UID}` :
-
-```text
-role = "admin"
-```
-
-Le premier rôle Admin se configure manuellement dans Firebase Console.
-
-## Collections Firestore utilisées
+## Collections Firestore V4.0
 
 - `users`
+- `courses`
+- `sessions`
+- `homework`
+- `homeworkSubmissions`
 - `chatMessages`
 - `notifications`
+- `courseProgress`
+- `quizResults`
 
-Elles sont créées automatiquement lors de l'utilisation de la plateforme.
+Les collections sont créées automatiquement lorsqu'une donnée est enregistrée.
+
+## Configuration obligatoire
+
+1. Firebase Console → Authentication → Sign-in method → activer Email/Password.
+2. Firebase Console → Firestore Database → Rules.
+3. Remplacer toutes les règles par le contenu de `firestore.rules`.
+4. Cliquer sur **Publish / Publier**.
+5. Vérifier que le compte administrateur a `role = "admin"` dans `users/{UID}`.
 
 ## Lancer en local
 
-Ouvre le dossier avec VS Code puis lance `index.html` avec **Live Server**.
+Ouvrir le dossier avec VS Code et lancer `index.html` avec **Live Server**.
 
+## Déploiement GitHub Pages
 
-## Nouveautés V2.8
-- Bio du créateur en arabe sur la page d’accueil.
-- Grand bandeau indiquant que la plateforme est mise à jour continuellement selon les cours et les séances.
-- Section Contact pour séances en ligne Google Meet.
-- Email : bessembenben2023@gmail.com
-- WhatsApp : +216 53 675 201
-- Emplacement photo : `assets/images/profil-bessem.svg`. Pour utiliser une vraie photo, remplace la source dans `index.html` ou remplace ce fichier par ton image.
+```bash
+git add .
+git commit -m "Ben-Learning V4.0"
+git push origin main
+```
 
+Puis GitHub → Settings → Pages → Deploy from a branch → `main` → `/ (root)`.
 
-## Photo du créateur
-La photo de Bessem est intégrée dans `assets/images/profil-bessem.png` et affichée sur la page d’accueil.
+## Installation PWA
 
+- Android/Chrome/Edge : le bouton « Installer Ben-Learning » apparaît quand le navigateur autorise l'installation.
+- iPhone/Safari : Partager → Ajouter à l'écran d'accueil.
 
-## V2.8.2 — Ultra responsive smartphone
-- Menu hamburger animé sur toutes les pages.
-- Zones tactiles >= 44 px.
-- Formulaires iPhone/Android sans zoom automatique.
-- Tableaux Admin scrollables horizontalement.
-- Chat, notifications, profil et statut optimisés petit écran.
-- Mise en page 320 px à grand écran + safe-area iPhone.
-- Réduction automatique des animations si le téléphone demande « réduire les animations ».
+## Important sur les fichiers
+
+Firebase Storage n'est pas utilisé. Un fichier choisi depuis le PC dans l'Admin est stocké localement dans IndexedDB sur cet appareil uniquement. Pour qu'un PDF/Word soit accessible à tous les élèves, utiliser un lien public (GitHub, Google Drive partagé, etc.).

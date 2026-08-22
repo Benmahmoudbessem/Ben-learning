@@ -4,20 +4,26 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Ben-Learning | Cours</title>
   <meta name="theme-color" content="#2563eb">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
   <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
 </head>
 <body class="auth-checking" data-protected-scripts="js/courses.js">
 <header class="site-header" id="siteHeader">
   <a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button>
-  <nav id="mainNav"><a href="index.html">Accueil</a><a class="active" href="courses.html">Cours</a><a href="quiz.html">Quiz</a><a href="chat.html">Chat</a><a href="notifications.html">Notifications</a><a href="profile.html">Mon espace</a><a id="authLink" class="nav-cta" href="login.html">Connexion</a></nav>
+  <nav id="mainNav"><a href="index.html">Accueil</a><a class="active" href="courses.html">Cours</a><a href="sessions.html">Séances</a><a href="homework.html">Devoirs</a><a href="quiz.html">Quiz</a><a href="assistant.html">Assistant</a><a href="profile.html">Mon espace</a><a id="authLink" class="nav-cta" href="login.html">Connexion</a></nav>
 </header>
 <main class="section page-top">
-  <div class="section-heading left"><span class="eyebrow">Bibliothèque</span><h1>📚 Cours & ressources</h1><p>Recherche un cours par titre, niveau, section ou domaine.</p></div>
-  <div class="filter-bar filter-bar-4">
-    <input id="search" type="search" placeholder="Rechercher un cours…" aria-label="Rechercher">
+  <div class="section-heading left"><span class="eyebrow">Bibliothèque pédagogique</span><h1>📚 Cours & ressources</h1><p>Niveau → Section → Trimestre → Domaine → Chapitre. Utilise les filtres pour trouver exactement la ressource dont tu as besoin.</p></div>
+  <div class="pedagogy-path" aria-label="Organisation pédagogique"><span>Niveau</span><b>→</b><span>Section</span><b>→</b><span>Trimestre</span><b>→</b><span>Domaine</span><b>→</b><span>Chapitre</span></div>
+  <div class="filter-bar filter-bar-v4">
+    <input id="search" type="search" placeholder="Rechercher un cours, chapitre…" aria-label="Rechercher">
     <select id="level"><option value="all">Tous les niveaux</option><option value="1ère">1ère</option><option value="2ème">2ème</option><option value="3ème">3ème</option><option value="Bac">Bac</option></select>
     <select id="section"><option value="all">Toutes les sections</option><option value="Informatique">Informatique</option><option value="Sciences">Sciences</option><option value="Économie">Économie</option><option value="Lettres">Lettres</option><option value="Technique">Technique</option><option value="Tronc commun">Tronc commun</option></select>
+    <select id="trimester"><option value="all">Tous les trimestres</option><option value="1">Trimestre 1</option><option value="2">Trimestre 2</option><option value="3">Trimestre 3</option></select>
     <select id="domain"><option value="all">Tous les domaines</option></select>
+    <select id="chapter"><option value="all">Tous les chapitres</option></select>
+    <select id="resourceType"><option value="all">Tous les types</option><option value="Cours">Cours</option><option value="Résumé">Résumé</option><option value="Exercice">Exercice</option><option value="Correction">Correction</option><option value="Révision">Révision</option></select>
   </div>
   <div id="courseCount" class="result-count"></div>
   <div id="courseContainer" class="course-grid"></div>

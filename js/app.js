@@ -73,3 +73,17 @@
 
   requestAnimationFrame(()=>document.querySelectorAll('.hero-reveal').forEach(el=>el.classList.add('is-visible')));
 })();
+
+// Ben-Learning V4.0 — PWA installable
+(function(){
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(err=>console.warn('Service Worker indisponible',err)));
+  }
+  let deferredPrompt=null;
+  const installBtn=document.createElement('button');
+  installBtn.type='button';installBtn.className='pwa-install-btn hidden';installBtn.innerHTML='📱 Installer Ben-Learning';installBtn.setAttribute('aria-label','Installer Ben-Learning sur cet appareil');
+  document.body.appendChild(installBtn);
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installBtn.classList.remove('hidden');});
+  installBtn.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.classList.add('hidden');});
+  window.addEventListener('appinstalled',()=>{deferredPrompt=null;installBtn.classList.add('hidden');});
+})();

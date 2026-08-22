@@ -1,68 +1,54 @@
-BEN-LEARNING V2.7 — CONFIGURATION FIREBASE OBLIGATOIRE
-======================================================
+BEN-LEARNING V4.0 — CONFIGURATION FIREBASE
+==========================================
 
-Cette version ajoute :
-- Validation des inscriptions (pending / approved / rejected)
-- Chat élève ↔ administration
-- Notifications Firebase
-
-1) FIREBASE AUTHENTICATION
---------------------------
+1) AUTHENTICATION
 Firebase Console > Authentication > Sign-in method > Email/Password > Activer.
 
-2) FIRESTORE DATABASE
----------------------
+2) FIRESTORE RULES
 Firebase Console > Firestore Database > Rules.
-
-IMPORTANT : remplace les anciennes règles par le contenu COMPLET du fichier :
-firestore.rules
-
-Puis clique sur PUBLISH / PUBLIER.
-
-Sans ces nouvelles règles :
-- l'Admin ne pourra pas accepter/refuser les inscriptions ;
-- le chat ne fonctionnera pas ;
-- les notifications ne fonctionneront pas.
+Remplace TOUTES les règles par le contenu du fichier firestore.rules puis clique PUBLIER.
 
 3) COMPTE ADMIN
----------------
-Ton compte Admin doit exister dans :
-Firestore > users > TON_UID
-
-Le champ doit être :
+Dans Firestore > users > TON_UID :
 role = "admin"
 
-Le statut du compte Admin n'est pas utilisé pour l'accès admin.
+4) INSCRIPTIONS
+Nouveau compte : role="student", status="pending".
+Admin > Validation des inscriptions > Accepter : status="approved".
+Les cours, séances, devoirs, quiz et dashboard restent bloqués avant validation.
+Le chat, le suivi d'inscription et les notifications restent accessibles pendant l'attente.
 
-4) NOUVELLE INSCRIPTION
------------------------
-Un nouvel élève reçoit automatiquement :
-role = "student"
-status = "pending"
-
-Il peut se connecter mais il NE PEUT PAS ouvrir les cours ni les quiz.
-Il voit la page status.html et peut utiliser le chat/notifications.
-
-5) VALIDATION PAR L'ADMIN
--------------------------
-Admin > Gestion des inscriptions :
-- Accepter -> status = "approved"
-- Refuser  -> status = "rejected"
-
-Une notification est créée automatiquement pour l'élève.
-
-6) ANCIENS COMPTES
-------------------
-Les comptes créés avec les versions précédentes peuvent avoir :
-status = "active"
-
-Dans V2.7, ils seront considérés comme non validés jusqu'à ce que l'Admin
-clique sur "Accepter" dans le tableau des inscriptions.
-
-7) COLLECTIONS CRÉÉES AUTOMATIQUEMENT
---------------------------------------
+5) COLLECTIONS V4.0
 users
+courses
+sessions
+homework
+homeworkSubmissions
 chatMessages
 notifications
+courseProgress
+quizResults
 
-Tu ne dois pas créer ces collections manuellement.
+Tu ne dois pas créer les collections manuellement : Firestore les crée lors du premier enregistrement.
+
+6) COURS ADMIN
+Le formulaire Admin sauvegarde les métadonnées des cours dans Firestore.
+Le fichier local choisi depuis le PC reste seulement sur le navigateur de l'Admin.
+Pour partager un document aux élèves, renseigne un lien public dans "Lien du fichier en ligne".
+
+7) SÉANCES GOOGLE MEET
+Admin > Programmer une séance : titre, niveau, section, trimestre, date/heure, lien Meet.
+Les élèves concernés voient la séance dans sessions.html et reçoivent une notification.
+
+8) DEVOIRS
+Admin > Créer un devoir : niveau, section, trimestre, domaine, date limite, consignes et lien du sujet.
+L'élève répond avec du texte et/ou un lien Drive/GitHub.
+L'Admin ouvre "Rendus", ajoute une note /20 et un commentaire.
+
+9) PWA
+Après déploiement HTTPS sur GitHub Pages, Chrome/Edge/Android peut proposer l'installation.
+Sur iPhone : Safari > Partager > Ajouter à l'écran d'accueil.
+
+10) ASSISTANT BEN IA
+Mode local gratuit : aucune clé API n'est nécessaire.
+N'ajoute JAMAIS une clé OpenAI/Gemini/etc. directement dans firebase.js ou un fichier JavaScript public.

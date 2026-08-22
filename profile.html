@@ -2,20 +2,75 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Ben-Learning | Mon espace</title>
-  <meta name="theme-color" content="#2563eb">
+  <title>Ben-Learning | Mon tableau de bord</title>
+  <meta name="theme-color" content="#2563eb"><link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
   <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
-<header class="site-header" id="siteHeader"><a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button><nav id="mainNav"><a href="index.html">Accueil</a><a href="courses.html">Cours</a><a href="quiz.html">Quiz</a><a href="chat.html">Chat</a><a href="notifications.html" class="notification-nav-link">Notifications <span id="navNotificationBadge" class="nav-notification-badge hidden">0</span></a><a class="active" href="profile.html">Mon espace</a><button id="logoutBtn" class="nav-button">Déconnexion</button></nav></header>
-<main class="section page-top dashboard-page">
-  <section class="welcome-panel"><div><span class="eyebrow">Tableau de bord</span><h1 id="welcomeName">Bienvenue 👋</h1><p id="profileMeta"></p></div><div class="avatar" id="avatar">BL</div></section>
-  <section class="stats-grid"><article class="stat-box"><span>📚</span><div><b id="completedCount">0</b><small>Cours terminés</small></div></article><article class="stat-box"><span>📝</span><div><b id="quizCount">0</b><small>Quiz effectués</small></div></article><article class="stat-box"><span>⭐</span><div><b id="bestScore">0%</b><small>Meilleur score</small></div></article><article class="stat-box"><span>📈</span><div><b id="progressValue">0%</b><small>Progression</small></div></article></section>
-  <section class="student-tools-grid">
+<header class="site-header" id="siteHeader"><a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button><nav id="mainNav"><a href="index.html">Accueil</a><a href="courses.html">Cours</a><a href="sessions.html">Séances</a><a href="homework.html">Devoirs</a><a href="quiz.html">Quiz</a><a href="assistant.html">Assistant</a><a class="active" href="profile.html">Mon espace</a><button id="logoutBtn" class="nav-button">Déconnexion</button></nav></header>
+
+<main class="section page-top dashboard-page dashboard-v29">
+  <section class="welcome-panel dashboard-welcome">
+    <div>
+      <span class="eyebrow dashboard-eyebrow">Tableau de bord personnel</span>
+      <h1 id="welcomeName">Bienvenue 👋</h1>
+      <p id="profileMeta"></p>
+      <div class="profile-badges"><span id="levelBadge">Niveau</span><span id="sectionBadge">Section</span><span class="sync-badge" id="syncBadge">☁️ Synchronisation…</span></div>
+    </div>
+    <div class="avatar" id="avatar">BL</div>
+  </section>
+
+  <section class="stats-grid dashboard-stats">
+    <article class="stat-box"><span>📚</span><div><b id="completedCount">0</b><small>Cours terminés</small></div></article>
+    <article class="stat-box"><span>📈</span><div><b id="progressValue">0%</b><small>Progression du parcours</small></div></article>
+    <article class="stat-box"><span>📝</span><div><b id="quizCount">0</b><small>Quiz effectués</small></div></article>
+    <article class="stat-box"><span>🏆</span><div><b id="bestScore">0%</b><small>Meilleur score</small></div></article>
+  </section>
+
+  <section class="learning-overview-grid">
+    <article class="panel progress-overview-card">
+      <div class="progress-ring" id="progressRing" style="--progress:0%"><div><strong id="ringProgress">0%</strong><small>progression</small></div></div>
+      <div class="progress-overview-copy">
+        <span class="eyebrow">Ton parcours</span>
+        <h2>Continue à avancer à ton rythme</h2>
+        <p id="progressSentence">Chargement de ta progression…</p>
+        <div class="learning-meta-row"><span>🔥 Série : <b id="streakValue">0 jour</b></span><span>🎯 Restants : <b id="remainingCount">0</b></span></div>
+      </div>
+    </article>
+
+    <article class="panel continue-card" id="continueCard">
+      <span class="eyebrow">À continuer</span>
+      <div id="continueCourse"><div class="dashboard-loading">Recherche de ton prochain cours…</div></div>
+    </article>
+  </section>
+
+  <section class="student-tools-grid dashboard-tools-v4">
+    <a class="student-tool-card" href="courses.html"><span>📚</span><div><b>Catalogue des cours</b><small>Par niveau, trimestre et chapitre.</small></div><strong>→</strong></a>
+    <a class="student-tool-card" href="sessions.html"><span>📅</span><div><b>Mes séances</b><small>Planning et liens Google Meet.</small></div><strong>→</strong></a>
+    <a class="student-tool-card" href="homework.html"><span>📝</span><div><b>Mes devoirs</b><small>Travaux à rendre et corrections.</small></div><strong>→</strong></a>
+    <a class="student-tool-card" href="assistant.html"><span>🤖</span><div><b>Assistant pédagogique</b><small>Conseils personnalisés gratuits.</small></div><strong>→</strong></a>
     <a class="student-tool-card" href="chat.html"><span>💬</span><div><b>Chat administration</b><small>Pose une question et reçois une réponse.</small></div><strong>→</strong></a>
     <a class="student-tool-card" href="notifications.html"><span>🔔</span><div><b>Notifications</b><small><em id="profileNotificationCount">0</em> notification(s) non lue(s).</small></div><strong>→</strong></a>
   </section>
-  <div class="dashboard-columns"><section class="panel"><h2>Mes cours terminés</h2><div id="completedCourses" class="mini-list"></div></section><section class="panel"><h2>Historique des quiz</h2><div id="quizHistory" class="mini-list"></div></section></div>
+
+  <section class="dashboard-v4-glance">
+    <article class="panel"><div class="panel-title-row"><div><span class="eyebrow">Planning</span><h2>Prochaine séance</h2></div><a href="sessions.html" class="mini-panel-link">Voir planning →</a></div><div id="nextSessionCard" class="v4-glance-content"><div class="dashboard-loading">Chargement…</div></div></article>
+    <article class="panel"><div class="panel-title-row"><div><span class="eyebrow">Travail</span><h2>Prochain devoir</h2></div><a href="homework.html" class="mini-panel-link">Voir devoirs →</a></div><div id="nextHomeworkCard" class="v4-glance-content"><div class="dashboard-loading">Chargement…</div></div></article>
+  </section>
+
+  <section class="panel my-courses-panel">
+    <div class="panel-title-row dashboard-section-title">
+      <div><span class="eyebrow">Parcours personnalisé</span><h2>Mes cours</h2><p class="panel-subtitle" id="myCoursesSubtitle">Cours correspondant à ton niveau et ta section.</p></div>
+      <a class="btn secondary" href="courses.html">Voir tous les cours</a>
+    </div>
+    <div id="myCourses" class="dashboard-course-grid"><div class="dashboard-loading">Chargement des cours…</div></div>
+  </section>
+
+  <div class="dashboard-columns dashboard-bottom-grid">
+    <section class="panel"><div class="panel-title-row"><div><span class="eyebrow">Résultats</span><h2>Historique des quiz</h2></div><a href="quiz.html" class="mini-panel-link">Faire un quiz →</a></div><div id="quizHistory" class="mini-list dashboard-history"></div></section>
+    <section class="panel"><div class="panel-title-row"><div><span class="eyebrow">Activité</span><h2>Activité récente</h2></div></div><div id="recentActivity" class="activity-timeline"></div></section>
+  </div>
 </main>
 <footer class="site-footer"><p>© 2026 Ben-Learning</p></footer>
 <script src="js/app.js"></script><script type="module" src="js/profile.js"></script>

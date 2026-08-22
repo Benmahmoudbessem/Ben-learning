@@ -1,37 +1,28 @@
 const id=new URLSearchParams(location.search).get('id');
 const shell=document.getElementById('courseDetail');
-function adminCourses(){return JSON.parse(localStorage.getItem('bl_admin_courses')||'[]');}
-function esc(v=''){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+function localAdminCourses(){return JSON.parse(localStorage.getItem('bl_admin_courses')||'[]');}
+function esc(v=''){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 function normalizeCourse(c){
-  if(c.section) return c;
-  const old=String(c.level||'');
-  if(old.startsWith('Bac ')) return {...c,level:'Bac',section:old.replace('Bac ','')};
-  if(old.startsWith('3ème ')) return {...c,level:'3ème',section:old.replace('3ème ','')};
-  if(old.startsWith('2ème ')) return {...c,level:'2ème',section:old.replace('2ème ','')};
-  return {...c,section:old==='1ère'?'Tronc commun':'Informatique'};
+  if(!c) return c;
+  if(!c.section){const old=String(c.level||'');if(old.startsWith('Bac '))c={...c,level:'Bac',section:old.replace('Bac ','')};else if(old.startsWith('3ème '))c={...c,level:'3ème',section:old.replace('3ème ','')};else if(old.startsWith('2ème '))c={...c,level:'2ème',section:old.replace('2ème ','')};else c={...c,section:old==='1ère'?'Tronc commun':'Informatique'};}
+  return {...c,trimester:String(c.trimester||'1'),resourceType:c.resourceType||'Cours',chapter:c.chapter||(c.chapters||[])[0]||''};
 }
 function youtubeEmbed(url=''){if(!url)return'';try{if(url.includes('youtube.com/watch?v=')){const v=new URL(url).searchParams.get('v');return `https://www.youtube.com/embed/${v}`;}if(url.includes('youtu.be/'))return `https://www.youtube.com/embed/${url.split('youtu.be/')[1].split('?')[0]}`;}catch(e){}return url;}
-
-async function getLocalFileButton(course){
-  if(!course.localFileKey) return '';
-  try{
-    const stored=await getCourseFile(course.localFileKey);
-    if(!stored) return '<span class="file-unavailable">📎 Fichier local indisponible sur cet appareil</span>';
-    const url=URL.createObjectURL(stored.blob);
-    return `<a class="btn secondary" href="${url}" target="_blank" download="${esc(stored.name)}">📂 Ouvrir ${esc(stored.name)}</a>`;
-  }catch(e){
-    return '<span class="file-unavailable">📎 Impossible de lire le fichier local</span>';
-  }
-}
-
+async function getLocalFileButton(course){if(!course.localFileKey)return'';try{const stored=await getCourseFile(course.localFileKey);if(!stored)return'<span class="file-unavailable">📎 Fichier local disponible uniquement sur l’appareil Admin</span>';const url=URL.createObjectURL(stored.blob);return `<a class="btn secondary" href="${url}" target="_blank" download="${esc(stored.name)}">📂 Ouvrir ${esc(stored.name)}</a>`;}catch{return'<span class="file-unavailable">📎 Fichier local indisponible sur cet appareil</span>';}}
 async function render(course){
   course=normalizeCourse(course);
   const chapters=(course.chapters||[]).map(x=>`<li>${esc(x)}</li>`).join('')||'<li>Contenu à venir.</li>';
   const exercises=(course.exercises||[]).map(x=>`<li>${esc(x)}</li>`).join('')||'<li>Exercices à venir.</li>';
-  const video=youtubeEmbed(course.video||'');
-  const localButton=await getLocalFileButton(course);
-  shell.innerHTML=`<section class="course-detail-hero"><div><span class="eyebrow">${esc(course.level)} · ${esc(course.section||'')} · ${esc(course.domain||'Informatique')}</span><h1>${esc(course.title)}</h1><p>${esc(course.description||course.summary||'')}</p><div class="resource-actions">${localButton}${course.pdf?`<a class="btn secondary" href="${esc(course.pdf)}" target="_blank" rel="noopener">🔗 Ouvrir le fichier en ligne</a>`:''}<button class="btn primary" id="completeBtn">✅ Marquer comme terminé</button></div></div><div class="detail-icon">${esc(course.icon||'📘')}</div></section><div class="detail-grid"><section class="detail-block"><h2>📚 Chapitres</h2><ol class="chapter-list">${chapters}</ol></section><section class="detail-block"><h2>📝 Exercices</h2><ul class="exercise-list">${exercises}</ul></section>${video?`<section class="detail-block" style="grid-column:1/-1"><h2>🎥 Vidéo</h2><div class="video-wrap"><iframe src="${esc(video)}" title="Vidéo du cours" allowfullscreen></iframe></div></section>`:''}</div>`;
+  const video=youtubeEmbed(course.video||''); const localButton=await getLocalFileButton(course);
+  shell.innerHTML=`<section class="course-detail-hero"><div><span class="eyebrow">${esc(course.level)} · ${esc(course.section||'')} · T${esc(course.trimester)} · ${esc(course.domain||'Informatique')}</span><div class="course-detail-tags"><span>${esc(course.resourceType)}</span>${course.chapter?`<span>${esc(course.chapter)}</span>`:''}</div><h1>${esc(course.title)}</h1><p>${esc(course.description||course.summary||'')}</p><div class="resource-actions">${localButton}${course.pdf?`<a class="btn secondary" href="${esc(course.pdf)}" target="_blank" rel="noopener">🔗 Ouvrir le fichier en ligne</a>`:''}<button class="btn primary" id="completeBtn">✅ Marquer comme terminé</button></div></div><div class="detail-icon">${esc(course.icon||'📘')}</div></section><div class="detail-grid"><section class="detail-block"><h2>📚 Chapitres</h2><ol class="chapter-list">${chapters}</ol></section><section class="detail-block"><h2>📝 Exercices</h2><ul class="exercise-list">${exercises}</ul></section>${video?`<section class="detail-block" style="grid-column:1/-1"><h2>🎥 Vidéo</h2><div class="video-wrap"><iframe src="${esc(video)}" title="Vidéo du cours" allowfullscreen></iframe></div></section>`:''}</div>`;
   document.getElementById('completeBtn').addEventListener('click',()=>completeCourse(course));
 }
-function completeCourse(course){const session=JSON.parse(localStorage.getItem('bl_session')||'null');if(!session){location.href='login.html';return;}const key=`bl_progress_${session.email}`;const list=JSON.parse(localStorage.getItem(key)||'[]');if(!list.some(x=>String(x.id)===String(course.id)))list.push({id:course.id,title:course.title,date:new Date().toISOString()});localStorage.setItem(key,JSON.stringify(list));alert('Cours marqué comme terminé ✅');}
-fetch('data/courses.json').then(r=>r.json()).then(seed=>{const course=[...seed,...adminCourses()].find(c=>String(c.id)===String(id));if(!course){shell.innerHTML='<div class="empty-state"><h3>Cours introuvable</h3><a class="btn primary" href="courses.html">Retour</a></div>';return;}render(course);}).catch(()=>{const course=adminCourses().find(c=>String(c.id)===String(id));course?render(course):shell.innerHTML='<p>Impossible de charger ce cours.</p>';});
+async function syncProgressToFirebase(session,course){if(!session?.uid)return false;try{const [{db},{doc,setDoc,serverTimestamp}]=await Promise.all([import('./firebase.js'),import('https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js')]);await setDoc(doc(db,'courseProgress',`${session.uid}_${course.id}`),{userId:session.uid,courseId:String(course.id),courseTitle:course.title,level:course.level||'',section:course.section||'',trimester:String(course.trimester||'1'),domain:course.domain||'',chapter:course.chapter||'',completed:true,completedAt:serverTimestamp()},{merge:true});return true;}catch(error){console.warn('Synchronisation progression impossible',error);return false;}}
+async function completeCourse(course){const session=JSON.parse(localStorage.getItem('bl_session')||'null');if(!session){location.href='login.html';return;}const key=`bl_progress_${session.email}`;const list=JSON.parse(localStorage.getItem(key)||'[]');const existing=list.find(x=>String(x.id??x.courseId)===String(course.id));const item={id:course.id,courseId:String(course.id),title:course.title,courseTitle:course.title,level:course.level||'',section:course.section||'',trimester:String(course.trimester||'1'),domain:course.domain||'',chapter:course.chapter||'',date:new Date().toISOString(),completedAt:new Date().toISOString()};if(existing)Object.assign(existing,item);else list.unshift(item);localStorage.setItem(key,JSON.stringify(list.slice(0,100)));const synced=await syncProgressToFirebase(session,course);const btn=document.getElementById('completeBtn');if(btn){btn.textContent=synced?'✅ Terminé et synchronisé':'✅ Terminé';btn.disabled=true;}alert(synced?'Cours marqué comme terminé et synchronisé avec ton tableau de bord ✅':'Cours marqué comme terminé ✅');}
+async function findCourse(){
+  let seed=[];try{const r=await fetch('data/courses.json');seed=r.ok?await r.json():[];}catch{}
+  let course=[...seed,...localAdminCourses()].find(c=>String(c.id)===String(id));
+  try{const [{db},{doc,getDoc}]=await Promise.all([import('./firebase.js'),import('https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js')]);const snap=await getDoc(doc(db,'courses',String(id)));if(snap.exists())course={id:snap.id,...snap.data()};}catch(error){console.warn('Recherche Firestore indisponible',error);}
+  if(!course){shell.innerHTML='<div class="empty-state"><h3>Cours introuvable</h3><a class="btn primary" href="courses.html">Retour</a></div>';return;}render(course);
+}
+findCourse();

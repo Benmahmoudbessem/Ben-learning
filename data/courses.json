@@ -19,7 +19,10 @@
       "Déterminer le maximum de trois valeurs",
       "Afficher les nombres pairs de 1 à N"
     ],
-    "section": "Informatique"
+    "section": "Informatique",
+    "trimester": "1",
+    "resourceType": "Cours",
+    "chapter": "Introduction à l'algorithmique"
   },
   {
     "id": 2,
@@ -41,7 +44,10 @@
       "Compter les voyelles d'une chaîne",
       "Rechercher une valeur dans une liste"
     ],
-    "section": "Informatique"
+    "section": "Informatique",
+    "trimester": "1",
+    "resourceType": "Cours",
+    "chapter": "Premiers programmes"
   },
   {
     "id": 3,
@@ -63,7 +69,10 @@
       "Écrire une requête avec WHERE",
       "Réaliser une jointure entre deux tables"
     ],
-    "section": "Informatique"
+    "section": "Informatique",
+    "trimester": "2",
+    "resourceType": "Cours",
+    "chapter": "Modèle relationnel"
   },
   {
     "id": 4,
@@ -85,7 +94,10 @@
       "Construire une carte de profil",
       "Créer un menu responsive"
     ],
-    "section": "Informatique"
+    "section": "Informatique",
+    "trimester": "2",
+    "resourceType": "Cours",
+    "chapter": "Structure HTML"
   },
   {
     "id": 5,
@@ -107,7 +119,10 @@
       "Classer matériel et logiciel",
       "Reconnaître une tentative de phishing"
     ],
-    "section": "Tronc commun"
+    "section": "Tronc commun",
+    "trimester": "1",
+    "resourceType": "Cours",
+    "chapter": "Composants d'un ordinateur"
   },
   {
     "id": 6,
@@ -129,6 +144,9 @@
       "Créer un tableau de notes",
       "Appliquer une mise en forme conditionnelle"
     ],
-    "section": "Informatique"
+    "section": "Informatique",
+    "trimester": "1",
+    "resourceType": "Cours",
+    "chapter": "Cellules et références"
   }
 ]

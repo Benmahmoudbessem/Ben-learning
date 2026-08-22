@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Ben-Learning | Dashboard Admin</title>
   <meta name="theme-color" content="#2563eb">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
@@ -27,6 +29,8 @@
     <article class="admin-stat-card"><span>⏳</span><div><b id="adminPendingStat">0</b><small>En attente</small></div></article>
     <article class="admin-stat-card"><span>💬</span><div><b id="adminUnreadChatStat">0</b><small>Messages non lus</small></div></article>
     <article class="admin-stat-card"><span>📚</span><div><b id="adminCourseStat">0</b><small>Cours ajoutés</small></div></article>
+    <article class="admin-stat-card"><span>📅</span><div><b id="adminSessionStat">0</b><small>Séances</small></div></article>
+    <article class="admin-stat-card"><span>📝</span><div><b id="adminHomeworkStat">0</b><small>Devoirs</small></div></article>
   </section>
 
   <section class="panel admin-students-panel">
@@ -71,6 +75,14 @@
     </section>
   </div>
 
+
+  <section class="admin-v4-heading"><span class="eyebrow">Organisation pédagogique V4.0</span><h2>Planning, devoirs et suivi des rendus</h2><p>Gère les séances Google Meet et le travail à rendre sans utiliser Firebase Storage.</p></section>
+  <div class="admin-pedagogy-grid">
+    <section class="panel"><div class="panel-title-row"><div><h2>📅 Programmer une séance</h2><p class="panel-subtitle">La séance apparaîtra uniquement aux élèves du niveau/section concernés.</p></div></div><form id="sessionForm" class="admin-form compact-form"><input id="sessionEditId" type="hidden"><label>Titre<input id="sessionTitle" required placeholder="Ex. Révision Python — Fonctions"></label><div class="admin-two-cols"><label>Niveau<select id="sessionLevel" required><option value="Tous">Tous</option><option value="1ère">1ère</option><option value="2ème">2ème</option><option value="3ème">3ème</option><option value="Bac">Bac</option></select></label><label>Section<select id="sessionSection"><option value="Toutes">Toutes</option><option value="Informatique">Informatique</option><option value="Sciences">Sciences</option><option value="Économie">Économie</option><option value="Lettres">Lettres</option><option value="Technique">Technique</option><option value="Tronc commun">Tronc commun</option></select></label></div><div class="admin-two-cols"><label>Trimestre<select id="sessionTrimester"><option value="1">T1</option><option value="2">T2</option><option value="3">T3</option></select></label><label>Date et heure<input id="sessionDateTime" type="datetime-local" required></label></div><label>Lien Google Meet<input id="sessionMeetUrl" type="url" placeholder="https://meet.google.com/... "></label><label>Description<textarea id="sessionDescription" rows="3"></textarea></label><div class="form-actions"><button class="btn primary" type="submit">Enregistrer la séance</button><button class="btn secondary hidden" id="cancelSessionEdit" type="button">Annuler</button></div></form><div id="adminSessionList" class="v4-admin-list"></div></section>
+    <section class="panel"><div class="panel-title-row"><div><h2>📝 Créer un devoir</h2><p class="panel-subtitle">Les élèves répondent par texte ou lien Drive/GitHub.</p></div></div><form id="homeworkForm" class="admin-form compact-form"><input id="homeworkEditId" type="hidden"><label>Titre<input id="homeworkTitle" required placeholder="Ex. Devoir Python n°1"></label><div class="admin-two-cols"><label>Niveau<select id="homeworkLevel" required><option value="Tous">Tous</option><option value="1ère">1ère</option><option value="2ème">2ème</option><option value="3ème">3ème</option><option value="Bac">Bac</option></select></label><label>Section<select id="homeworkSection"><option value="Toutes">Toutes</option><option value="Informatique">Informatique</option><option value="Sciences">Sciences</option><option value="Économie">Économie</option><option value="Lettres">Lettres</option><option value="Technique">Technique</option><option value="Tronc commun">Tronc commun</option></select></label></div><div class="admin-two-cols"><label>Trimestre<select id="homeworkTrimester"><option value="1">T1</option><option value="2">T2</option><option value="3">T3</option></select></label><label>Domaine<input id="homeworkDomain" placeholder="Python, Algorithmique…"></label></div><label>Date limite<input id="homeworkDueAt" type="datetime-local" required></label><label>Lien du sujet (optionnel)<input id="homeworkResourceUrl" type="url" placeholder="https://drive.google.com/... "></label><label>Consignes<textarea id="homeworkDescription" rows="4" required></textarea></label><div class="form-actions"><button class="btn primary" type="submit">Enregistrer le devoir</button><button class="btn secondary hidden" id="cancelHomeworkEdit" type="button">Annuler</button></div></form><div id="adminHomeworkList" class="v4-admin-list"></div></section>
+  </div>
+  <section id="submissionPanel" class="panel hidden"><div class="panel-title-row"><div><h2>📥 Rendus des élèves</h2><p id="submissionPanelTitle" class="panel-subtitle"></p></div><button id="closeSubmissionPanel" class="btn secondary">Fermer</button></div><div id="submissionList" class="submission-list"></div></section>
+
   <div class="admin-layout">
     <section class="panel">
       <h2 id="formTitle">Ajouter un cours</h2>
@@ -79,14 +91,17 @@
         <label>Titre<input id="title" required placeholder="Ex. Python — Les fonctions"></label>
         <div class="admin-two-cols">
           <label>Niveau<select id="level" required><option value="">Choisir un niveau</option><option value="1ère">1ère</option><option value="2ème">2ème</option><option value="3ème">3ème</option><option value="Bac">Bac</option></select></label>
-          <label>Section<select id="section" required><option value="">Choisir une section</option><option value="Informatique">Informatique</option><option value="Sciences">Sciences</option><option value="Économie">Économie</option><option value="Lettres">Lettres</option><option value="Technique">Technique</option><option value="Tronc commun">Tronc commun</option></select></label>
+          <label>Section<select id="section" required><option value="">Choisir une section</option><option value="Informatique">Informatique</option><option value="Sciences">Sciences</option><option value="Économie">Économie</option><option value="Lettres">Lettres</option><option value="Technique">Technique</option><option value="Tronc commun">Tronc commun</option><option value="Toutes">Toutes</option></select></label>
         </div>
+        <div class="admin-two-cols"><label>Trimestre<select id="trimester" required><option value="1">Trimestre 1</option><option value="2">Trimestre 2</option><option value="3">Trimestre 3</option></select></label><label>Type de ressource<select id="resourceType"><option value="Cours">Cours</option><option value="Résumé">Résumé</option><option value="Exercice">Exercice</option><option value="Correction">Correction</option><option value="Révision">Révision</option></select></label></div>
         <label>Domaine / Matière<input id="domain" required placeholder="Ex. Algorithmique, Python, Bureautique…"></label>
+        <label>Chapitre principal<input id="chapter" placeholder="Ex. Les fonctions"></label>
         <label>Description<textarea id="description" required rows="4" placeholder="Description du cours"></textarea></label>
         <div class="file-upload-box"><label>📂 Ajouter le fichier du cours depuis mon PC<input id="localFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.zip"></label><p id="selectedFileName" class="file-help">Aucun fichier sélectionné. Le fichier local sera enregistré dans ce navigateur.</p></div>
         <label>🔗 Lien du fichier en ligne (optionnel)<input id="pdf" placeholder="assets/pdf/mon-cours.pdf ou lien https://…"><small class="field-help">Utilise ce champ si tu veux que le fichier soit accessible aux élèves sur d’autres appareils.</small></label>
         <label>Lien vidéo YouTube<input id="video" placeholder="https://www.youtube.com/watch?v=..."></label>
         <label>Chapitres (un par ligne)<textarea id="chapters" rows="5" placeholder="Introduction&#10;Variables&#10;Conditions"></textarea></label>
+        <label>Exercices (un par ligne)<textarea id="exercises" rows="4" placeholder="Exercice 1&#10;Exercice 2"></textarea></label>
         <div class="form-actions"><button class="btn primary" type="submit">Enregistrer</button><button id="cancelEdit" class="btn secondary hidden" type="button">Annuler</button></div>
       </form>
     </section>
@@ -102,5 +117,6 @@
 <script src="js/app.js"></script>
 <script src="js/file-db.js"></script>
 <script type="module" src="js/admin.js"></script>
+<script type="module" src="js/admin-v4.js"></script>
 </body>
 </html>

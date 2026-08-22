@@ -6,6 +6,8 @@
   <meta name="description" content="Ben-Learning, plateforme gratuite d'apprentissage de l'informatique pour les élèves du lycée tunisien.">
   <title>Ben-Learning | Accueil</title>
   <meta name="theme-color" content="#2563eb">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
@@ -16,7 +18,9 @@
   <nav id="mainNav">
     <a class="active" href="index.html">Accueil</a>
     <a href="courses.html">Cours</a>
-    <a href="quiz.html">Quiz</a>
+    <a href="sessions.html">Séances</a>
+    <a href="homework.html">Devoirs</a>
+    <a href="assistant.html">Assistant</a>
     <a href="profile.html">Mon espace</a>
     <a id="authLink" class="nav-cta" href="login.html">Connexion</a>
   </nav>
@@ -30,7 +34,7 @@
     <div class="hero-copy hero-reveal">
       <div class="hero-badge"><span class="live-dot"></span> Plateforme éducative 100% gratuite</div>
       <h1>Apprends l’informatique <span class="gradient-text">autrement.</span></h1>
-      <p class="hero-lead">Une plateforme moderne pour réviser, pratiquer et progresser du <strong>1ère</strong> jusqu’au <strong>Bac</strong>, avec des cours structurés, des ressources et des quiz interactifs.</p>
+      <p class="hero-lead">Une plateforme moderne pour réviser, pratiquer et progresser du <strong>1ère</strong> jusqu’au <strong>Bac</strong>, avec des cours structurés, des séances Google Meet, des devoirs, des quiz et un suivi personnalisé.</p>
       <div class="hero-actions">
         <a class="btn primary btn-glow" href="courses.html"><span>Explorer les cours</span><b>→</b></a>
         <a class="btn secondary" href="register.html">Créer un compte gratuit</a>
@@ -155,7 +159,7 @@
         <div class="feature-icon gradient-icon">📚</div>
         <span class="feature-kicker">APPRENDRE</span>
         <h3>Cours structurés</h3>
-        <p>Retrouve les ressources par niveau, section et domaine pour aller directement à l’essentiel.</p>
+        <p>Niveau → Section → Trimestre → Domaine → Chapitre : retrouve rapidement la bonne ressource.</p>
       </article>
       <article class="feature-card modern-feature-card reveal-section">
         <div class="feature-icon gradient-icon">🧠</div>
@@ -169,6 +173,20 @@
         <h3>Suivi personnel</h3>
         <p>Consulte tes activités et tes résultats depuis ton espace étudiant sécurisé.</p>
       </article>
+    </div>
+  </section>
+
+  <section class="section v4-showcase-section">
+    <div class="section-heading reveal-section">
+      <span class="eyebrow">Ben-Learning V4.0</span>
+      <h2>Une plateforme pédagogique plus complète</h2>
+      <p>Cours, séances en ligne, devoirs, assistant pédagogique et installation sur smartphone dans un seul espace.</p>
+    </div>
+    <div class="v4-showcase-grid">
+      <a class="v4-showcase-card reveal-section" href="sessions.html"><span>📅</span><h3>Planning & Google Meet</h3><p>Consulte les séances correspondant à ton parcours et rejoins le Meet au bon moment.</p><b>Voir le planning →</b></a>
+      <a class="v4-showcase-card reveal-section" href="homework.html"><span>📝</span><h3>Devoirs & corrections</h3><p>Retrouve les travaux à rendre, envoie ta réponse et consulte la note/commentaire.</p><b>Voir mes devoirs →</b></a>
+      <a class="v4-showcase-card reveal-section" href="assistant.html"><span>🤖</span><h3>Assistant pédagogique</h3><p>Reçois des recommandations basées sur ton niveau, ta progression, tes quiz et ton planning.</p><b>Ouvrir l’assistant →</b></a>
+      <article class="v4-showcase-card reveal-section"><span>📱</span><h3>Installable sur smartphone</h3><p>Ben-Learning est une PWA : sur les navigateurs compatibles, installe-la comme une application.</p><b>iPhone · Android · PC</b></article>
     </div>
   </section>
 

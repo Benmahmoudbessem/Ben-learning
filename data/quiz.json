@@ -1,7 +1,10 @@
 [
-  {"id":1,"question":"Quelle structure permet de répéter un bloc d'instructions ?","answers":["Une variable","Une boucle","Une constante","Un commentaire"],"correct":1},
-  {"id":2,"question":"Quelle fonction affiche du texte en Python ?","answers":["print()","display()","write()","echo()"],"correct":0},
-  {"id":3,"question":"Quel langage est utilisé pour interroger une base relationnelle ?","answers":["CSS","SQL","HTML","XML"],"correct":1},
-  {"id":4,"question":"Quel langage décrit la structure d'une page Web ?","answers":["HTML","Python","SQL","C"],"correct":0},
-  {"id":5,"question":"En algorithmique, une condition sert principalement à…","answers":["Répéter sans fin","Prendre une décision","Créer un fichier","Dessiner une image"],"correct":1}
+  {"id":1,"topic":"Algorithmique","question":"Quelle structure permet de répéter un bloc d'instructions ?","answers":["Une variable","Une boucle","Une constante","Un commentaire"],"correct":1},
+  {"id":2,"topic":"Python","question":"Quelle fonction affiche du texte en Python ?","answers":["print()","display()","write()","echo()"],"correct":0},
+  {"id":3,"topic":"Bases de données","question":"Quel langage est utilisé pour interroger une base relationnelle ?","answers":["CSS","SQL","HTML","XML"],"correct":1},
+  {"id":4,"topic":"Web","question":"Quel langage décrit la structure d'une page Web ?","answers":["HTML","Python","SQL","C"],"correct":0},
+  {"id":5,"topic":"Algorithmique","question":"En algorithmique, une condition sert principalement à…","answers":["Répéter sans fin","Prendre une décision","Créer un fichier","Dessiner une image"],"correct":1},
+  {"id":6,"topic":"Python","question":"Quel mot-clé permet de définir une fonction en Python ?","answers":["func","def","function","method"],"correct":1},
+  {"id":7,"topic":"Bases de données","question":"Quelle instruction SQL permet de sélectionner des données ?","answers":["SELECT","UPDATE","DELETE","CREATE"],"correct":0},
+  {"id":8,"topic":"Web","question":"Quelle propriété CSS permet de changer la couleur du texte ?","answers":["font-color","text-color","color","foreground"],"correct":2}
 ]
