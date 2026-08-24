@@ -119,3 +119,11 @@ Firebase Storage n'est pas utilisé. Pour partager un PDF/Word à tous les élè
 - Les alertes navigateur sont optionnelles et activables depuis le Dashboard Admin.
 - Quand l’Admin répond, l’élève reçoit une notification Firestore cliquable « Ouvrir le chat ».
 - Le Dashboard élève affiche le nombre de nouveaux messages du chat.
+
+
+## V4.9.2 — Installation smartphone
+- Bouton Installer Ben-Learning toujours visible sur smartphone tant que la PWA n’est pas installée.
+- Android : prompt natif quand disponible, sinon instructions Chrome.
+- iPhone/iPad : instructions Safari Partager → Ajouter à l’écran d’accueil.
+- Aide spécifique si le site est ouvert depuis WhatsApp/Facebook/Instagram.
+- Cache Service Worker renouvelé en V4.9.2.

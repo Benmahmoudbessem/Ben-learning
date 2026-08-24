@@ -291,3 +291,8 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent;touch-act
 /* V4.9.1 — galerie photos responsive */
 @media(max-width:1180px){.learning-gallery-grid-four{grid-template-columns:repeat(2,minmax(0,1fr))}.image-only-gallery-card .gallery-image-wrap img{height:270px}}
 @media(max-width:700px){.learning-gallery-grid-four{grid-template-columns:1fr}.image-only-gallery-card .gallery-image-wrap{padding:9px}.image-only-gallery-card .gallery-image-wrap img{height:220px;border-radius:17px}.image-only-gallery-card .gallery-badge{left:22px;bottom:19px}}
+
+
+/* V4.9.2 — bouton installation toujours visible sur smartphone */
+@media(max-width:768px){.pwa-install-btn{display:flex!important;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));min-height:48px;font-size:.78rem;padding:12px 15px}.pwa-help-card{padding:24px 18px 20px;border-radius:22px}.pwa-help-card h2{font-size:1.55rem}.pwa-help-steps li{grid-template-columns:32px 1fr;padding:10px;font-size:.88rem}.pwa-help-steps li>b{width:32px;height:32px}.pwa-help-close{right:10px;top:10px}}
+@media(max-width:480px){.pwa-install-btn{left:12px;right:12px;width:calc(100% - 24px);bottom:calc(10px + env(safe-area-inset-bottom));border-radius:15px}.pwa-help-overlay{align-items:flex-end;padding:10px}.pwa-help-card{width:100%;max-height:88vh;border-radius:24px 24px 18px 18px}}
