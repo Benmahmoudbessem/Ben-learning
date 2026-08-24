@@ -1,5 +1,6 @@
 (async()=>{
 const shell=document.getElementById('sessionsList'),count=document.getElementById('sessionCount');let items=[],mode='upcoming';
+document.querySelector('.section-heading p')?.insertAdjacentHTML('afterend',`<div class="student-scope-badge">🎓 ${session.level}${session.level==='1ère'?' · Tronc commun':session.section?` · ${session.section}`:''}</div>`);
 const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 const session=JSON.parse(localStorage.getItem('bl_session')||'null');if(!session){location.href='login.html';return;}
 function relevant(x){if(x.level&&x.level!==session.level&&x.level!=='Tous')return false;if(session.level==='1ère')return true;return !x.section||x.section==='Toutes'||x.section==='Tronc commun'||x.section===session.section;}

@@ -224,7 +224,7 @@ body.auth-checking::before {
 #quizSyncState{display:block;margin-top:9px;color:#166534;font-weight:700}
 
 /* =========================================================
-   Ben-Learning V4.0 — organisation pédagogique & PWA
+   Ben-Learning V4.1 — organisation pédagogique & PWA
    ========================================================= */
 .pedagogy-path{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:20px 0 24px;padding:13px 16px;background:linear-gradient(135deg,#eff6ff,#f8fafc);border:1px solid #dbeafe;border-radius:16px}.pedagogy-path span{padding:7px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:.78rem;font-weight:800;color:#1e40af}.pedagogy-path b{color:#93c5fd}.filter-bar-v4{display:grid;grid-template-columns:minmax(220px,1.6fr) repeat(6,minmax(135px,1fr));gap:10px;margin:25px 0}.filter-bar-v4 input,.filter-bar-v4 select{width:100%;min-height:48px;padding:0 13px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);outline:none}.filter-bar-v4 input:focus,.filter-bar-v4 select:focus{border-color:#93c5fd;box-shadow:0 0 0 3px rgba(37,99,235,.08)}
 .course-card-v4{position:relative;overflow:hidden}.course-card-v4::after{content:"";position:absolute;inset:auto -30% -60% 45%;height:120px;background:radial-gradient(circle,rgba(37,99,235,.08),transparent 65%);pointer-events:none}.course-domain-line{font-size:.82rem!important;color:#475569!important;font-weight:700}
@@ -245,3 +245,63 @@ body.auth-checking::before {
 .pwa-install-btn{position:fixed;right:18px;bottom:18px;z-index:100;border:0;border-radius:999px;background:#0f172a;color:#fff;padding:12px 16px;font-weight:900;box-shadow:0 16px 35px rgba(15,23,42,.25);cursor:pointer;animation:pwaFloat 2.5s ease-in-out infinite}@keyframes pwaFloat{50%{transform:translateY(-4px)}}
 .quiz-topic-bar{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:18px 0}.quiz-topic-bar label{display:grid;gap:5px;font-size:.75rem;font-weight:800;color:#475569}.quiz-topic-bar select{min-width:240px;min-height:46px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 12px}
 .admin-page .admin-overview-four{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+
+/* V4.1 — Vérification obligatoire de l'adresse email */
+.student-status.email-unverified{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}
+.approval-badge.email-pending{background:#dbeafe;color:#1d4ed8}
+.status-email{margin:4px 0 6px!important;color:#64748b;font-size:.9rem}
+.verification-actions{margin:24px 0 8px;padding:18px;border:1px solid #bfdbfe;background:#eff6ff;border-radius:18px}
+.verification-info{display:grid;gap:4px;margin-bottom:14px;color:#1e3a8a}
+.verification-info span{font-size:.82rem;color:#64748b}
+.status-steps-four{grid-template-columns:repeat(4,1fr)}
+
+/* V4.2 — aperçu PDF intégré */
+.pdf-preview-wrap{width:100%;min-height:620px;border:1px solid #e2e8f0;border-radius:18px;overflow:hidden;background:#f8fafc}
+.pdf-preview-wrap iframe{display:block;width:100%;height:70vh;min-height:620px;border:0;background:white}
+@media(max-width:720px){.pdf-preview-wrap{min-height:480px}.pdf-preview-wrap iframe{height:64vh;min-height:480px}}
+
+
+/* Ben-Learning V4.6 — alertes de chat bidirectionnelles */
+.admin-message-inbox-panel{margin-bottom:20px;border-color:#bfdbfe;background:linear-gradient(135deg,#fff,#f8fbff)}
+.admin-message-inbox-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}.compact-alert-btn{padding:9px 12px;font-size:.76rem}
+.admin-message-inbox{display:grid;gap:10px;margin-top:14px}.message-inbox-empty{padding:18px;border:1px dashed #cbd5e1;border-radius:14px;color:#64748b;background:#fff;text-align:center}
+.message-inbox-item{width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:12px;padding:13px 14px;border:1px solid #dbeafe;border-radius:15px;background:#fff;text-align:left;cursor:pointer;box-shadow:0 7px 20px rgba(15,23,42,.04);transition:.2s}
+.message-inbox-item:hover{transform:translateY(-2px);border-color:#60a5fa;background:#f8fbff}.message-inbox-avatar{width:43px;height:43px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font-weight:900;font-size:1.05rem}.message-inbox-copy{min-width:0}.message-inbox-copy strong,.message-inbox-copy small,.message-inbox-copy em{display:block}.message-inbox-copy strong{color:#0f172a}.message-inbox-copy small{margin-top:3px;color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.message-inbox-copy em{margin-top:3px;color:#94a3b8;font-size:.68rem;font-style:normal}.message-inbox-unread{min-width:28px;height:28px;padding:0 8px;border-radius:999px;display:grid;place-items:center;background:#ef4444;color:#fff;font-size:.72rem;font-weight:900}.message-inbox-arrow{color:#2563eb;font-size:.76rem;font-weight:850;white-space:nowrap}
+.message-toast{position:fixed;right:22px;top:92px;z-index:1600;width:min(390px,calc(100vw - 28px));display:grid;grid-template-columns:1fr auto;align-items:stretch;background:#fff;border:1px solid #bfdbfe;border-radius:17px;box-shadow:0 24px 65px rgba(15,23,42,.18);overflow:hidden;animation:messageToastIn .25s ease-out}.message-toast.hidden{display:none}.message-toast-main{border:0;background:transparent;padding:14px;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:11px;text-align:left;cursor:pointer}.message-toast-main>span{width:40px;height:40px;border-radius:12px;background:#eff6ff;display:grid;place-items:center;font-size:1.2rem}.message-toast-main b,.message-toast-main small{display:block}.message-toast-main b{font-size:.88rem;color:#0f172a}.message-toast-main small{margin-top:3px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:270px}.message-toast-close{border:0;background:#f8fafc;color:#64748b;width:42px;font-size:1.35rem;cursor:pointer}.message-toast-close:hover{background:#fee2e2;color:#991b1b}@keyframes messageToastIn{from{opacity:0;transform:translateY(-12px) scale(.98)}to{opacity:1;transform:none}}
+.notification-item-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}.notification-open-chat-btn{border:0;background:#2563eb;color:#fff;border-radius:10px;padding:8px 11px;font-size:.72rem;font-weight:850;cursor:pointer}.notification-open-chat-btn:hover{background:#1d4ed8}
+@media(max-width:700px){.message-inbox-item{grid-template-columns:auto minmax(0,1fr) auto}.message-inbox-arrow{display:none}.admin-message-inbox-actions{justify-content:flex-start}.message-toast{right:14px;top:78px}.notification-item{grid-template-columns:auto 1fr}.notification-item-actions{grid-column:1/-1;justify-content:flex-start;margin-left:59px}}
+
+.student-scope-badge{display:inline-flex;align-items:center;gap:.4rem;margin-top:.75rem;padding:.55rem .85rem;border-radius:999px;background:#eef4ff;color:#1d4ed8;font-weight:800;border:1px solid #cbdcff}.student-scope-badge+*{margin-top:1rem}
+
+
+/* V4.9 — images animées accueil */
+.learning-gallery-section{position:relative;padding-top:84px;padding-bottom:24px}
+.learning-gallery-grid{width:min(1180px,100%);margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.learning-gallery-card{position:relative;overflow:hidden;border-radius:30px;background:linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);border:1px solid #dbeafe;box-shadow:0 22px 60px rgba(37,99,235,.08);transition:transform .28s ease, box-shadow .28s ease}
+.learning-gallery-card:hover{transform:translateY(-8px);box-shadow:0 30px 75px rgba(37,99,235,.14)}
+.featured-gallery-card{transform:translateY(-8px)}
+.featured-gallery-card:hover{transform:translateY(-14px)}
+.gallery-image-wrap{position:relative;padding:18px 18px 0}
+.gallery-image-wrap img{display:block;width:100%;height:250px;object-fit:cover;border-radius:24px;background:linear-gradient(135deg,#eff6ff,#eef2ff);animation:galleryFloat 8s ease-in-out infinite}
+.learning-gallery-card:nth-child(2) .gallery-image-wrap img{animation-delay:1.2s}
+.learning-gallery-card:nth-child(3) .gallery-image-wrap img{animation-delay:2.1s}
+.gallery-image-wrap::after{content:"";position:absolute;inset:22px 22px auto auto;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(96,165,250,.18),transparent 70%);pointer-events:none}
+.gallery-badge{position:absolute;left:34px;bottom:18px;display:inline-flex;align-items:center;padding:8px 14px;border-radius:999px;background:rgba(15,23,42,.85);color:#fff;font-size:.77rem;font-weight:800;letter-spacing:.05em;backdrop-filter:blur(10px);box-shadow:0 12px 24px rgba(15,23,42,.18)}
+.gallery-copy{padding:20px 22px 24px}
+.gallery-copy h3{margin:0 0 8px;font-size:1.22rem;color:#172554;letter-spacing:-.02em}
+.gallery-copy p{margin:0;color:#475569;line-height:1.7}
+@keyframes galleryFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+
+/* V4.9.1 — galerie avec photos utilisateur */
+.learning-gallery-grid-four{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.image-only-gallery-card{margin:0;padding:0;background:#fff;min-width:0}
+.image-only-gallery-card .gallery-image-wrap{height:100%;padding:10px}
+.image-only-gallery-card .gallery-image-wrap img{width:100%;height:240px;object-fit:cover;object-position:center;border-radius:22px;animation:galleryPhotoFloat 7s ease-in-out infinite;transition:transform .35s ease,filter .35s ease}
+.image-only-gallery-card:nth-child(2) img{animation-delay:.9s}
+.image-only-gallery-card:nth-child(3) img{animation-delay:1.7s}
+.image-only-gallery-card:nth-child(4) img{animation-delay:2.4s}
+.image-only-gallery-card:hover img{transform:scale(1.035);filter:saturate(1.05)}
+.image-only-gallery-card .gallery-badge{left:24px;bottom:22px;background:rgba(15,23,42,.78);border:1px solid rgba(255,255,255,.2)}
+@keyframes galleryPhotoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}

@@ -36,8 +36,17 @@ function render(items) {
   box.innerHTML = items.map(n => `<article class="notification-item ${n.read ? '' : 'unread'}" data-id="${n.id}">
     <div class="notification-icon">${iconFor(n.type)}</div>
     <div class="notification-content"><div class="notification-title-row"><h3>${esc(n.title || 'Notification')}</h3>${n.read ? '' : '<span>Nouveau</span>'}</div><p>${esc(n.body || '')}</p><small>${esc(fmtDate(n))}</small></div>
-    ${n.read ? '' : `<button class="notification-read-btn" data-read-id="${n.id}">Marquer comme lue</button>`}
+    <div class="notification-item-actions">
+      ${n.type === 'chat' ? `<button class="notification-open-chat-btn" data-open-chat-id="${n.id}">💬 Ouvrir le chat</button>` : ''}
+      ${n.read ? '' : `<button class="notification-read-btn" data-read-id="${n.id}">Marquer comme lue</button>`}
+    </div>
   </article>`).join('');
+
+  box.querySelectorAll('[data-open-chat-id]').forEach(btn => btn.addEventListener('click', async () => {
+    try { await updateDoc(doc(db, 'notifications', btn.dataset.openChatId), { read: true }); }
+    catch (error) { console.warn(error); }
+    location.href = 'chat.html';
+  }));
 
   box.querySelectorAll('[data-read-id]').forEach(btn => btn.addEventListener('click', async () => {
     try { await updateDoc(doc(db, 'notifications', btn.dataset.readId), { read: true }); }
@@ -45,11 +54,19 @@ function render(items) {
   }));
 }
 
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, async user => {
   if (!user) {
     location.href = 'login.html';
     return;
   }
+
+  await user.reload();
+  await user.getIdToken(true);
+  if (!user.emailVerified) {
+    location.href = 'status.html';
+    return;
+  }
+
   currentUser = user;
   const q = query(collection(db, 'notifications'), where('userId', '==', user.uid));
   stopNotifications = onSnapshot(q, snapshot => {

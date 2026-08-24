@@ -1,24 +1,49 @@
-BEN-LEARNING V4.0 — CONFIGURATION FIREBASE
+BEN-LEARNING V4.1 — CONFIGURATION FIREBASE
 ==========================================
 
 1) AUTHENTICATION
 Firebase Console > Authentication > Sign-in method > Email/Password > Activer.
 
-2) FIRESTORE RULES
+2) VÉRIFICATION EMAIL
+Aucune option supplémentaire n'est nécessaire dans le code :
+Ben-Learning appelle Firebase sendEmailVerification().
+Lors d'une inscription :
+- compte créé
+- email de vérification envoyé
+- l'élève clique sur le lien
+- retour sur status.html
+- bouton "J'ai vérifié mon email"
+- emailVerified passe à true dans Firestore
+
+3) FIRESTORE RULES
 Firebase Console > Firestore Database > Rules.
 Remplace TOUTES les règles par le contenu du fichier firestore.rules puis clique PUBLIER.
 
-3) COMPTE ADMIN
+Les règles V4.1 bloquent :
+- les cours / quiz / devoirs / séances si l'email n'est pas vérifié ;
+- l'acceptation Admin si emailVerified n'est pas true.
+
+4) COMPTE ADMIN
 Dans Firestore > users > TON_UID :
 role = "admin"
 
-4) INSCRIPTIONS
-Nouveau compte : role="student", status="pending".
-Admin > Validation des inscriptions > Accepter : status="approved".
-Les cours, séances, devoirs, quiz et dashboard restent bloqués avant validation.
-Le chat, le suivi d'inscription et les notifications restent accessibles pendant l'attente.
+5) INSCRIPTIONS
+Nouveau compte :
+role = "student"
+status = "pending"
+emailVerified = false
 
-5) COLLECTIONS V4.0
+Après clic sur le lien de vérification :
+emailVerified = true
+
+Admin > Validation des inscriptions :
+le bouton "Accepter" est désactivé tant que l'email n'est pas vérifié.
+
+6) ANCIENS ÉLÈVES
+Ils doivent se connecter, aller sur la page de statut, cliquer "Renvoyer l'email",
+vérifier leur boîte mail puis cliquer "J'ai vérifié mon email".
+
+7) COLLECTIONS
 users
 courses
 sessions
@@ -29,26 +54,8 @@ notifications
 courseProgress
 quizResults
 
-Tu ne dois pas créer les collections manuellement : Firestore les crée lors du premier enregistrement.
-
-6) COURS ADMIN
-Le formulaire Admin sauvegarde les métadonnées des cours dans Firestore.
-Le fichier local choisi depuis le PC reste seulement sur le navigateur de l'Admin.
-Pour partager un document aux élèves, renseigne un lien public dans "Lien du fichier en ligne".
-
-7) SÉANCES GOOGLE MEET
-Admin > Programmer une séance : titre, niveau, section, trimestre, date/heure, lien Meet.
-Les élèves concernés voient la séance dans sessions.html et reçoivent une notification.
-
-8) DEVOIRS
-Admin > Créer un devoir : niveau, section, trimestre, domaine, date limite, consignes et lien du sujet.
-L'élève répond avec du texte et/ou un lien Drive/GitHub.
-L'Admin ouvre "Rendus", ajoute une note /20 et un commentaire.
-
-9) PWA
-Après déploiement HTTPS sur GitHub Pages, Chrome/Edge/Android peut proposer l'installation.
-Sur iPhone : Safari > Partager > Ajouter à l'écran d'accueil.
-
-10) ASSISTANT BEN IA
-Mode local gratuit : aucune clé API n'est nécessaire.
-N'ajoute JAMAIS une clé OpenAI/Gemini/etc. directement dans firebase.js ou un fichier JavaScript public.
+8) DÉPLOIEMENT
+Après mise à jour des règles Firestore :
+git add .
+git commit -m "Ben-Learning V4.1 email verification"
+git push origin main

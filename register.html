@@ -10,10 +10,10 @@
 </head>
 <body class="auth-page">
 <header class="site-header" id="siteHeader"><a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button><nav id="mainNav"><a href="index.html">Accueil</a><a href="login.html">Connexion</a></nav></header>
-<main class="auth-wrap"><section class="auth-card"><span class="eyebrow">Bienvenue</span><h1>Créer un compte</h1><p>Crée ton compte. L’administrateur devra ensuite valider ton inscription avant l’accès aux cours et aux quiz.</p>
+<main class="auth-wrap"><section class="auth-card"><span class="eyebrow">Bienvenue</span><h1>Créer un compte</h1><p>Crée ton compte avec une adresse email réelle. Un lien de vérification te sera envoyé avant que l’administrateur puisse accepter ton inscription.</p>
 <form id="registerForm">
   <label>Nom complet<input id="name" required placeholder="Nom et prénom"></label>
-  <label>Email<input id="email" type="email" required placeholder="nom@email.com"></label>
+  <label>Email valide<input id="email" type="email" required autocomplete="email" placeholder="nom@email.com"><small class="field-help">Tu devras ouvrir cet email et cliquer sur le lien de vérification Firebase.</small></label>
   <label>Niveau
     <select id="studentLevel" required>
       <option value="">Choisir un niveau</option>

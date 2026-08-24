@@ -74,7 +74,7 @@
   requestAnimationFrame(()=>document.querySelectorAll('.hero-reveal').forEach(el=>el.classList.add('is-visible')));
 })();
 
-// Ben-Learning V4.0 — PWA installable
+// Ben-Learning V4.1 — PWA installable
 (function(){
   if('serviceWorker' in navigator){
     window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(err=>console.warn('Service Worker indisponible',err)));

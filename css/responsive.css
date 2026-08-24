@@ -271,8 +271,23 @@ button,a,input,select,textarea{-webkit-tap-highlight-color:transparent;touch-act
   .learning-meta-row span{text-align:center}.dashboard-course-card .btn{width:100%}
 }
 
-/* V4.0 responsive */
+/* V4.1 responsive */
 @media(max-width:1180px){.filter-bar-v4{grid-template-columns:repeat(3,1fr)}.filter-bar-v4 input{grid-column:1/-1}.v4-showcase-grid{grid-template-columns:1fr 1fr}.admin-pedagogy-grid{grid-template-columns:1fr}.submission-item{grid-template-columns:170px 1fr}.grade-form{grid-column:1/-1}.dashboard-tools-v4{grid-template-columns:1fr 1fr!important}}
 @media(max-width:800px){.ai-layout{grid-template-columns:1fr}.ai-chat{min-height:520px}.homework-grid{grid-template-columns:1fr}.session-card{grid-template-columns:72px 1fr}.session-date{min-height:72px}.session-date b{font-size:1.55rem}.dashboard-v4-glance{grid-template-columns:1fr}.submission-item{grid-template-columns:1fr}.grade-form{grid-column:auto}}
 @media(max-width:700px){.filter-bar-v4{grid-template-columns:1fr 1fr}.filter-bar-v4 input{grid-column:1/-1}.pedagogy-path{gap:6px}.pedagogy-path span{font-size:.66rem}.pedagogy-path b{font-size:.7rem}.v4-showcase-grid{grid-template-columns:1fr}.v4-showcase-card{min-height:auto}.dashboard-tools-v4{grid-template-columns:1fr!important}.homework-summary{grid-template-columns:1fr 1fr 1fr}.admin-pedagogy-grid{gap:13px}.v4-admin-item{flex-direction:column}.v4-admin-actions{justify-content:flex-start;width:100%}.v4-admin-actions .btn{flex:1}.ai-message>div{max-width:88%}.pwa-install-btn{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));font-size:.75rem}}
 @media(max-width:480px){.filter-bar-v4{grid-template-columns:1fr}.filter-bar-v4 input{grid-column:auto}.homework-summary{gap:7px}.homework-summary>div{padding:13px 9px}.homework-summary b{font-size:1.25rem}.homework-summary span{font-size:.63rem}.homework-card{padding:16px}.homework-top{flex-direction:column}.session-card{grid-template-columns:1fr}.session-date{display:flex;gap:6px;justify-content:flex-start;padding:10px 13px;min-height:auto;width:max-content}.session-date b{font-size:1rem}.session-body .btn{width:100%}.ai-form{grid-template-columns:1fr}.ai-form .btn{width:100%}.ai-messages{padding:14px}.ai-message>span{flex-basis:34px;height:34px}.ai-message>div{max-width:92%;padding:10px}.pedagogy-path b{display:none}.pedagogy-path span{flex:1 1 30%;text-align:center}.pwa-install-btn{left:12px;right:12px;width:calc(100% - 24px)}}
+
+
+/* V4.1 email verification */
+@media(max-width:900px){.status-steps-four{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.status-steps-four{grid-template-columns:1fr}.verification-actions{padding:14px}.verification-actions .status-actions{display:grid!important}}
+
+
+/* V4.9 — responsive images accueil */
+@media(max-width:1100px){.learning-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.featured-gallery-card{transform:none}}
+@media(max-width:700px){.learning-gallery-section{padding-top:62px;padding-bottom:8px}.learning-gallery-grid{grid-template-columns:1fr;gap:16px}.learning-gallery-card{border-radius:22px}.gallery-image-wrap{padding:14px 14px 0}.gallery-image-wrap img{height:210px;border-radius:18px}.gallery-badge{left:26px;bottom:14px;font-size:.7rem;padding:7px 11px}.gallery-copy{padding:16px 16px 18px}.gallery-copy h3{font-size:1.08rem}.gallery-copy p{font-size:.9rem;line-height:1.65}}
+
+
+/* V4.9.1 — galerie photos responsive */
+@media(max-width:1180px){.learning-gallery-grid-four{grid-template-columns:repeat(2,minmax(0,1fr))}.image-only-gallery-card .gallery-image-wrap img{height:270px}}
+@media(max-width:700px){.learning-gallery-grid-four{grid-template-columns:1fr}.image-only-gallery-card .gallery-image-wrap{padding:9px}.image-only-gallery-card .gallery-image-wrap img{height:220px;border-radius:17px}.image-only-gallery-card .gallery-badge{left:22px;bottom:19px}}

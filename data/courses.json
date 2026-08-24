@@ -100,29 +100,35 @@
     "chapter": "Structure HTML"
   },
   {
-    "id": 5,
-    "title": "Culture numérique",
+    "id": "premiere-cahier-activites-informatique-smart-cross-road",
+    "title": "Cahier d’activités Informatique — 1ère année secondaire",
     "level": "1ère",
-    "domain": "Culture numérique",
-    "icon": "💡",
-    "description": "Matériel, logiciels, Internet, sécurité et bonnes pratiques numériques.",
-    "pdf": "",
+    "domain": "Production numérique",
+    "icon": "📘",
+    "description": "Cahier d’activités de 1ère année secondaire autour du projet Smart Cross Road et de la production numérique : 2D/3D, Google SketchUp, formes simples et modélisation d’éléments routiers.",
+    "pdf": "assets/pdf/cahier-activites-informatique-1ere.pdf",
     "video": "",
     "chapters": [
-      "Composants d'un ordinateur",
-      "Systèmes et logiciels",
-      "Internet",
-      "Sécurité numérique"
+      "Projet Smart Cross Road et décomposition du projet",
+      "De la 2D vers la 3D",
+      "Découvrir Google SketchUp et les formes 3D",
+      "Créer des formes simples : cube, cylindre, cône, pyramide et sphère",
+      "Modéliser le panneau de signalisation STOP",
+      "Modéliser le rond-point",
+      "Modéliser le passage piéton",
+      "Modéliser le feu de circulation"
     ],
     "exercises": [
-      "Identifier les composants",
-      "Classer matériel et logiciel",
-      "Reconnaître une tentative de phishing"
+      "Observer et classer des objets en 2D et en 3D",
+      "Compléter les définitions des notions 2D et 3D",
+      "Identifier les formes et les outils SketchUp nécessaires",
+      "Ordonner les étapes de modélisation des formes simples",
+      "Construire les composants du projet Smart Cross Road en respectant les dimensions indiquées"
     ],
     "section": "Tronc commun",
     "trimester": "1",
     "resourceType": "Cours",
-    "chapter": "Composants d'un ordinateur"
+    "chapter": "Cahier d’activités — Smart Cross Road et 3D"
   },
   {
     "id": 6,

@@ -1,13 +1,15 @@
 import { auth, db } from './firebase.js';
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  sendEmailVerification
 } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js';
 import {
   doc,
   getDoc,
   serverTimestamp,
-  setDoc
+  setDoc,
+  updateDoc
 } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
 
 function msg(text, ok = false) {
@@ -26,7 +28,8 @@ function friendlyFirebaseError(error) {
     'auth/invalid-credential': 'Email ou mot de passe incorrect.',
     'auth/user-not-found': 'Email ou mot de passe incorrect.',
     'auth/wrong-password': 'Email ou mot de passe incorrect.',
-    'auth/network-request-failed': 'Problème de connexion Internet. Réessaie.'
+    'auth/network-request-failed': 'Problème de connexion Internet. Réessaie.',
+    'auth/too-many-requests': 'Trop de demandes ont été envoyées. Attends quelques minutes puis réessaie.'
   };
   return messages[code] || `Erreur Firebase : ${error?.message || 'opération impossible'}`;
 }
@@ -36,6 +39,7 @@ function saveSession(user, data = {}) {
     uid: user.uid,
     name: data.name || user.email?.split('@')[0] || 'Utilisateur',
     email: user.email,
+    emailVerified: Boolean(user.emailVerified && data.emailVerified === true),
     level: data.level || '',
     section: data.section || '',
     role: data.role || 'student',
@@ -43,6 +47,25 @@ function saveSession(user, data = {}) {
   };
   localStorage.setItem('bl_session', JSON.stringify(session));
   return session;
+}
+
+async function syncVerifiedEmail(user, data) {
+  try {
+    await user.reload();
+    await user.getIdToken(true);
+  } catch (error) {
+    console.warn('Actualisation du compte Firebase impossible.', error);
+  }
+
+  if (user.emailVerified && data?.emailVerified !== true) {
+    await updateDoc(doc(db, 'users', user.uid), {
+      emailVerified: true,
+      emailVerifiedAt: serverTimestamp(),
+      emailVerifiedAtIso: new Date().toISOString()
+    });
+    return { ...data, emailVerified: true };
+  }
+  return data || {};
 }
 
 const registerForm = document.getElementById('registerForm');
@@ -63,8 +86,8 @@ if (registerForm) {
 
     try {
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Envoi de la demande…';
-      msg('Création du compte et envoi à l’administration…', true);
+      submitBtn.textContent = 'Création du compte…';
+      msg('Création du compte Firebase…', true);
 
       const credential = await createUserWithEmailAndPassword(auth, email, password);
       const user = credential.user;
@@ -72,6 +95,7 @@ if (registerForm) {
         uid: user.uid,
         name,
         email,
+        emailVerified: false,
         level,
         section,
         role: 'student',
@@ -83,13 +107,20 @@ if (registerForm) {
       await setDoc(doc(db, 'users', user.uid), profile);
       saveSession(user, profile);
 
-      msg('Demande envoyée ✅ En attente de validation par l’administrateur.', true);
-      setTimeout(() => location.href = 'status.html', 650);
+      try {
+        await sendEmailVerification(user);
+        msg('Compte créé ✅ Un email de vérification vient de t’être envoyé.', true);
+      } catch (verificationError) {
+        console.warn(verificationError);
+        msg('Compte créé, mais l’email de vérification n’a pas pu être envoyé. Tu pourras le renvoyer depuis la page suivante.', true);
+      }
+
+      setTimeout(() => location.href = 'status.html', 900);
     } catch (error) {
       console.error(error);
       msg(friendlyFirebaseError(error));
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Créer mon compte';
+      submitBtn.textContent = 'Envoyer ma demande d’inscription';
     }
   });
 }
@@ -116,6 +147,7 @@ if (loginForm) {
           uid: user.uid,
           name: user.email?.split('@')[0] || 'Élève',
           email: user.email,
+          emailVerified: false,
           level: '',
           section: '',
           role: 'student',
@@ -126,11 +158,19 @@ if (loginForm) {
         userDoc = await getDoc(doc(db, 'users', user.uid));
       }
 
-      const data = userDoc.data() || {};
+      let data = userDoc.data() || {};
+
+      if (data.role === 'admin') {
+        saveSession(user, data);
+        location.href = 'admin.html';
+        return;
+      }
+
+      data = await syncVerifiedEmail(user, data);
       const session = saveSession(user, data);
 
-      if (session.role === 'admin') {
-        location.href = 'admin.html';
+      if (!user.emailVerified || data.emailVerified !== true) {
+        location.href = 'status.html';
         return;
       }
 
@@ -153,3 +193,15 @@ if (loginForm) {
     }
   });
 }
+
+const studentLevelSelect=document.getElementById('studentLevel');
+const studentSectionSelect=document.getElementById('studentSection');
+function syncStudentSection(){
+  if(!studentLevelSelect||!studentSectionSelect)return;
+  const isFirst=studentLevelSelect.value==='1ère';
+  [...studentSectionSelect.options].forEach(o=>{if(o.value&&o.value!=='Tronc commun')o.hidden=isFirst;});
+  if(isFirst){studentSectionSelect.value='Tronc commun';studentSectionSelect.disabled=true;}
+  else{studentSectionSelect.disabled=false;if(studentSectionSelect.value==='Tronc commun')studentSectionSelect.value='';}
+}
+studentLevelSelect?.addEventListener('change',syncStudentSection);
+syncStudentSection();

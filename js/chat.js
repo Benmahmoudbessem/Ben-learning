@@ -5,9 +5,11 @@ import {
   collection,
   doc,
   getDoc,
+  getDocs,
   onSnapshot,
   query,
   serverTimestamp,
+  updateDoc,
   where
 } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
 
@@ -43,6 +45,19 @@ function renderMessages(items) {
   box.scrollTop = box.scrollHeight;
 }
 
+async function markChatNotificationsRead() {
+  if (!currentUser) return;
+  try {
+    const q = query(collection(db, 'notifications'), where('userId', '==', currentUser.uid));
+    const snap = await getDocs(q);
+    const unreadChat = snap.docs.filter(d => {
+      const n = d.data();
+      return n.type === 'chat' && n.read === false;
+    });
+    await Promise.all(unreadChat.map(d => updateDoc(doc(db, 'notifications', d.id), { read: true }).catch(console.warn)));
+  } catch (error) { console.warn('Lecture des notifications chat impossible', error); }
+}
+
 function listenMessages() {
   if (stopMessages) stopMessages();
   const q = query(collection(db, 'chatMessages'), where('studentId', '==', currentUser.uid));
@@ -65,6 +80,13 @@ onAuthStateChanged(auth, async user => {
     location.href = 'login.html';
     return;
   }
+  await user.reload();
+  await user.getIdToken(true);
+  if (!user.emailVerified) {
+    location.href = 'status.html';
+    return;
+  }
+
   currentUser = user;
   const snap = await getDoc(doc(db, 'users', user.uid));
   if (!snap.exists()) {
@@ -78,6 +100,7 @@ onAuthStateChanged(auth, async user => {
   }
   document.getElementById('chatStudentName').textContent = currentProfile.name || user.email || 'Élève';
   listenMessages();
+  markChatNotificationsRead();
 });
 
 document.getElementById('chatForm')?.addEventListener('submit', async e => {

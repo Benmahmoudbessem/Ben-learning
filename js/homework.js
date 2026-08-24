@@ -1,5 +1,6 @@
 (async()=>{
 const shell=document.getElementById('homeworkList'),summary=document.getElementById('homeworkSummary');const session=JSON.parse(localStorage.getItem('bl_session')||'null');if(!session){location.href='login.html';return;}
+document.querySelector('.section-heading p')?.insertAdjacentHTML('afterend',`<div class="student-scope-badge">🎓 ${session.level}${session.level==='1ère'?' · Tronc commun':session.section?` · ${session.section}`:''}</div>`);
 const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));let homeworks=[],submissions=new Map(),db,fs;
 function relevant(x){if(x.level&&x.level!==session.level&&x.level!=='Tous')return false;if(session.level==='1ère')return true;return !x.section||x.section==='Toutes'||x.section==='Tronc commun'||x.section===session.section;}
 function due(x){const d=new Date(x.dueAtIso||0);return Number.isNaN(d.getTime())?new Date(0):d;}

@@ -1,6 +1,6 @@
 import { auth, db } from './firebase.js';
 import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js';
-import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
+import { doc, getDoc, serverTimestamp, updateDoc } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
 
 const currentPage = `${location.pathname.split('/').pop() || 'index.html'}${location.search || ''}`;
 
@@ -43,12 +43,37 @@ onAuthStateChanged(auth, async (user) => {
       location.replace('status.html');
       return;
     }
-    const data = snap.data();
-    if (data.role !== 'admin' && data.status !== 'approved') {
+
+    let data = snap.data();
+
+    if (data.role === 'admin') {
+      await unlockPage();
+      return;
+    }
+
+    await user.reload();
+    await user.getIdToken(true);
+
+    if (!user.emailVerified) {
+      location.replace('status.html');
+      return;
+    }
+
+    if (data.emailVerified !== true) {
+      await updateDoc(doc(db, 'users', user.uid), {
+        emailVerified: true,
+        emailVerifiedAt: serverTimestamp(),
+        emailVerifiedAtIso: new Date().toISOString()
+      });
+      data = { ...data, emailVerified: true };
+    }
+
+    if (data.status !== 'approved') {
       localStorage.setItem('bl_session', JSON.stringify({
         uid: user.uid,
         name: data.name || 'Élève',
         email: user.email,
+        emailVerified: true,
         level: data.level || '',
         section: data.section || '',
         role: data.role || 'student',
@@ -57,6 +82,7 @@ onAuthStateChanged(auth, async (user) => {
       location.replace('status.html');
       return;
     }
+
     await unlockPage();
   } catch (error) {
     console.error(error);

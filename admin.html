@@ -35,7 +35,7 @@
 
   <section class="panel admin-students-panel">
     <div class="panel-title-row">
-      <div><h2>👥 Validation des inscriptions</h2><p class="panel-subtitle">Chaque nouveau compte arrive en attente. Accepte ou refuse la demande depuis cette page.</p></div>
+      <div><h2>👥 Validation des inscriptions</h2><p class="panel-subtitle">Chaque nouveau compte doit d’abord vérifier son adresse email. Le bouton Accepter reste bloqué tant que l’email n’est pas confirmé.</p></div>
       <span id="studentCount" class="badge">0</span>
     </div>
     <div class="student-toolbar">
@@ -44,11 +44,29 @@
     </div>
     <div class="student-table-wrap">
       <table class="student-table">
-        <thead><tr><th>Élève</th><th>Niveau</th><th>Section</th><th>Statut</th><th>Inscription</th><th>Actions</th></tr></thead>
-        <tbody id="studentList"><tr><td colspan="6" class="table-empty">Chargement des inscriptions…</td></tr></tbody>
+        <thead><tr><th>Élève</th><th>Niveau</th><th>Section</th><th>Email</th><th>Statut</th><th>Inscription</th><th>Actions</th></tr></thead>
+        <tbody id="studentList"><tr><td colspan="7" class="table-empty">Chargement des inscriptions…</td></tr></tbody>
       </table>
     </div>
   </section>
+
+  <section class="panel admin-message-inbox-panel">
+    <div class="panel-title-row">
+      <div>
+        <h2>🔔 Nouveaux messages</h2>
+        <p class="panel-subtitle">Les élèves qui t’ont écrit apparaissent ici automatiquement. Clique sur une alerte pour ouvrir directement la conversation.</p>
+      </div>
+      <div class="admin-message-inbox-actions">
+        <span id="adminMessageInboxCount" class="badge">0 nouveau</span>
+        <button id="enableBrowserAlerts" class="btn secondary compact-alert-btn" type="button">🔔 Activer les alertes</button>
+      </div>
+    </div>
+    <div id="adminMessageInbox" class="admin-message-inbox">
+      <div class="message-inbox-empty">Aucun nouveau message pour le moment.</div>
+    </div>
+  </section>
+
+  <div id="adminMessageToast" class="message-toast hidden" role="status" aria-live="polite"></div>
 
   <div class="admin-communication-grid">
     <section class="panel admin-chat-panel">
@@ -76,7 +94,7 @@
   </div>
 
 
-  <section class="admin-v4-heading"><span class="eyebrow">Organisation pédagogique V4.0</span><h2>Planning, devoirs et suivi des rendus</h2><p>Gère les séances Google Meet et le travail à rendre sans utiliser Firebase Storage.</p></section>
+  <section class="admin-v4-heading"><span class="eyebrow">Organisation pédagogique V4.1</span><h2>Planning, devoirs et suivi des rendus</h2><p>Gère les séances Google Meet et le travail à rendre sans utiliser Firebase Storage.</p></section>
   <div class="admin-pedagogy-grid">
     <section class="panel"><div class="panel-title-row"><div><h2>📅 Programmer une séance</h2><p class="panel-subtitle">La séance apparaîtra uniquement aux élèves du niveau/section concernés.</p></div></div><form id="sessionForm" class="admin-form compact-form"><input id="sessionEditId" type="hidden"><label>Titre<input id="sessionTitle" required placeholder="Ex. Révision Python — Fonctions"></label><div class="admin-two-cols"><label>Niveau<select id="sessionLevel" required><option value="Tous">Tous</option><option value="1ère">1ère</option><option value="2ème">2ème</option><option value="3ème">3ème</option><option value="Bac">Bac</option></select></label><label>Section<select id="sessionSection"><option value="Toutes">Toutes</option><option value="Informatique">Informatique</option><option value="Sciences">Sciences</option><option value="Économie">Économie</option><option value="Lettres">Lettres</option><option value="Technique">Technique</option><option value="Tronc commun">Tronc commun</option></select></label></div><div class="admin-two-cols"><label>Trimestre<select id="sessionTrimester"><option value="1">T1</option><option value="2">T2</option><option value="3">T3</option></select></label><label>Date et heure<input id="sessionDateTime" type="datetime-local" required></label></div><label>Lien Google Meet<input id="sessionMeetUrl" type="url" placeholder="https://meet.google.com/... "></label><label>Description<textarea id="sessionDescription" rows="3"></textarea></label><div class="form-actions"><button class="btn primary" type="submit">Enregistrer la séance</button><button class="btn secondary hidden" id="cancelSessionEdit" type="button">Annuler</button></div></form><div id="adminSessionList" class="v4-admin-list"></div></section>
     <section class="panel"><div class="panel-title-row"><div><h2>📝 Créer un devoir</h2><p class="panel-subtitle">Les élèves répondent par texte ou lien Drive/GitHub.</p></div></div><form id="homeworkForm" class="admin-form compact-form"><input id="homeworkEditId" type="hidden"><label>Titre<input id="homeworkTitle" required placeholder="Ex. Devoir Python n°1"></label><div class="admin-two-cols"><label>Niveau<select id="homeworkLevel" required><option value="Tous">Tous</option><option value="1ère">1ère</option><option value="2ème">2ème</option><option value="3ème">3ème</option><option value="Bac">Bac</option></select></label><label>Section<select id="homeworkSection"><option value="Toutes">Toutes</option><option value="Informatique">Informatique</option><option value="Sciences">Sciences</option><option value="Économie">Économie</option><option value="Lettres">Lettres</option><option value="Technique">Technique</option><option value="Tronc commun">Tronc commun</option></select></label></div><div class="admin-two-cols"><label>Trimestre<select id="homeworkTrimester"><option value="1">T1</option><option value="2">T2</option><option value="3">T3</option></select></label><label>Domaine<input id="homeworkDomain" placeholder="Python, Algorithmique…"></label></div><label>Date limite<input id="homeworkDueAt" type="datetime-local" required></label><label>Lien du sujet (optionnel)<input id="homeworkResourceUrl" type="url" placeholder="https://drive.google.com/... "></label><label>Consignes<textarea id="homeworkDescription" rows="4" required></textarea></label><div class="form-actions"><button class="btn primary" type="submit">Enregistrer le devoir</button><button class="btn secondary hidden" id="cancelHomeworkEdit" type="button">Annuler</button></div></form><div id="adminHomeworkList" class="v4-admin-list"></div></section>

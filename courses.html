@@ -14,12 +14,10 @@
   <nav id="mainNav"><a href="index.html">Accueil</a><a class="active" href="courses.html">Cours</a><a href="sessions.html">Séances</a><a href="homework.html">Devoirs</a><a href="quiz.html">Quiz</a><a href="assistant.html">Assistant</a><a href="profile.html">Mon espace</a><a id="authLink" class="nav-cta" href="login.html">Connexion</a></nav>
 </header>
 <main class="section page-top">
-  <div class="section-heading left"><span class="eyebrow">Bibliothèque pédagogique</span><h1>📚 Cours & ressources</h1><p>Niveau → Section → Trimestre → Domaine → Chapitre. Utilise les filtres pour trouver exactement la ressource dont tu as besoin.</p></div>
+  <div class="section-heading left"><span class="eyebrow">Bibliothèque pédagogique</span><h1>📚 Mes cours & ressources</h1><p id="studentScopeText">Chargement de ton parcours…</p></div>
   <div class="pedagogy-path" aria-label="Organisation pédagogique"><span>Niveau</span><b>→</b><span>Section</span><b>→</b><span>Trimestre</span><b>→</b><span>Domaine</span><b>→</b><span>Chapitre</span></div>
   <div class="filter-bar filter-bar-v4">
     <input id="search" type="search" placeholder="Rechercher un cours, chapitre…" aria-label="Rechercher">
-    <select id="level"><option value="all">Tous les niveaux</option><option value="1ère">1ère</option><option value="2ème">2ème</option><option value="3ème">3ème</option><option value="Bac">Bac</option></select>
-    <select id="section"><option value="all">Toutes les sections</option><option value="Informatique">Informatique</option><option value="Sciences">Sciences</option><option value="Économie">Économie</option><option value="Lettres">Lettres</option><option value="Technique">Technique</option><option value="Tronc commun">Tronc commun</option></select>
     <select id="trimester"><option value="all">Tous les trimestres</option><option value="1">Trimestre 1</option><option value="2">Trimestre 2</option><option value="3">Trimestre 3</option></select>
     <select id="domain"><option value="all">Tous les domaines</option></select>
     <select id="chapter"><option value="all">Tous les chapitres</option></select>
@@ -31,5 +29,6 @@
 </main>
 <footer class="site-footer"><p>© 2026 Ben-Learning</p><a href="index.html">Accueil</a></footer>
 <script src="js/app.js"></script><script type="module" src="js/auth-guard.js"></script>
+<script type="module" src="js/student-message-alerts.js"></script>
 </body>
 </html>

@@ -1,27 +1,83 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function signedIn() { return request.auth != null; }
-    function userDoc() { return get(/databases/$(database)/documents/users/$(request.auth.uid)); }
-    function hasProfile() { return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)); }
-    function isAdmin() { return hasProfile() && userDoc().data.role == 'admin'; }
-    function isApprovedStudent() { return hasProfile() && userDoc().data.role == 'student' && userDoc().data.status == 'approved'; }
-    function learningMember() { return isAdmin() || isApprovedStudent(); }
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function verifiedEmail() {
+      return signedIn() && request.auth.token.email_verified == true;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function hasProfile() {
+      return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function isAdmin() {
+      return hasProfile() && userDoc().data.role == 'admin';
+    }
+
+    function isApprovedStudent() {
+      return verifiedEmail()
+        && hasProfile()
+        && userDoc().data.role == 'student'
+        && userDoc().data.emailVerified == true
+        && userDoc().data.status == 'approved';
+    }
+
+    function learningMember() {
+      return isAdmin() || isApprovedStudent();
+    }
 
     match /users/{userId} {
+      // À la création, un étudiant commence obligatoirement :
+      // - avec le rôle student
+      // - en attente
+      // - emailVerified = false
       allow create: if signedIn()
         && request.auth.uid == userId
         && request.resource.data.role == 'student'
-        && request.resource.data.status == 'pending';
+        && request.resource.data.status == 'pending'
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.emailVerified == false;
+
+      // L'étudiant peut lire son propre profil même avant vérification,
+      // afin d'afficher la page "Vérifie ton email".
       allow read: if signedIn() && (request.auth.uid == userId || isAdmin());
-      allow update: if isAdmin()
-        || (signedIn() && request.auth.uid == userId
-          && request.resource.data.role == resource.data.role
-          && request.resource.data.status == resource.data.status);
+
+      // L'admin peut gérer l'inscription, mais ne peut PAS accepter
+      // un compte dont l'email n'a pas été confirmé.
+      allow update: if (
+        isAdmin()
+        && (
+          request.resource.data.status != 'approved'
+          || resource.data.emailVerified == true
+        )
+      )
+      || (
+        signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.status == resource.data.status
+        && request.resource.data.email == resource.data.email
+        && (
+          request.resource.data.emailVerified == resource.data.emailVerified
+          || (
+            resource.data.emailVerified != true
+            && request.resource.data.emailVerified == true
+            && request.auth.token.email_verified == true
+          )
+        )
+      );
+
       allow delete: if isAdmin();
     }
 
-    // Catalogue cloud : visible seulement aux comptes validés.
+    // Catalogue cloud : uniquement Admin ou étudiant accepté + email vérifié.
     match /courses/{courseId} {
       allow read: if learningMember();
       allow create, update, delete: if isAdmin();
@@ -33,55 +89,88 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
-    // Devoirs publiés par l'administration.
+    // Devoirs publiés.
     match /homework/{homeworkId} {
       allow read: if learningMember();
       allow create, update, delete: if isAdmin();
     }
 
-    // Rendus : texte / lien uniquement, sans Firebase Storage.
+    // Rendus des devoirs.
     match /homeworkSubmissions/{submissionId} {
       allow read: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid);
       allow create: if isApprovedStudent() && request.resource.data.userId == request.auth.uid;
       allow update: if isAdmin()
-        || (isApprovedStudent()
+        || (
+          isApprovedStudent()
           && resource.data.userId == request.auth.uid
           && request.resource.data.userId == request.auth.uid
-          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['answerText','answerUrl','status','submittedAt','submittedAtIso']));
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'answerText','answerUrl','status','submittedAt','submittedAtIso'
+          ])
+        );
       allow delete: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid);
     }
 
+    // Chat : disponible après confirmation de l'email.
     match /chatMessages/{messageId} {
-      // Le chat reste disponible pendant la validation de l'inscription.
-      allow read: if isAdmin() || (signedIn() && resource.data.studentId == request.auth.uid);
+      allow read: if isAdmin()
+        || (
+          verifiedEmail()
+          && resource.data.studentId == request.auth.uid
+        );
+
       allow create: if isAdmin()
-        || (signedIn()
+        || (
+          verifiedEmail()
           && request.resource.data.studentId == request.auth.uid
           && request.resource.data.senderId == request.auth.uid
-          && request.resource.data.senderRole == 'student');
+          && request.resource.data.senderRole == 'student'
+        );
+
       allow update, delete: if isAdmin();
     }
 
+    // Notifications : disponibles après confirmation de l'email.
     match /notifications/{notificationId} {
-      allow read: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
+      allow read: if isAdmin()
+        || (
+          verifiedEmail()
+          && resource.data.userId == request.auth.uid
+        );
+
       allow create: if isAdmin();
+
       allow update: if isAdmin()
-        || (signedIn() && resource.data.userId == request.auth.uid
-          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']));
+        || (
+          verifiedEmail()
+          && resource.data.userId == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read'])
+        );
+
       allow delete: if isAdmin();
     }
 
     match /courseProgress/{progressId} {
       allow read: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid);
       allow create: if isApprovedStudent() && request.resource.data.userId == request.auth.uid;
-      allow update: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid && request.resource.data.userId == request.auth.uid);
+      allow update: if isAdmin()
+        || (
+          isApprovedStudent()
+          && resource.data.userId == request.auth.uid
+          && request.resource.data.userId == request.auth.uid
+        );
       allow delete: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid);
     }
 
     match /quizResults/{resultId} {
       allow read: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid);
       allow create: if isApprovedStudent() && request.resource.data.userId == request.auth.uid;
-      allow update: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid && request.resource.data.userId == request.auth.uid);
+      allow update: if isAdmin()
+        || (
+          isApprovedStudent()
+          && resource.data.userId == request.auth.uid
+          && request.resource.data.userId == request.auth.uid
+        );
       allow delete: if isAdmin() || (isApprovedStudent() && resource.data.userId == request.auth.uid);
     }
   }

@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Ben-Learning | Statut de l'inscription</title>
+  <title>Ben-Learning | Vérification et inscription</title>
   <meta name="theme-color" content="#2563eb">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
@@ -12,27 +12,47 @@
 <header class="site-header" id="siteHeader">
   <a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a>
   <button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button>
-  <nav id="mainNav"><a href="index.html">Accueil</a><a href="chat.html">💬 Chat</a><a href="notifications.html">🔔 Notifications</a><button id="statusLogoutBtn" class="nav-button">Déconnexion</button></nav>
+  <nav id="mainNav"><a href="index.html">Accueil</a><button id="statusLogoutBtn" class="nav-button">Déconnexion</button></nav>
 </header>
 <main class="status-wrap">
   <section class="status-card">
-    <div id="statusIcon" class="status-icon">⏳</div>
-    <span id="statusBadge" class="approval-badge pending">En attente de validation</span>
+    <div id="statusIcon" class="status-icon">📧</div>
+    <span id="statusBadge" class="approval-badge email-pending">Email à vérifier</span>
     <p class="status-greeting">Bonjour <strong id="statusName">Élève</strong></p>
-    <h1 id="statusTitle">Ta demande est en cours de vérification</h1>
-    <p id="statusText">L’administrateur doit valider ton inscription avant l’accès aux cours et aux quiz.</p>
-    <div class="status-steps">
-      <div class="status-step done"><span>1</span><div><b>Compte créé</b><small>Ton inscription a été enregistrée.</small></div></div>
-      <div class="status-step"><span>2</span><div><b>Validation Admin</b><small>L’administration vérifie ta demande.</small></div></div>
-      <div class="status-step"><span>3</span><div><b>Accès aux cours</b><small>Disponible après acceptation.</small></div></div>
+    <p class="status-email">Adresse : <strong id="statusEmail">—</strong></p>
+    <h1 id="statusTitle">Vérifie ton adresse email</h1>
+    <p id="statusText">Un email de vérification doit être confirmé avant que l’administration puisse accepter ton inscription.</p>
+
+    <div class="status-steps status-steps-four">
+      <div id="stepAccount" class="status-step done"><span>1</span><div><b>Compte créé</b><small>Ton inscription Firebase est enregistrée.</small></div></div>
+      <div id="stepEmail" class="status-step"><span>2</span><div><b>Email vérifié</b><small>Confirme que cette adresse t’appartient.</small></div></div>
+      <div id="stepAdmin" class="status-step"><span>3</span><div><b>Validation Admin</b><small>L’administration vérifie ta demande.</small></div></div>
+      <div id="stepAccess" class="status-step"><span>4</span><div><b>Accès complet</b><small>Cours, quiz, devoirs et séances.</small></div></div>
     </div>
-    <div class="status-actions">
+
+    <div id="verificationActions" class="verification-actions">
+      <div class="verification-info">
+        <strong>📬 Regarde aussi dans Spam / Courrier indésirable</strong>
+        <span>Le message est envoyé par Firebase Authentication.</span>
+      </div>
+      <div class="status-actions">
+        <button id="checkVerificationBtn" class="btn primary" type="button">✅ J’ai vérifié mon email</button>
+        <button id="resendVerificationBtn" class="btn secondary" type="button">📨 Renvoyer l’email</button>
+      </div>
+      <p id="verificationMessage" class="form-message"></p>
+    </div>
+
+    <div id="verifiedContactActions" class="status-actions hidden">
       <a class="btn secondary" href="chat.html">💬 Contacter l’administration</a>
       <a class="btn secondary" href="notifications.html">🔔 Voir mes notifications</a>
-      <div id="approvedActions" class="hidden"><a class="btn primary" href="profile.html">Accéder à mon espace →</a></div>
+    </div>
+
+    <div id="approvedActions" class="hidden status-actions">
+      <a class="btn primary" href="profile.html">Accéder à mon espace →</a>
     </div>
   </section>
 </main>
 <script src="js/app.js"></script><script type="module" src="js/status.js"></script>
+<script type="module" src="js/student-message-alerts.js"></script>
 </body>
 </html>

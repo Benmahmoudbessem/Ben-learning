@@ -1,6 +1,7 @@
+const REPLACED_COURSE_IDS=new Set(['premiere-production-numerique-2d-3d','premiere-production-numerique-modelisation-3d-smart-cross-road','5']);
 import { auth, db } from './firebase.js';
 import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js';
-import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
+import { collection, doc, getDoc, getDocs, onSnapshot, query, where, serverTimestamp, updateDoc } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
 
 let stopNotifications = null;
 
@@ -101,7 +102,7 @@ async function loadAllCourses() {
     cloud = snap.docs.map(d => ({id:d.id, ...d.data()}));
   } catch (error) { console.warn('Catalogue Firestore indisponible', error); }
   const map = new Map();
-  [...seed.map(normalizeCourse), ...getAdminCourses(), ...cloud.map(normalizeCourse)].forEach(c => map.set(String(c.id), c));
+  [...seed.map(normalizeCourse), ...getAdminCourses(), ...cloud.map(normalizeCourse)].forEach(c => { if(!REPLACED_COURSE_IDS.has(String(c.id))) map.set(String(c.id), c); });
   return [...map.values()];
 }
 
@@ -251,10 +252,14 @@ function listenNotificationCount(uid) {
   if (stopNotifications) stopNotifications();
   const q = query(collection(db, 'notifications'), where('userId', '==', uid));
   stopNotifications = onSnapshot(q, snapshot => {
-    const unread = snapshot.docs.filter(d => d.data().read === false).length;
+    const unreadDocs = snapshot.docs.filter(d => d.data().read === false);
+    const unread = unreadDocs.length;
+    const unreadChat = unreadDocs.filter(d => d.data().type === 'chat').length;
     const profileCount = document.getElementById('profileNotificationCount');
+    const profileChatCount = document.getElementById('profileChatMessageCount');
     const navBadge = document.getElementById('navNotificationBadge');
     if (profileCount) profileCount.textContent = unread;
+    if (profileChatCount) profileChatCount.textContent = unreadChat;
     if (navBadge) { navBadge.textContent = unread; navBadge.classList.toggle('hidden', unread === 0); }
   }, console.warn);
 }
@@ -267,15 +272,37 @@ onAuthStateChanged(auth, async (user) => {
   }
   try {
     const snap = await getDoc(doc(db, 'users', user.uid));
-    const data = snap.exists() ? snap.data() : {};
-    if (data.role !== 'admin' && data.status !== 'approved') {
-      location.href = 'status.html';
-      return;
+    let data = snap.exists() ? snap.data() : {};
+
+    if (data.role !== 'admin') {
+      await user.reload();
+      await user.getIdToken(true);
+
+      if (!user.emailVerified) {
+        location.href = 'status.html';
+        return;
+      }
+
+      if (data.emailVerified !== true) {
+        await updateDoc(doc(db, 'users', user.uid), {
+          emailVerified: true,
+          emailVerifiedAt: serverTimestamp(),
+          emailVerifiedAtIso: new Date().toISOString()
+        });
+        data = { ...data, emailVerified: true };
+      }
+
+      if (data.status !== 'approved') {
+        location.href = 'status.html';
+        return;
+      }
     }
+
     const session = {
       uid: user.uid,
       name: data.name || user.email?.split('@')[0] || 'Élève',
       email: user.email,
+      emailVerified: data.role === 'admin' ? true : Boolean(user.emailVerified),
       level: data.level || '',
       section: data.section || '',
       role: data.role || 'student',

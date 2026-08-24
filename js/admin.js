@@ -19,6 +19,8 @@ import {
 } from 'https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js';
 
 let courses = JSON.parse(localStorage.getItem('bl_admin_courses') || '[]');
+const REPLACED_COURSE_IDS = new Set(['premiere-production-numerique-2d-3d','premiere-production-numerique-modelisation-3d-smart-cross-road','5']);
+courses = courses.filter(c => !REPLACED_COURSE_IDS.has(String(c.id)));
 let students = [];
 let stopStudentsListener = null;
 let stopAdminChatListener = null;
@@ -27,6 +29,8 @@ let adminUser = null;
 let adminProfile = null;
 let selectedChatStudentId = '';
 let adminReady = false;
+let unreadChatInitialized = false;
+const knownUnreadMessageIds = new Set();
 
 const form = document.getElementById('courseForm');
 const list = document.getElementById('adminCourseList');
@@ -42,6 +46,10 @@ const adminChatForm = document.getElementById('adminChatForm');
 const adminChatInput = document.getElementById('adminChatInput');
 const notificationTarget = document.getElementById('notificationTarget');
 const notificationForm = document.getElementById('adminNotificationForm');
+const adminMessageInbox = document.getElementById('adminMessageInbox');
+const adminMessageInboxCount = document.getElementById('adminMessageInboxCount');
+const adminMessageToast = document.getElementById('adminMessageToast');
+const enableBrowserAlerts = document.getElementById('enableBrowserAlerts');
 
 function esc(v = '') {
   return String(v).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
@@ -87,7 +95,8 @@ function renderStudents() {
   const term = (studentSearch?.value || '').trim().toLowerCase();
   const filtered = students.filter(s => {
     const [label] = statusLabel(s.status);
-    const haystack = `${s.name || ''} ${s.email || ''} ${s.level || ''} ${s.section || ''} ${label}`.toLowerCase();
+    const verificationLabel = s.emailVerified === true ? 'email vérifié' : 'email non vérifié';
+    const haystack = `${s.name || ''} ${s.email || ''} ${s.level || ''} ${s.section || ''} ${label} ${verificationLabel}`.toLowerCase();
     return haystack.includes(term);
   });
 
@@ -98,7 +107,7 @@ function renderStudents() {
   updateStudentSelectors();
 
   if (!filtered.length) {
-    studentList.innerHTML = `<tr><td colspan="6" class="table-empty">${students.length ? 'Aucun résultat pour cette recherche.' : 'Aucune inscription pour le moment.'}</td></tr>`;
+    studentList.innerHTML = `<tr><td colspan="7" class="table-empty">${students.length ? 'Aucun résultat pour cette recherche.' : 'Aucune inscription pour le moment.'}</td></tr>`;
     return;
   }
 
@@ -108,10 +117,11 @@ function renderStudents() {
       <td><strong>${esc(s.name || 'Sans nom')}</strong><small class="student-email">${esc(s.email || '')}</small></td>
       <td>${esc(s.level || '—')}</td>
       <td>${esc(s.section || '—')}</td>
+      <td><span class="student-status ${s.emailVerified === true ? 'approved' : 'email-unverified'}">${s.emailVerified === true ? '✓ Vérifié' : '✉ Non vérifié'}</span></td>
       <td><span class="student-status ${cls}">${label}</span></td>
       <td>${esc(formatTimestamp(s))}</td>
       <td><div class="student-actions">
-        <button class="mini-action accept" onclick="setStudentStatus('${s.id}','approved')" ${s.status === 'approved' ? 'disabled' : ''}>✓ Accepter</button>
+        <button class="mini-action accept" title="${s.emailVerified === true ? 'Accepter cette inscription' : 'Impossible : email non vérifié'}" onclick="setStudentStatus('${s.id}','approved')" ${(s.status === 'approved' || s.emailVerified !== true) ? 'disabled' : ''}>✓ Accepter</button>
         <button class="mini-action reject" onclick="setStudentStatus('${s.id}','rejected')" ${s.status === 'rejected' ? 'disabled' : ''}>✕ Refuser</button>
         <button class="mini-action chat" onclick="openStudentChat('${s.id}')">💬 Chat</button>
       </div></td>
@@ -137,11 +147,11 @@ function listenToStudents() {
     console.error(error);
     studentsMessage.textContent = 'Impossible de lire les inscriptions. Vérifie les règles Firestore et le rôle admin.';
     studentsMessage.className = 'firebase-status error';
-    studentList.innerHTML = '<tr><td colspan="6" class="table-empty">Accès Firestore refusé.</td></tr>';
+    studentList.innerHTML = '<tr><td colspan="7" class="table-empty">Accès Firestore refusé.</td></tr>';
   });
 }
 
-async function sendNotification(userId, title, body, type = 'info') {
+async function sendNotification(userId, title, body, type = 'info', extra = {}) {
   return addDoc(collection(db, 'notifications'), {
     userId,
     title,
@@ -150,7 +160,8 @@ async function sendNotification(userId, title, body, type = 'info') {
     read: false,
     createdBy: adminUser.uid,
     createdAt: serverTimestamp(),
-    createdAtIso: new Date().toISOString()
+    createdAtIso: new Date().toISOString(),
+    ...extra
   });
 }
 
@@ -158,6 +169,10 @@ window.setStudentStatus = async function(id, status) {
   const student = students.find(s => s.id === id);
   if (!student) return;
   const actionText = status === 'approved' ? 'accepter' : 'refuser';
+  if (status === 'approved' && student.emailVerified !== true) {
+    alert("Impossible d’accepter cette inscription : l’élève n’a pas encore vérifié son adresse email.");
+    return;
+  }
   if (!confirm(`Confirmer : ${actionText} l’inscription de ${student.name || student.email} ?`)) return;
   try {
     await updateDoc(doc(db, 'users', id), {
@@ -232,15 +247,99 @@ window.openStudentChat = function(id) {
   document.querySelector('.admin-chat-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
 
+function unreadMessageTime(m) {
+  const d = m.createdAt?.toDate?.() || (m.createdAtIso ? new Date(m.createdAtIso) : null);
+  return d ? d.toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) : 'À l’instant';
+}
+
+function messagePreview(text = '') {
+  const clean = String(text).replace(/\s+/g, ' ').trim();
+  return clean.length > 95 ? `${clean.slice(0, 95)}…` : clean;
+}
+
+function showAdminMessageToast(message) {
+  if (!adminMessageToast || !message) return;
+  const studentName = message.studentName || students.find(s => s.id === message.studentId)?.name || 'Un élève';
+  adminMessageToast.innerHTML = `<button type="button" class="message-toast-main" data-toast-student="${esc(message.studentId)}"><span>💬</span><div><b>Nouveau message de ${esc(studentName)}</b><small>${esc(messagePreview(message.text || ''))}</small></div></button><button type="button" class="message-toast-close" aria-label="Fermer">×</button>`;
+  adminMessageToast.classList.remove('hidden');
+  adminMessageToast.querySelector('[data-toast-student]')?.addEventListener('click', () => {
+    window.openStudentChat(message.studentId);
+    adminMessageToast.classList.add('hidden');
+  });
+  adminMessageToast.querySelector('.message-toast-close')?.addEventListener('click', () => adminMessageToast.classList.add('hidden'));
+  clearTimeout(showAdminMessageToast.timer);
+  showAdminMessageToast.timer = setTimeout(() => adminMessageToast?.classList.add('hidden'), 9000);
+
+  if ('Notification' in window && Notification.permission === 'granted') {
+    try {
+      const n = new Notification(`Ben-Learning · ${studentName}`, { body: messagePreview(message.text || 'Nouveau message'), icon: 'assets/icons/icon-192.png' });
+      n.onclick = () => { window.focus(); window.openStudentChat(message.studentId); n.close(); };
+      setTimeout(() => n.close(), 10000);
+    } catch (error) { console.warn('Notification navigateur indisponible', error); }
+  }
+}
+
+function renderUnreadMessageInbox(items) {
+  if (!adminMessageInbox || !adminMessageInboxCount) return;
+  const byStudent = new Map();
+  items.forEach(m => {
+    const key = m.studentId || '';
+    if (!key) return;
+    const prev = byStudent.get(key) || { count: 0, latest: null };
+    prev.count += 1;
+    const t = m.createdAt?.toMillis?.() || Date.parse(m.createdAtIso || 0) || 0;
+    const pt = prev.latest ? (prev.latest.createdAt?.toMillis?.() || Date.parse(prev.latest.createdAtIso || 0) || 0) : -1;
+    if (!prev.latest || t >= pt) prev.latest = m;
+    byStudent.set(key, prev);
+  });
+  const conversations = [...byStudent.entries()].map(([studentId, data]) => ({ studentId, ...data })).sort((a,b) => {
+    const ta = a.latest?.createdAt?.toMillis?.() || Date.parse(a.latest?.createdAtIso || 0) || 0;
+    const tb = b.latest?.createdAt?.toMillis?.() || Date.parse(b.latest?.createdAtIso || 0) || 0;
+    return tb - ta;
+  });
+  const count = items.length;
+  adminMessageInboxCount.textContent = `${count} nouveau${count > 1 ? 'x' : ''}`;
+  if (!conversations.length) {
+    adminMessageInbox.innerHTML = '<div class="message-inbox-empty">✅ Aucun nouveau message. Toutes les conversations sont lues.</div>';
+    return;
+  }
+  adminMessageInbox.innerHTML = conversations.map(c => {
+    const m = c.latest || {};
+    const student = students.find(s => s.id === c.studentId);
+    const name = m.studentName || student?.name || student?.email || 'Élève';
+    return `<button type="button" class="message-inbox-item" data-open-message="${esc(c.studentId)}"><span class="message-inbox-avatar">${esc(String(name).charAt(0).toUpperCase() || 'E')}</span><span class="message-inbox-copy"><strong>${esc(name)}</strong><small>${esc(messagePreview(m.text || ''))}</small><em>${esc(unreadMessageTime(m))}</em></span><span class="message-inbox-unread">${c.count}</span><span class="message-inbox-arrow">Ouvrir →</span></button>`;
+  }).join('');
+  adminMessageInbox.querySelectorAll('[data-open-message]').forEach(btn => btn.addEventListener('click', () => window.openStudentChat(btn.dataset.openMessage)));
+}
+
 function listenUnreadChats() {
   if (stopUnreadChatListener) stopUnreadChatListener();
   const q = query(collection(db, 'chatMessages'), where('readByAdmin', '==', false));
   stopUnreadChatListener = onSnapshot(q, snapshot => {
-    const count = snapshot.docs.filter(d => d.data().senderRole === 'student').length;
+    const unreadMessages = snapshot.docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .filter(m => m.senderRole === 'student');
+    unreadMessages.sort((a,b) => {
+      const ta = a.createdAt?.toMillis?.() || Date.parse(a.createdAtIso || 0) || 0;
+      const tb = b.createdAt?.toMillis?.() || Date.parse(b.createdAtIso || 0) || 0;
+      return tb - ta;
+    });
+    const count = unreadMessages.length;
     document.getElementById('adminUnreadChatStat').textContent = count;
     document.getElementById('adminChatUnreadBadge').textContent = `${count} non lu${count > 1 ? 's' : ''}`;
+    renderUnreadMessageInbox(unreadMessages);
+
+    const newMessages = unreadMessages.filter(m => !knownUnreadMessageIds.has(m.id));
+    unreadMessages.forEach(m => knownUnreadMessageIds.add(m.id));
+    if (!unreadChatInitialized) {
+      unreadChatInitialized = true;
+      if (unreadMessages.length) showAdminMessageToast(unreadMessages[0]);
+    } else if (newMessages.length) {
+      showAdminMessageToast(newMessages[0]);
+    }
   }, error => {
     console.warn('Compteur chat indisponible', error);
+    if (adminMessageInbox) adminMessageInbox.innerHTML = '<div class="message-inbox-empty">Impossible de charger les nouveaux messages.</div>';
   });
 }
 
@@ -261,10 +360,11 @@ adminChatForm?.addEventListener('submit', async e => {
       senderRole: 'admin',
       text,
       readByAdmin: true,
+      readByStudent: false,
       createdAt: serverTimestamp(),
       createdAtIso: new Date().toISOString()
     });
-    await sendNotification(selectedChatStudentId, 'Nouveau message 💬', 'L’administration Ben-Learning t’a répondu dans le chat.', 'chat');
+    await sendNotification(selectedChatStudentId, 'Nouveau message de l’administration 💬', `Administration : ${messagePreview(text)}`, 'chat', { actionLink: 'chat.html', senderName: 'Administration Ben-Learning' });
     adminChatInput.value = '';
   } catch (error) {
     console.error(error);
@@ -273,6 +373,13 @@ adminChatForm?.addEventListener('submit', async e => {
     button.disabled = false;
     adminChatInput.focus();
   }
+});
+
+enableBrowserAlerts?.addEventListener('click', async () => {
+  if (!('Notification' in window)) { alert('Les notifications navigateur ne sont pas prises en charge sur cet appareil. Les alertes dans Ben-Learning restent actives.'); return; }
+  const permission = await Notification.requestPermission();
+  enableBrowserAlerts.textContent = permission === 'granted' ? '✅ Alertes activées' : '🔔 Alertes refusées';
+  if (permission === 'granted') enableBrowserAlerts.disabled = true;
 });
 
 notificationForm?.addEventListener('submit', async e => {
@@ -422,7 +529,9 @@ window.deleteCourse = async function(id) {
 async function loadCloudCourses() {
   try {
     const snap = await getDocs(collection(db, 'courses'));
-    const remote = snap.docs.map(d => normalizeCourse({id:d.id, ...d.data()}));
+    const remoteAll = snap.docs.map(d => normalizeCourse({id:d.id, ...d.data()}));
+    await Promise.all(remoteAll.filter(c=>REPLACED_COURSE_IDS.has(String(c.id))).map(c=>deleteDoc(doc(db,'courses',String(c.id))).catch(e=>console.warn('Nettoyage ancien cours impossible',c.id,e))));
+    const remote = remoteAll.filter(c=>!REPLACED_COURSE_IDS.has(String(c.id)));
     const remoteIds = new Set(remote.map(c => String(c.id)));
     const localOnly = courses.filter(c => !remoteIds.has(String(c.id)));
     await Promise.all(localOnly.map(async c => {
