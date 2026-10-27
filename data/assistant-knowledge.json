@@ -1,0 +1,1354 @@
+[
+  {
+    "id": "algo-intro",
+    "aliases": {
+      "fr": [
+        "algorithme",
+        "algorithmique",
+        "definition algorithme",
+        "resoudre probleme",
+        "resolution probleme"
+      ],
+      "ar": [
+        "خوارزمية",
+        "الخوارزميات",
+        "حل مشكلة",
+        "مراحل حل المشكلة"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Qu’est-ce qu’un algorithme ?",
+      "explanation": "Un algorithme est une suite finie d’instructions précises pour résoudre un problème. Il ne dépend pas d’un langage de programmation.",
+      "steps": [
+        "Identifier les données d’entrée.",
+        "Déterminer le traitement nécessaire.",
+        "Définir les résultats à afficher.",
+        "Écrire les instructions dans le bon ordre puis tester."
+      ],
+      "example": "Pour calculer le double de 6 : on lit 6, on calcule 2 × 6, on affiche 12.",
+      "code": "Algorithme Double\nVariables n, d : Entier\nDébut\n  Lire(n)\n  d ← 2 × n\n  Écrire(d)\nFin",
+      "exercise": "Écris un algorithme qui calcule le triple d’un nombre.",
+      "solution": "Lire(n) ; t ← 3 × n ; Écrire(t)."
+    },
+    "ar": {
+      "title": "ما هي الخوارزمية؟",
+      "explanation": "الخوارزمية هي سلسلة محددة من التعليمات الواضحة لحل مشكلة، ولا ترتبط بلغة برمجة معينة.",
+      "steps": [
+        "حدّد المعطيات.",
+        "حدّد المعالجة.",
+        "حدّد النتائج.",
+        "رتّب التعليمات واختبرها."
+      ],
+      "example": "لحساب ضعف العدد 6: نقرأ 6 ثم نحسب 2 × 6 فنحصل على 12.",
+      "code": "Algorithme Double\nVariables n, d : Entier\nDébut\n  Lire(n)\n  d ← 2 × n\n  Écrire(d)\nFin",
+      "exercise": "اكتب خوارزمية لحساب ثلاثة أضعاف عدد.",
+      "solution": "Lire(n) ; t ← 3 × n ; Écrire(t)."
+    }
+  },
+  {
+    "id": "algo-io",
+    "aliases": {
+      "fr": [
+        "lire afficher",
+        "instruction lire",
+        "instruction ecrire",
+        "entree sortie",
+        "saisie affichage",
+        "lire et ecrire"
+      ],
+      "ar": [
+        "قراءة و كتابة",
+        "الإدخال والإخراج",
+        "تعليمة اقرأ",
+        "تعليمة اكتب"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Lire et Écrire en algorithmique",
+      "explanation": "Lire permet de saisir une valeur ; Écrire permet d’afficher une information ou un résultat.",
+      "steps": [
+        "Déclarer les variables.",
+        "Utiliser Lire(variable) pour la saisie.",
+        "Effectuer le calcul.",
+        "Utiliser Écrire(variable) pour le résultat."
+      ],
+      "example": "Pour demander l’âge : Lire(age) puis Écrire(age).",
+      "code": "Algorithme Age\nVariables age : Entier\nDébut\n  Écrire(\"Ton âge : \")\n  Lire(age)\n  Écrire(\"Âge saisi : \", age)\nFin",
+      "exercise": "Écris un algorithme qui lit deux notes et affiche leur somme.",
+      "solution": "Lire(a) ; Lire(b) ; somme ← a + b ; Écrire(somme)."
+    },
+    "ar": {
+      "title": "الإدخال والإخراج في الخوارزمية",
+      "explanation": "Lire لقراءة القيمة من المستعمل، وÉcrire لعرض رسالة أو نتيجة.",
+      "steps": [
+        "صرّح بالمتغيرات.",
+        "استعمل Lire للإدخال.",
+        "أجرِ المعالجة.",
+        "استعمل Écrire لعرض النتيجة."
+      ],
+      "example": "لقراءة العمر نستعمل Lire(age) ثم Écrire(age).",
+      "code": "Lire(age)\nÉcrire(\"Âge : \", age)",
+      "exercise": "اكتب خوارزمية تقرأ عددين وتعرض مجموعهما.",
+      "solution": "Lire(a) ; Lire(b) ; s ← a+b ; Écrire(s)."
+    }
+  },
+  {
+    "id": "algo-vars",
+    "aliases": {
+      "fr": [
+        "variable",
+        "affectation",
+        "types de donnees",
+        "entier reel chaine",
+        "fleche affectation"
+      ],
+      "ar": [
+        "متغير",
+        "المتغيرات",
+        "إسناد",
+        "أنواع البيانات"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Variables et affectation",
+      "explanation": "Une variable est un emplacement nommé qui mémorise une valeur. L’affectation modifie cette valeur.",
+      "steps": [
+        "Choisir un nom explicite.",
+        "Déclarer son type (entier, réel, texte…).",
+        "Affecter avec ← en algorithme et = en Python."
+      ],
+      "example": "Après x ← 5 puis x ← x + 2, x vaut 7.",
+      "code": "Algorithme Exemple\nVariables x : Entier\nDébut\n  x ← 5\n  x ← x + 2\n  Écrire(x)\nFin",
+      "exercise": "Quelle est la valeur finale de a après a ← 4 ; a ← a × 3 ?",
+      "solution": "12."
+    },
+    "ar": {
+      "title": "المتغيرات والإسناد",
+      "explanation": "المتغير مكان في الذاكرة له اسم يخزّن قيمة. الإسناد يغيّر تلك القيمة.",
+      "steps": [
+        "اختر اسماً واضحاً.",
+        "حدّد نوع القيمة.",
+        "استعمل ← في الخوارزمية و = في Python."
+      ],
+      "example": "إذا بدأ x=5 ثم أضفنا 2 يصبح x=7.",
+      "code": "x = 5\nx = x + 2\nprint(x)",
+      "exercise": "ما قيمة a بعد a ← 4 ثم a ← a × 3 ؟",
+      "solution": "12."
+    }
+  },
+  {
+    "id": "algo-conditions",
+    "aliases": {
+      "fr": [
+        "si alors sinon",
+        "condition",
+        "structure conditionnelle",
+        "choix alternatif"
+      ],
+      "ar": [
+        "شرط",
+        "إذا وإلا",
+        "بنية شرطية"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Conditions : Si / Sinon",
+      "explanation": "Une condition permet à un programme de choisir une action selon un test vrai ou faux.",
+      "steps": [
+        "Écrire un test logique.",
+        "Prévoir le cas vrai.",
+        "Prévoir éventuellement le cas faux.",
+        "Tester les deux branches."
+      ],
+      "example": "Un nombre est positif ou négatif selon le test n >= 0.",
+      "code": "if n >= 0:\n    print(\"Positif ou nul\")\nelse:\n    print(\"Négatif\")",
+      "exercise": "Écris une condition qui affiche « Admis » si la moyenne ≥ 10.",
+      "solution": "if moyenne >= 10:\n    print(\"Admis\")\nelse:\n    print(\"Non admis\")"
+    },
+    "ar": {
+      "title": "الشروط if / else",
+      "explanation": "تسمح التعليمة الشرطية باختيار مسار حسب صحة شرط.",
+      "steps": [
+        "اكتب الشرط.",
+        "حدد ما يحدث إن كان صحيحاً.",
+        "حدد ما يحدث إن كان خاطئاً.",
+        "اختبر الحالتين."
+      ],
+      "example": "إن كان n >= 0 نعرض « موجب أو صفر » وإلا « سالب ».",
+      "code": "if n >= 0:\n    print(\"Positif ou nul\")\nelse:\n    print(\"Négatif\")",
+      "exercise": "اكتب شرط النجاح إذا كان المعدّل 10 أو أكثر.",
+      "solution": "if moyenne >= 10: print(\"Admis\")"
+    }
+  },
+  {
+    "id": "algo-loops",
+    "aliases": {
+      "fr": [
+        "boucle",
+        "pour de a",
+        "tant que",
+        "repetition",
+        "while",
+        "for",
+        "repeter"
+      ],
+      "ar": [
+        "حلقة",
+        "تكرار",
+        "طالما",
+        "for",
+        "while"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Les boucles Pour et TantQue",
+      "explanation": "Une boucle répète des instructions. Pour convient quand on connaît le nombre de répétitions ; TantQue répète tant qu’une condition reste vraie.",
+      "steps": [
+        "Identifier l’instruction répétée.",
+        "Choisir la boucle.",
+        "Définir le début, la fin et le pas.",
+        "Vérifier que la boucle se termine."
+      ],
+      "example": "Afficher les nombres de 1 à 5.",
+      "code": "for i in range(1, 6):\n    print(i)",
+      "exercise": "Écris une boucle qui affiche 2, 4, 6, 8, 10.",
+      "solution": "for i in range(2, 11, 2):\n    print(i)"
+    },
+    "ar": {
+      "title": "الحلقات التكرارية",
+      "explanation": "الحلقة تكرّر التعليمات. نستعمل for عند معرفة عدد المرات و while ما دام الشرط صحيحاً.",
+      "steps": [
+        "حدّد ما يتكرر.",
+        "اختر نوع الحلقة.",
+        "حدّد البداية والنهاية.",
+        "تأكد من التوقف."
+      ],
+      "example": "عرض الأعداد من 1 إلى 5.",
+      "code": "for i in range(1, 6):\n    print(i)",
+      "exercise": "اكتب حلقة تعرض الأعداد الزوجية من 2 إلى 10.",
+      "solution": "for i in range(2, 11, 2): print(i)"
+    }
+  },
+  {
+    "id": "algo-flowchart",
+    "aliases": {
+      "fr": [
+        "organigramme",
+        "logigramme",
+        "schema logique",
+        "diagramme de flux"
+      ],
+      "ar": [
+        "مخطط انسيابي",
+        "مخطط سير",
+        "الرسم التخطيطي للخوارزمية"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Lire un organigramme",
+      "explanation": "L’organigramme représente graphiquement les étapes d’un algorithme avec des symboles et des flèches.",
+      "steps": [
+        "Ovale : début ou fin.",
+        "Parallélogramme : saisie ou affichage.",
+        "Rectangle : calcul ou traitement.",
+        "Losange : condition et embranchement Oui / Non."
+      ],
+      "example": "Début → Lire(n) → n > 0 ? → Oui : « positif » ; Non : « non positif » → Fin.",
+      "code": "",
+      "exercise": "Quel symbole représente une condition dans un organigramme ?",
+      "solution": "Le losange."
+    },
+    "ar": {
+      "title": "فهم المخطط الانسيابي",
+      "explanation": "يمثل المخطط الانسيابي مراحل الخوارزمية بواسطة رموز وأسهم.",
+      "steps": [
+        "الشكل البيضاوي: بداية / نهاية.",
+        "متوازي الأضلاع: إدخال / إخراج.",
+        "المستطيل: معالجة.",
+        "المعين: شرط نعم / لا."
+      ],
+      "example": "بداية ← إدخال عدد ← اختبار n>0 ← عرض النتيجة ← نهاية.",
+      "code": "",
+      "exercise": "ما الرمز الذي يدل على الشرط؟",
+      "solution": "المعين."
+    }
+  },
+  {
+    "id": "python-intro",
+    "aliases": {
+      "fr": [
+        "python",
+        "programme python",
+        "langage python",
+        "thonny",
+        "programmation python"
+      ],
+      "ar": [
+        "بايثون",
+        "لغة python",
+        "برنامج بايثون",
+        "ثوني"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Premiers pas avec Python",
+      "explanation": "Python est un langage de programmation. On écrit des instructions dans un fichier .py puis on les exécute avec Python ou Thonny.",
+      "steps": [
+        "Créer un fichier test.py.",
+        "Écrire les instructions avec une indentation correcte.",
+        "Exécuter le fichier.",
+        "Lire la sortie et corriger les erreurs."
+      ],
+      "example": "Un programme peut afficher un message avec print().",
+      "code": "print(\"Bonjour Ben-Learning !\")",
+      "exercise": "Écris une instruction pour afficher ton prénom.",
+      "solution": "print(\"Mon prénom\")"
+    },
+    "ar": {
+      "title": "البداية مع Python",
+      "explanation": "Python لغة برمجة تُكتب فيها التعليمات داخل ملف .py وتُشغّل بواسطة Python أو Thonny.",
+      "steps": [
+        "أنشئ ملف test.py.",
+        "اكتب الأوامر مع المسافات الصحيحة.",
+        "شغّل الملف.",
+        "اقرأ المخرجات وصحّح الأخطاء."
+      ],
+      "example": "تسمح print بعرض رسالة.",
+      "code": "print(\"Bonjour Ben-Learning !\")",
+      "exercise": "اكتب تعليمة تطبع اسمك.",
+      "solution": "print(\"Mon prénom\")"
+    }
+  },
+  {
+    "id": "python-input",
+    "aliases": {
+      "fr": [
+        "input",
+        "saisir en python",
+        "lire nombre python",
+        "conversion int",
+        "int input",
+        "str input"
+      ],
+      "ar": [
+        "قراءة عدد في python",
+        "إدخال البيانات",
+        "input",
+        "int"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Saisie avec input() et conversion int()",
+      "explanation": "input() renvoie du texte. Pour effectuer des calculs entiers, transforme la saisie avec int().",
+      "steps": [
+        "Demander la valeur avec input().",
+        "Convertir avec int() si un entier est attendu.",
+        "Utiliser la variable dans le calcul."
+      ],
+      "example": "Sans int(), \"2\" + \"3\" donne \"23\" au lieu de 5.",
+      "code": "a = int(input(\"Donne a : \"))\nb = int(input(\"Donne b : \"))\nprint(a + b)",
+      "exercise": "Que produit print(input(\"Nombre : \") + \"1\") si on saisit 2 ?",
+      "solution": "La chaîne « 21 » (pas 3)."
+    },
+    "ar": {
+      "title": "الإدخال بواسطة input",
+      "explanation": "تُرجع input نصّاً حتى لو كتب المستخدم عدداً. نستعمل int() لتحويل النص إلى عدد صحيح.",
+      "steps": [
+        "اقرأ القيمة باستعمال input.",
+        "حوّلها إلى int عند الحاجة.",
+        "استعملها في الحساب."
+      ],
+      "example": "\"2\"+\"3\" تعطي \"23\" دون تحويل.",
+      "code": "a = int(input(\"a : \"))\nprint(a + 1)",
+      "exercise": "ماذا يحدث عند إدخال 2 ثم إضافة \"1\" كنص؟",
+      "solution": "تظهر « 21 »."
+    }
+  },
+  {
+    "id": "python-double",
+    "aliases": {
+      "fr": [
+        "double nombre",
+        "doubler un nombre",
+        "2 fois un nombre",
+        "double de n",
+        "calculer le double",
+        "fois deux"
+      ],
+      "ar": [
+        "ضعف العدد",
+        "مضاعفة العدد",
+        "اضرب في اثنين"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Calculer le double d’un nombre",
+      "explanation": "Le double d’un nombre n se calcule par 2 × n. On peut demander n, calculer le résultat puis l’afficher.",
+      "steps": [
+        "Lire le nombre.",
+        "Calculer double = 2 * n.",
+        "Afficher le résultat."
+      ],
+      "example": "Si n = 7, son double est 14.",
+      "code": "n = float(input(\"Donne un nombre : \"))\ndouble = 2 * n\nprint(\"Double =\", double)",
+      "exercise": "Quel est le double de 12 ?",
+      "solution": "24."
+    },
+    "ar": {
+      "title": "حساب ضعف عدد",
+      "explanation": "ضعف العدد n يساوي 2 × n. نقرأ العدد ثم نحسب ونطبع.",
+      "steps": [
+        "اقرأ العدد.",
+        "احسب 2*n.",
+        "اعرض النتيجة."
+      ],
+      "example": "إذا كان n=7 فالضعف 14.",
+      "code": "n = float(input(\"Nombre : \"))\nprint(2 * n)",
+      "exercise": "ما ضعف العدد 12؟",
+      "solution": "24."
+    }
+  },
+  {
+    "id": "python-parity",
+    "aliases": {
+      "fr": [
+        "pair impair",
+        "nombre pair",
+        "nombre impair",
+        "modulo",
+        "%2",
+        "reste division",
+        "n % 2",
+        "n%2"
+      ],
+      "ar": [
+        "زوجي فردي",
+        "عدد زوجي",
+        "عدد فردي",
+        "باقي القسمة",
+        "%2"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Tester la parité d’un nombre",
+      "explanation": "Un entier est pair si le reste de sa division par 2 est 0. En Python, % calcule le reste et == teste l’égalité.",
+      "steps": [
+        "Lire un entier n.",
+        "Calculer n % 2.",
+        "Tester si le reste vaut 0.",
+        "Afficher pair ou impair."
+      ],
+      "example": "8 % 2 = 0 : 8 est pair. 7 % 2 = 1 : 7 est impair.",
+      "code": "n = int(input(\"Nombre : \"))\nif n % 2 == 0:\n    print(\"Pair\")\nelse:\n    print(\"Impair\")",
+      "exercise": "Le nombre 15 est-il pair ou impair ? Pourquoi ?",
+      "solution": "Impair, car 15 % 2 = 1."
+    },
+    "ar": {
+      "title": "اختبار زوجية عدد",
+      "explanation": "العدد الصحيح زوجي إذا كان باقي قسمته على 2 يساوي صفر. العامل % يحسب الباقي و == يقارن.",
+      "steps": [
+        "اقرأ عدداً صحيحاً.",
+        "احسب n % 2.",
+        "اختبر إذا الباقي صفر.",
+        "اعرض زوجي أو فردي."
+      ],
+      "example": "8 زوجي لأن 8 % 2 = 0.",
+      "code": "n = int(input(\"Nombre : \"))\nif n % 2 == 0:\n    print(\"Pair\")\nelse:\n    print(\"Impair\")",
+      "exercise": "هل 15 زوجي أم فردي؟",
+      "solution": "فردي لأن الباقي 1."
+    }
+  },
+  {
+    "id": "python-equality",
+    "aliases": {
+      "fr": [
+        "==",
+        "difference entre = et ==",
+        "egalite python",
+        "comparaison affectation",
+        "pourquoi ==",
+        "deux egal"
+      ],
+      "ar": [
+        "الفرق بين = و ==",
+        "مقارنة",
+        "يساوي في python",
+        "=="
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Pourquoi = et == sont différents ?",
+      "explanation": "En Python, = sert à affecter une valeur à une variable ; == vérifie si deux valeurs sont égales et produit True ou False.",
+      "steps": [
+        "x = 4 mémorise la valeur 4 dans x.",
+        "x == 4 teste si x vaut 4.",
+        "Dans if, on écrit une condition avec == pour tester l’égalité."
+      ],
+      "example": "Après x = 4, l’expression x == 4 vaut True.",
+      "code": "x = 4\nif x == 4:\n    print(\"Égal à 4\")",
+      "exercise": "Dans « if note == 10: », pourquoi utilise-t-on == ?",
+      "solution": "Pour comparer la valeur de note à 10, pas pour la modifier."
+    },
+    "ar": {
+      "title": "الفرق بين = و ==",
+      "explanation": "الرمز = يسند قيمة إلى متغير، أما == فيختبر المساواة بين قيمتين ويعطي True أو False.",
+      "steps": [
+        "x = 4 يخزّن العدد 4.",
+        "x == 4 يقارن القيمة بـ4.",
+        "داخل if نستعمل == للمقارنة."
+      ],
+      "example": "إذا كانت x=4 فإن x==4 صحيحة.",
+      "code": "x = 4\nif x == 4:\n    print(\"Égal\")",
+      "exercise": "لماذا نستعمل == داخل if؟",
+      "solution": "لاختبار المساواة دون تغيير المتغير."
+    }
+  },
+  {
+    "id": "python-sum",
+    "aliases": {
+      "fr": [
+        "somme",
+        "addition deux nombres",
+        "calculer somme",
+        "total points",
+        "additionner trois"
+      ],
+      "ar": [
+        "مجموع",
+        "جمع عددين",
+        "حساب المجموع"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Calculer une somme en Python",
+      "explanation": "Pour additionner des nombres, on utilise +. Il faut convertir les valeurs lues par input() en nombres.",
+      "steps": [
+        "Lire les nombres.",
+        "Calculer s = a + b (ou davantage).",
+        "Afficher s."
+      ],
+      "example": "3 + 5 + 2 = 10.",
+      "code": "a = int(input(\"a : \"))\nb = int(input(\"b : \"))\ns = a + b\nprint(\"Somme =\", s)",
+      "exercise": "Écris un programme qui calcule la somme de 3 notes.",
+      "solution": "n1=int(input(\"n1 : \"))\nn2=int(input(\"n2 : \"))\nn3=int(input(\"n3 : \"))\nprint(n1+n2+n3)"
+    },
+    "ar": {
+      "title": "المجموع في Python",
+      "explanation": "نستعمل + للجمع، ويجب تحويل النص المقروء من input إلى عدد.",
+      "steps": [
+        "اقرأ الأعداد.",
+        "احسب المجموع.",
+        "اعرض النتيجة."
+      ],
+      "example": "3+5+2 = 10.",
+      "code": "a = int(input(\"a : \"))\nb = int(input(\"b : \"))\nprint(a + b)",
+      "exercise": "اكتب برنامجاً يجمع ثلاثة أعداد.",
+      "solution": "print(a + b + c) بعد قراءة قيم a و b و c."
+    }
+  },
+  {
+    "id": "python-average",
+    "aliases": {
+      "fr": [
+        "moyenne",
+        "calcul moyenne",
+        "moyenne de notes",
+        "calculer moyenne python"
+      ],
+      "ar": [
+        "معدل",
+        "المعدّل",
+        "حساب المعدل"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Calculer une moyenne",
+      "explanation": "La moyenne arithmétique est la somme des valeurs divisée par leur nombre. Pour 3 notes : (a + b + c) / 3.",
+      "steps": [
+        "Lire les notes.",
+        "Faire la somme.",
+        "Diviser par le nombre de notes.",
+        "Afficher la moyenne."
+      ],
+      "example": "Pour 12, 14, 16 : la moyenne est 14.",
+      "code": "a = float(input(\"Note 1 : \"))\nb = float(input(\"Note 2 : \"))\nc = float(input(\"Note 3 : \"))\nm = (a + b + c) / 3\nprint(\"Moyenne =\", m)",
+      "exercise": "Quelle est la moyenne de 8, 10 et 12 ?",
+      "solution": "10."
+    },
+    "ar": {
+      "title": "حساب المعدّل",
+      "explanation": "المعدل الحسابي يساوي مجموع القيم مقسوماً على عددها.",
+      "steps": [
+        "اقرأ الأعداد.",
+        "احسب المجموع.",
+        "اقسم على عدد القيم.",
+        "اعرض النتيجة."
+      ],
+      "example": "معدل 12 و14 و16 يساوي 14.",
+      "code": "a = float(input(\"Note 1 : \"))\nb = float(input(\"Note 2 : \"))\nc = float(input(\"Note 3 : \"))\nprint((a + b + c) / 3)",
+      "exercise": "ما معدل 8 و10 و12؟",
+      "solution": "10."
+    }
+  },
+  {
+    "id": "python-errors",
+    "aliases": {
+      "fr": [
+        "erreur python",
+        "syntaxe python",
+        "indentation",
+        "syntaxerror",
+        "nameerror",
+        "erreur programme"
+      ],
+      "ar": [
+        "خطأ python",
+        "خطأ برمجة",
+        "خطأ مسافات",
+        "SyntaxError",
+        "NameError"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Comprendre les erreurs Python",
+      "explanation": "Une erreur indique que Python ne peut pas exécuter correctement une instruction. Le message et le numéro de ligne aident à la corriger.",
+      "steps": [
+        "Lire la dernière ligne du message.",
+        "Vérifier la ligne indiquée et la précédente.",
+        "Contrôler : guillemets, deux-points, noms de variables et indentation.",
+        "Réexécuter après correction."
+      ],
+      "example": "Après « if n > 0: », les instructions du bloc doivent être indentées.",
+      "code": "n = 5\nif n > 0:\n    print(\"Positif\")",
+      "exercise": "Quel symbole manque après « if n > 0 » ?",
+      "solution": "Le caractère deux-points « : »."
+    },
+    "ar": {
+      "title": "فهم أخطاء Python",
+      "explanation": "رسالة الخطأ توضح مكان المشكلة أو نوعها. يمكن أن يكون السبب مسافات أو أسماء أو علامات ناقصة.",
+      "steps": [
+        "اقرأ آخر سطر من الخطأ.",
+        "تحقق من السطر المذكور.",
+        "راجع الأقواس والنقطتين والمسافات.",
+        "أعد التشغيل."
+      ],
+      "example": "بعد if يجب استعمال : والمسافة البادئة.",
+      "code": "n = 5\nif n > 0:\n    print(\"Positif\")",
+      "exercise": "ما الرمز الناقص بعد if n > 0 ؟",
+      "solution": "النقطتان :."
+    }
+  },
+  {
+    "id": "python-functions",
+    "aliases": {
+      "fr": [
+        "fonction python",
+        "def python",
+        "return",
+        "procedure fonction"
+      ],
+      "ar": [
+        "دالة python",
+        "الدوال",
+        "تعريف دالة",
+        "return"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Fonctions Python",
+      "explanation": "Une fonction regroupe des instructions réutilisables. def déclare la fonction ; return renvoie un résultat.",
+      "steps": [
+        "Choisir le nom et les paramètres.",
+        "Écrire def nom(paramètres):",
+        "Indenter le corps.",
+        "Appeler la fonction et utiliser son résultat."
+      ],
+      "example": "Une fonction carre(3) peut retourner 9.",
+      "code": "def carre(n):\n    return n * n\n\nprint(carre(3))",
+      "exercise": "Écris une fonction qui retourne le double d’un entier.",
+      "solution": "def double(n):\n    return n * 2"
+    },
+    "ar": {
+      "title": "الدوال في Python",
+      "explanation": "الدالة مجموعة تعليمات قابلة لإعادة الاستعمال. def للتعريف و return لإرجاع النتيجة.",
+      "steps": [
+        "حدّد الاسم والمعطيات.",
+        "اكتب def.",
+        "اكتب الأوامر بمسافة بادئة.",
+        "استدع الدالة."
+      ],
+      "example": "carre(3) تعطي 9.",
+      "code": "def carre(n):\n    return n * n",
+      "exercise": "اكتب دالة تعيد ضعف عدد.",
+      "solution": "def double(n):\n    return 2*n"
+    }
+  },
+  {
+    "id": "python-lists",
+    "aliases": {
+      "fr": [
+        "liste python",
+        "tableau python",
+        "append liste",
+        "index liste"
+      ],
+      "ar": [
+        "قائمة python",
+        "القوائم",
+        "جدول python",
+        "list"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Listes Python",
+      "explanation": "Une liste stocke plusieurs valeurs dans un seul objet. Les indices commencent à 0.",
+      "steps": [
+        "Créer une liste entre crochets [].",
+        "Accéder avec liste[0], liste[1]…",
+        "Ajouter un élément avec append().",
+        "Parcourir avec for."
+      ],
+      "example": "Dans [10, 20, 30], l’indice 1 correspond à 20.",
+      "code": "notes = [12, 15, 18]\nnotes.append(14)\nfor n in notes:\n    print(n)",
+      "exercise": "Que vaut [4, 7, 9][0] ?",
+      "solution": "4."
+    },
+    "ar": {
+      "title": "القوائم في Python",
+      "explanation": "القائمة تخزن عدة قيم وترقيم عناصرها يبدأ من صفر.",
+      "steps": [
+        "أنشئ القائمة باستعمال [].",
+        "اقرأ بالقيم index.",
+        "أضف باستعمال append().",
+        "استعمل for للمرور على العناصر."
+      ],
+      "example": "العنصر ذو الفهرس 1 في [10,20,30] هو 20.",
+      "code": "notes = [12,15,18]\nprint(notes[0])",
+      "exercise": "ما قيمة [4,7,9][0]؟",
+      "solution": "4."
+    }
+  },
+  {
+    "id": "excel-intro",
+    "aliases": {
+      "fr": [
+        "excel",
+        "tableur",
+        "feuille calcul",
+        "cellule colonne ligne"
+      ],
+      "ar": [
+        "إكسل",
+        "جدول حسابي",
+        "ورقة حسابية",
+        "خلية Excel"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Découvrir Excel",
+      "explanation": "Excel est un tableur. Une cellule est repérée par sa colonne et sa ligne, par exemple B3.",
+      "steps": [
+        "Identifier les lignes et colonnes.",
+        "Saisir des valeurs dans les cellules.",
+        "Commencer une formule par =.",
+        "Recopier les formules si besoin."
+      ],
+      "example": "B3 désigne la colonne B, ligne 3.",
+      "code": "=A1+B1",
+      "exercise": "Que désigne la cellule C5 ?",
+      "solution": "Colonne C, ligne 5."
+    },
+    "ar": {
+      "title": "أساسيات Excel",
+      "explanation": "Excel برنامج جداول حسابية. تحدّد الخلية باسم العمود ورقم السطر مثل B3.",
+      "steps": [
+        "اعرف الأعمدة والأسطر.",
+        "أدخل القيم.",
+        "ابدأ الصيغة بـ =.",
+        "انسخ الصيغة إن لزم."
+      ],
+      "example": "B3 تعني العمود B والسطر 3.",
+      "code": "=A1+B1",
+      "exercise": "ما معنى C5؟",
+      "solution": "العمود C والسطر 5."
+    }
+  },
+  {
+    "id": "excel-formulas",
+    "aliases": {
+      "fr": [
+        "formule excel",
+        "somme excel",
+        "moyenne excel",
+        "fonction somme",
+        "moyenne tableur"
+      ],
+      "ar": [
+        "صيغة excel",
+        "مجموع excel",
+        "معدل excel",
+        "دالة SOMME"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Formules SOMME et MOYENNE",
+      "explanation": "Dans Excel, une formule commence par =. SOMME calcule un total et MOYENNE calcule une moyenne sur une plage de cellules.",
+      "steps": [
+        "Sélectionner la cellule du résultat.",
+        "Saisir =SOMME(B2:B6) ou =MOYENNE(B2:B6).",
+        "Valider avec Entrée."
+      ],
+      "example": "Pour B2=10, B3=15, B4=5 : SOMME(B2:B4) = 30.",
+      "code": "=SOMME(B2:B4)\n=MOYENNE(B2:B4)",
+      "exercise": "Quelle formule calcule la moyenne des cellules C2 à C6 ?",
+      "solution": "=MOYENNE(C2:C6)."
+    },
+    "ar": {
+      "title": "الصيغ في Excel",
+      "explanation": "تبدأ الصيغة بـ =. دالة SOMME للجمع وMOYENNE لحساب المعدل.",
+      "steps": [
+        "اختر الخلية.",
+        "أدخل الصيغة.",
+        "اضغط Entrée."
+      ],
+      "example": "إذا كانت القيم 10، 15، 5 فالمجموع 30.",
+      "code": "=SOMME(B2:B4)\n=MOYENNE(B2:B4)",
+      "exercise": "ما الصيغة لحساب معدل C2 إلى C6؟",
+      "solution": "=MOYENNE(C2:C6)."
+    }
+  },
+  {
+    "id": "excel-relative",
+    "aliases": {
+      "fr": [
+        "reference relative",
+        "reference absolue",
+        "dollar cellule",
+        "$a$1",
+        "recopie excel",
+        "reference mixte"
+      ],
+      "ar": [
+        "مرجع نسبي",
+        "مرجع مطلق",
+        "المرجع النسبي",
+        "مرجع ثابت"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Références relatives et absolues dans Excel",
+      "explanation": "Une référence relative, comme A1, se décale lors de la recopie. Une référence absolue, comme $A$1, reste fixe.",
+      "steps": [
+        "A1 : colonne et ligne relatives.",
+        "$A$1 : colonne et ligne fixes.",
+        "$A1 ou A$1 : référence mixte."
+      ],
+      "example": "Si =A1*2 est recopiée une ligne plus bas, elle devient =A2*2.",
+      "code": "=A1*$B$1",
+      "exercise": "Que devient =B2+1 si on la recopie vers le bas d’une ligne ?",
+      "solution": "=B3+1."
+    },
+    "ar": {
+      "title": "المرجع النسبي والمطلق في Excel",
+      "explanation": "المرجع النسبي A1 يتغير عند نسخ الصيغة، أما $A$1 فيبقى ثابتاً.",
+      "steps": [
+        "A1 مرجع نسبي.",
+        "$A$1 مرجع مطلق.",
+        "$A1 أو A$1 مرجع مختلط."
+      ],
+      "example": "عند نسخ =A1*2 لسطر أسفل تصبح =A2*2.",
+      "code": "=A1*$B$1",
+      "exercise": "ماذا تصبح =B2+1 عند نسخها سطراً للأسفل؟",
+      "solution": "=B3+1."
+    }
+  },
+  {
+    "id": "excel-format",
+    "aliases": {
+      "fr": [
+        "mise en forme excel",
+        "trier filtrer excel",
+        "ajouter ligne excel",
+        "inserer ligne",
+        "format tableau"
+      ],
+      "ar": [
+        "تنسيق excel",
+        "ترتيب بيانات excel",
+        "إضافة سطر",
+        "إدراج صف"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Mettre en forme un tableau Excel",
+      "explanation": "La mise en forme améliore la lisibilité ; le tri réorganise les données et le filtre affiche seulement les lignes correspondant à des critères.",
+      "steps": [
+        "Sélectionner les cellules du tableau.",
+        "Appliquer des titres, bordures et formats numériques.",
+        "Utiliser Données → Filtrer pour afficher un sous-ensemble.",
+        "Insérer une ligne avec clic droit sur le numéro de ligne → Insérer."
+      ],
+      "example": "Un filtre sur la colonne « Pays » peut afficher uniquement « Tunisie ».",
+      "code": "",
+      "exercise": "Quelle commande permet d’ajouter une ligne avant la ligne 6 ?",
+      "solution": "Sélectionner la ligne 6, puis Insérer une ligne."
+    },
+    "ar": {
+      "title": "تنسيق الجداول في Excel",
+      "explanation": "التنسيق يجعل الجدول واضحاً، والفرز يرتّب البيانات والتصفية تعرض الصفوف المطابقة للشرط.",
+      "steps": [
+        "حدّد الخلايا.",
+        "نسّق العناوين والحدود.",
+        "استعمل خيار Filtrer.",
+        "لإضافة صف حدّد رقم الصف واختر Insérer."
+      ],
+      "example": "يمكن عرض أسطر تونس فقط باستعمال Filtrer.",
+      "code": "",
+      "exercise": "كيف نضيف صفاً قبل الصف 6؟",
+      "solution": "نحدّد الصف 6 ونختار Insérer."
+    }
+  },
+  {
+    "id": "sketchup-basics",
+    "aliases": {
+      "fr": [
+        "sketchup",
+        "modele 3d",
+        "modelisation 3d",
+        "forme 3d",
+        "cube cone pyramide sphere"
+      ],
+      "ar": [
+        "سكيتش اب",
+        "رسم ثلاثي الأبعاد",
+        "نمذجة ثلاثية",
+        "مكعب",
+        "مخروط",
+        "هرم",
+        "كرة"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Modélisation 3D avec SketchUp",
+      "explanation": "SketchUp sert à créer des modèles 3D. Tu construis des faces en 2D puis tu leur donnes du volume.",
+      "steps": [
+        "Choisir le modèle et les dimensions.",
+        "Dessiner une forme de base.",
+        "Utiliser Pousser/Tirer pour créer un volume.",
+        "Orbite pour examiner le modèle ; déplacer et colorier si besoin."
+      ],
+      "example": "Pour une table : dessiner le plateau rectangulaire, l’extruder, puis créer les pieds.",
+      "code": "",
+      "exercise": "Quel outil permet de donner de l’épaisseur à un rectangle dans SketchUp ?",
+      "solution": "L’outil Pousser/Tirer."
+    },
+    "ar": {
+      "title": "النمذجة ثلاثية الأبعاد بـ SketchUp",
+      "explanation": "يسمح SketchUp ببناء مجسمات 3D انطلاقاً من أشكال مسطحة.",
+      "steps": [
+        "حدّد الأبعاد.",
+        "ارسم الشكل الأساسي.",
+        "استعمل Pousser/Tirer لإعطاء حجم.",
+        "دوّر العرض لفحص النموذج."
+      ],
+      "example": "لبناء طاولة نرسم السطح ثم الأرجل.",
+      "code": "",
+      "exercise": "ما الأداة التي تمنح المستطيل سماكة؟",
+      "solution": "Pousser/Tirer."
+    }
+  },
+  {
+    "id": "sketchup-chair",
+    "aliases": {
+      "fr": [
+        "chaise sketchup",
+        "table chaise sketchup",
+        "creer chaise",
+        "bureau sketchup",
+        "creer table 3d"
+      ],
+      "ar": [
+        "كرسي sketchup",
+        "طاولة sketchup",
+        "إنشاء كرسي",
+        "بناء طاولة"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Construire une table et une chaise 3D",
+      "explanation": "Pour modéliser une table et une chaise, commence par des volumes simples et respecte les dimensions relatives des pièces.",
+      "steps": [
+        "Créer le plateau de table (rectangle + Pousser/Tirer).",
+        "Ajouter quatre pieds en copiant un premier pied.",
+        "Créer l’assise de la chaise.",
+        "Ajouter ses pieds puis le dossier.",
+        "Vérifier en vue Orbite."
+      ],
+      "example": "La chaise se compose d’une assise, de quatre pieds et d’un dossier.",
+      "code": "",
+      "exercise": "Pourquoi construire chaque élément séparément en groupes ?",
+      "solution": "Pour éviter que les faces de pièces différentes se collent lors des déplacements."
+    },
+    "ar": {
+      "title": "بناء طاولة وكرسي في SketchUp",
+      "explanation": "ابدأ بأشكال بسيطة ثم ركّبها لإنشاء طاولة وكرسي ثلاثيي الأبعاد.",
+      "steps": [
+        "أنشئ سطح الطاولة.",
+        "أنشئ أرجل الطاولة.",
+        "أنشئ مقعد الكرسي.",
+        "أضف الأرجل والظهر.",
+        "عاين النموذج."
+      ],
+      "example": "يتكون الكرسي من مقعد وأرجل وظهر.",
+      "code": "",
+      "exercise": "لماذا نستخدم مجموعات منفصلة؟",
+      "solution": "حتى لا تلتصق الأشكال ببعضها."
+    }
+  },
+  {
+    "id": "web-html",
+    "aliases": {
+      "fr": [
+        "html",
+        "balise html",
+        "creer site web",
+        "page web html",
+        "structure html"
+      ],
+      "ar": [
+        "HTML",
+        "صفحة ويب",
+        "وسوم html",
+        "إنشاء موقع"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Les bases de HTML",
+      "explanation": "HTML organise le contenu d’une page Web avec des balises : h1 pour un titre, p pour un paragraphe, a pour un lien.",
+      "steps": [
+        "Créer index.html.",
+        "Ajouter une structure HTML valide.",
+        "Placer le contenu dans body.",
+        "Ouvrir le fichier dans le navigateur."
+      ],
+      "example": "<h1> est un titre principal.",
+      "code": "<!doctype html>\n<html lang=\"fr\">\n<head><meta charset=\"utf-8\"><title>Ma page</title></head>\n<body><h1>Bienvenue</h1><p>Mon premier site</p></body>\n</html>",
+      "exercise": "Quelle balise sert à créer un lien hypertexte ?",
+      "solution": "La balise <a href=\"...\">Lien</a>."
+    },
+    "ar": {
+      "title": "أساسيات HTML",
+      "explanation": "HTML تنظم محتوى صفحة الويب بالوسوم: h1 للعنوان، p للفقرة، a للرابط.",
+      "steps": [
+        "أنشئ index.html.",
+        "اكتب الهيكل الأساسي.",
+        "أضف المحتوى إلى body.",
+        "افتح الملف في المتصفح."
+      ],
+      "example": "الوسم <h1> لعنوان رئيسي.",
+      "code": "<h1>Bienvenue</h1>\n<p>Mon premier site</p>",
+      "exercise": "ما الوسم الذي ينشئ رابطاً؟",
+      "solution": "الوسم <a>."
+    }
+  },
+  {
+    "id": "web-css",
+    "aliases": {
+      "fr": [
+        "css",
+        "mise en forme css",
+        "style css",
+        "couleur css",
+        "responsive web"
+      ],
+      "ar": [
+        "CSS",
+        "تنسيق صفحات الويب",
+        "ألوان CSS",
+        "تصميم متجاوب"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "À quoi sert CSS ?",
+      "explanation": "CSS contrôle l’apparence d’une page HTML : couleurs, polices, espacements, dispositions et adaptation aux écrans.",
+      "steps": [
+        "Créer style.css.",
+        "Lier le CSS avec <link rel=\"stylesheet\" href=\"style.css\">.",
+        "Définir des sélecteurs et propriétés.",
+        "Tester sur ordinateur et smartphone."
+      ],
+      "example": "color agit sur le texte ; background-color sur le fond.",
+      "code": "h1 {\n  color: #2563eb;\n  font-size: 2rem;\n}",
+      "exercise": "Quelle propriété change la couleur du texte ?",
+      "solution": "color."
+    },
+    "ar": {
+      "title": "ما فائدة CSS؟",
+      "explanation": "تتحكم CSS في الألوان والخطوط والمسافات وتوزيع العناصر على الشاشة.",
+      "steps": [
+        "أنشئ style.css.",
+        "اربطه بملف HTML.",
+        "اكتب المحددات والخصائص.",
+        "اختبره على الهاتف والحاسوب."
+      ],
+      "example": "color يغيّر لون النص وbackground-color الخلفية.",
+      "code": "h1 { color: blue; }",
+      "exercise": "ما الخاصية التي تغير لون النص؟",
+      "solution": "color."
+    }
+  },
+  {
+    "id": "google-sites",
+    "aliases": {
+      "fr": [
+        "google sites",
+        "sites google",
+        "creer site vitrine",
+        "site vitrine",
+        "publier site"
+      ],
+      "ar": [
+        "Google Sites",
+        "موقع تعريفي",
+        "إنشاء موقع دون برمجة",
+        "نشر موقع"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Créer un site vitrine avec Google Sites",
+      "explanation": "Google Sites permet de créer et publier un petit site sans programmation, à partir de pages, textes, images et liens.",
+      "steps": [
+        "Ouvrir sites.google.com et créer un site.",
+        "Choisir un titre et une organisation des pages.",
+        "Ajouter textes, images, boutons et liens.",
+        "Prévisualiser le site sur téléphone.",
+        "Vérifier les accès avant Publier."
+      ],
+      "example": "Un site vitrine scolaire peut contenir Accueil, Présentation, Galerie et Contact.",
+      "code": "",
+      "exercise": "Pourquoi prévisualiser le site avant de le publier ?",
+      "solution": "Pour vérifier l’affichage, les liens et la lisibilité."
+    },
+    "ar": {
+      "title": "إنشاء موقع عبر Google Sites",
+      "explanation": "تتيح Google Sites بناء موقع ونشره دون برمجة.",
+      "steps": [
+        "افتح Google Sites.",
+        "اختر العنوان والصفحات.",
+        "أضف النصوص والصور والروابط.",
+        "عاين المظهر على الهاتف.",
+        "تحقق من الصلاحيات وانشر."
+      ],
+      "example": "موقع تعريفي فيه الرئيسية والتعريف والصور والاتصال.",
+      "code": "",
+      "exercise": "لماذا نعاين الموقع قبل النشر؟",
+      "solution": "للتحقق من المظهر والروابط."
+    }
+  },
+  {
+    "id": "google-forms",
+    "aliases": {
+      "fr": [
+        "google forms",
+        "formulaire google",
+        "creer formulaire",
+        "questionnaire sortie scolaire"
+      ],
+      "ar": [
+        "Google Forms",
+        "استبيان",
+        "إنشاء نموذج",
+        "استمارة"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Créer un formulaire Google Forms",
+      "explanation": "Google Forms permet de collecter des réponses au moyen de questions courtes, QCM, cases à cocher et listes déroulantes.",
+      "steps": [
+        "Ouvrir forms.google.com.",
+        "Nommer le formulaire et ajouter des questions.",
+        "Choisir les types de réponses et les champs obligatoires.",
+        "Prévisualiser, tester, puis partager le lien."
+      ],
+      "example": "Pour une sortie scolaire : nom, classe, destination choisie et autorisation.",
+      "code": "",
+      "exercise": "Quel type de question convient pour choisir une seule destination ?",
+      "solution": "Le choix multiple (QCM) ou une liste déroulante."
+    },
+    "ar": {
+      "title": "إنشاء استمارة Google Forms",
+      "explanation": "تسمح Google Forms بجمع الإجابات باستعمال أسئلة نصية أو متعددة الخيارات.",
+      "steps": [
+        "افتح Google Forms.",
+        "سمّ الاستمارة وأضف أسئلة.",
+        "اختر أنواع الإجابة.",
+        "اختبر ثم شارك الرابط."
+      ],
+      "example": "لاستمارة رحلة مدرسية: الاسم والقسم والوجهة.",
+      "code": "",
+      "exercise": "ما نوع السؤال لاختيار وجهة واحدة؟",
+      "solution": "اختيار متعدد أو قائمة منسدلة."
+    }
+  },
+  {
+    "id": "internet-web",
+    "aliases": {
+      "fr": [
+        "internet web",
+        "difference internet web",
+        "navigateur",
+        "url",
+        "http https"
+      ],
+      "ar": [
+        "الانترنت",
+        "الشبكة العنكبوتية",
+        "متصفح",
+        "عنوان URL",
+        "ما هو URL"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Internet, Web et URL",
+      "explanation": "Internet est le réseau mondial reliant des machines. Le Web est un service utilisant ce réseau pour consulter des pages. Une URL est l’adresse d’une ressource.",
+      "steps": [
+        "Navigateur : logiciel pour consulter des pages.",
+        "URL : adresse d’une page ou d’un fichier.",
+        "HTTPS : connexion chiffrée entre navigateur et serveur."
+      ],
+      "example": "https://example.org/cours est une URL.",
+      "code": "",
+      "exercise": "Le Web et Internet sont-ils exactement la même chose ?",
+      "solution": "Non. Le Web est un service qui fonctionne grâce à Internet."
+    },
+    "ar": {
+      "title": "الإنترنت والويب وعنوان URL",
+      "explanation": "الإنترنت شبكة عالمية، أما الويب فهو خدمة لعرض الصفحات عبرها. URL عنوان مورد.",
+      "steps": [
+        "المتصفح يفتح الصفحات.",
+        "URL عنوان المورد.",
+        "HTTPS اتصال مشفّر."
+      ],
+      "example": "https://example.org هو عنوان URL.",
+      "code": "",
+      "exercise": "هل الويب هو نفسه الإنترنت؟",
+      "solution": "لا، الويب خدمة تعمل على الإنترنت."
+    }
+  },
+  {
+    "id": "commerce-web",
+    "aliases": {
+      "fr": [
+        "e-commerce",
+        "e-business",
+        "commerce electronique",
+        "boutique en ligne"
+      ],
+      "ar": [
+        "تجارة إلكترونية",
+        "e-commerce",
+        "e-business"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "E-commerce et e-business",
+      "explanation": "L’e-commerce concerne l’achat et la vente en ligne. L’e-business couvre plus largement les processus numériques d’une entreprise : gestion, clients, communication et vente.",
+      "steps": [
+        "Identifier les produits ou services proposés.",
+        "Reconnaître le parcours commande / paiement / livraison.",
+        "Vérifier les informations et la sécurité du site."
+      ],
+      "example": "Commander un livre sur un site est une activité d’e-commerce.",
+      "code": "",
+      "exercise": "L’e-business se limite-t-il à la vente sur Internet ?",
+      "solution": "Non, il inclut aussi la gestion et les autres processus numériques."
+    },
+    "ar": {
+      "title": "التجارة الإلكترونية وe-business",
+      "explanation": "e-commerce يتعلق بالبيع والشراء على الإنترنت. e-business أشمل ويشمل الإدارة والخدمات والعمليات الرقمية.",
+      "steps": [
+        "حدّد الخدمات.",
+        "تعرف على الطلب والدفع والتوصيل.",
+        "تحقق من الأمان."
+      ],
+      "example": "شراء كتاب عبر الإنترنت مثال على e-commerce.",
+      "code": "",
+      "exercise": "هل يقتصر e-business على البيع؟",
+      "solution": "لا، يشمل أنشطة المؤسسة الرقمية الأخرى."
+    }
+  },
+  {
+    "id": "database-sql",
+    "aliases": {
+      "fr": [
+        "sql",
+        "base de donnees",
+        "table relationnelle",
+        "select where",
+        "requete sql"
+      ],
+      "ar": [
+        "SQL",
+        "قاعدة بيانات",
+        "استعلام",
+        "SELECT",
+        "جدول بيانات"
+      ]
+    },
+    "minLevel": "1ère",
+    "fr": {
+      "title": "Notions de base en SQL",
+      "explanation": "Une base relationnelle stocke des données dans des tables. SQL permet de les consulter ou modifier. SELECT extrait des lignes ; WHERE les filtre.",
+      "steps": [
+        "Identifier la table et les colonnes.",
+        "Choisir SELECT pour lire les données.",
+        "Ajouter WHERE pour préciser une condition."
+      ],
+      "example": "SELECT nom FROM eleves WHERE niveau = 2; retourne les noms des élèves du niveau 2.",
+      "code": "SELECT nom, moyenne\nFROM eleves\nWHERE moyenne >= 10;",
+      "exercise": "Quelle clause SQL permet de filtrer les lignes ?",
+      "solution": "WHERE."
+    },
+    "ar": {
+      "title": "أساسيات SQL",
+      "explanation": "تخزن قاعدة البيانات العلائقية المعلومات في جداول. تستعمل SQL لقراءة أو تعديل البيانات.",
+      "steps": [
+        "اختر الجدول والأعمدة.",
+        "استعمل SELECT للقراءة.",
+        "استعمل WHERE للفلترة."
+      ],
+      "example": "SELECT nom FROM eleves يعرض أسماء التلاميذ.",
+      "code": "SELECT nom FROM eleves WHERE moyenne >= 10;",
+      "exercise": "ما التعليمة التي تُفلتر النتائج؟",
+      "solution": "WHERE."
+    }
+  }
+]

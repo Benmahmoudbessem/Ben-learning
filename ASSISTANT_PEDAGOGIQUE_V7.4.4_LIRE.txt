@@ -1,0 +1,19 @@
+BEN-LEARNING V7.4.4 – AMELIORATION ASSISTANT PEDAGOGIQUE
+
+Fichiers ajoutes/modifies :
+- assistant.html : nouvelle interface conversation, raccourcis, domaines et actions.
+- js/assistant.js : reponses pedagogiques, exemples, exercices, corrections, recherche dans les cours adaptes au niveau, planning/devoirs et prise en charge francais/arabe.
+- data/assistant-knowledge.json : 29 notions pedagogiques en francais et arabe (modifiable par l enseignant).
+- css/assistant-pro.css : interface responsive, mode clair/sombre.
+- service-worker.js : version du cache actualisee et prise en compte de l assistant.
+
+INSTALLATION :
+1. Ouvrir ben-learning dans VS Code et lancer avec Live Server.
+2. Se connecter avec un compte eleve accepte, ayant confirme son email.
+3. Ouvrir assistant.html ou cliquer sur Assistant.
+4. Poser une question : 'Pourquoi == en Python ?', 'Comment tester pair ou impair ?', 'Reference relative Excel ?', 'Comment creer une chaise SketchUp ?'.
+5. Tester les boutons 'Expliquer simplement', 'Voir un exemple', 'Proposer un exercice', 'Voir la correction'.
+
+ATTENTION : cette version fonctionne avec une bibliotheque de reponses guidees et les donnees de cours disponibles. CE N EST PAS une IA generative connectee a un grand modele. Pour ajouter de nouvelles connaissances, enrichir data/assistant-knowledge.json. Pour un assistant conversationnel libre et generatif, il faudrait un backend securise et un service IA connecte : ne jamais placer de cle API dans les fichiers publies sur GitHub Pages.
+Aucun changement des regles Firebase n est necessaire pour cette amelioration.
+Les comptes et le suivi Firebase doivent etre testes sur la vraie configuration apres deploiement.

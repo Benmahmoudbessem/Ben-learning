@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Ben-Learning, plateforme gratuite d'apprentissage de l'informatique pour les élèves du lycée tunisien.">
-  <title>Ben-Learning | Accueil</title>
+  <title>SmartEducation | Ben-Learning</title>
   <meta name="theme-color" content="#2563eb">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/modern-admin-theme.css">
 </head>
 <body class="home-page">
 <header class="site-header" id="siteHeader">
@@ -32,12 +33,13 @@
     <div class="hero-decoration hero-decoration-two"></div>
 
     <div class="hero-copy hero-reveal">
-      <div class="hero-badge"><span class="live-dot"></span> Plateforme éducative 100% gratuite</div>
+      <div class="hero-badge"><span class="live-dot"></span> Ben-Learning connecté à SmartTeacher</div>
       <h1>Apprends l’informatique <span class="gradient-text">autrement.</span></h1>
       <p class="hero-lead">Une plateforme moderne pour réviser, pratiquer et progresser du <strong>1ère</strong> jusqu’au <strong>Bac</strong>, avec des cours structurés, des séances Google Meet, des devoirs, des quiz et un suivi personnalisé.</p>
       <div class="hero-actions">
         <a class="btn primary btn-glow" href="courses.html"><span>Explorer les cours</span><b>→</b></a>
         <a class="btn secondary" href="register.html">Créer un compte gratuit</a>
+        <button class="btn install-hero-btn" type="button" id="heroInstallBtn">📲 Installer sur smartphone</button>
       </div>
       <div class="hero-trust">
         <div class="trust-item"><span>✓</span> Gratuit</div>
@@ -88,7 +90,7 @@
       <div class="update-banner-copy">
         <span class="update-kicker">PLATEFORME EN ÉVOLUTION</span>
         <h2>🔄 Ben-Learning est en mise à jour continue</h2>
-        <p>Les cours, exercices, quiz et ressources sont enrichis régulièrement selon l’avancement des cours et des séances.</p>
+        <p>Les cours préparés dans SmartTeacher sont publiés directement ici, selon ton niveau et ta section.</p>
       </div>
       <div class="update-live"><i></i> Contenu actualisé</div>
     </div>
@@ -292,9 +294,12 @@
 
 <footer class="site-footer">
   <div><strong>🎓 Ben-Learning</strong><p>Apprendre aujourd’hui, réussir demain.</p></div>
-  <div class="footer-links"><a href="index.html">Accueil</a><a href="#contact">Contact</a><a href="login.html">Connexion</a><a href="admin-login.html">Administration</a></div>
+  <div class="footer-links"><a href="index.html">Accueil</a><a href="#contact">Contact</a><a href="login.html">Connexion</a></div>
   <p>© 2026 Ben-Learning — Bessem Ben Mahmoud</p>
 </footer>
-<script src="js/app.js"></script>
+<script src="js/app.js?v=7.4.3.2"></script>
+<script src="js/lang.js?v=7.4.3.2"></script>
+<script src="js/theme.js"></script>
+<script type="module" src="js/notification-center.js"></script>
 </body>
 </html>

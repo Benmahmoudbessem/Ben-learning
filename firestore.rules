@@ -83,6 +83,12 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
+    // Quiz créés ou générés dans SmartTeacher puis publiés dans Ben-Learning.
+    match /quizzes/{quizId} {
+      allow read: if learningMember();
+      allow create, update, delete: if isAdmin();
+    }
+
     // Planning Google Meet.
     match /sessions/{sessionId} {
       allow read: if learningMember();

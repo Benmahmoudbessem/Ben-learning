@@ -1,0 +1,18 @@
+SMARTEDUCATION V7.4.3.1 — CORRECTIF INSCRIPTION / CONNEXION ADMIN
+
+1. Correctif de syntaxe dans ben-learning/js/auth.js : apostrophe du libellé "d’inscription".
+2. Correctifs de syntaxe dans ben-learning/js/admin.js : messages de confirmation et de notification.
+3. Messages de diagnostic améliorés dans ben-learning/js/admin-auth.js.
+4. Liens JavaScript versionnés dans register.html, login.html, admin.html et admin-login.html.
+5. Cache PWA renouvelé dans service-worker.js.
+
+MISE EN PLACE :
+- Extraire l’archive dans un NOUVEAU dossier.
+- Lancer ben-learning/index.html avec Live Server dans VS Code.
+- Recharger avec Ctrl+F5 (ou Ctrl+Maj+R).
+- Pour GitHub Pages, publier les fichiers mis à jour du sous-dossier ben-learning.
+- Pour se connecter en administrateur : ben-learning/admin-login.html et le compte Firebase possédant users/{uid}.role = "admin".
+- Aucune modification des règles Firestore n’est nécessaire pour résoudre les erreurs de syntaxe JavaScript.
+
+TESTS STATIQUES : toutes les ressources JS du dossier ben-learning ont passé le contrôle de syntaxe ECMAScript module.
+TESTS NON EFFECTUES : connexion réelle aux services Firebase (environnement sans accès Internet) et flux utilisateur complet.

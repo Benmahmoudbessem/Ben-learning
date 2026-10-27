@@ -19,19 +19,47 @@ function msg(text, ok = false) {
   el.style.color = ok ? '#15803d' : '#dc2626';
 }
 
+function currentLang() {
+  return localStorage.getItem('bl_lang') === 'ar' ? 'ar' : 'fr';
+}
+
+const authI18n = {
+  fr: {
+    fillAll:'Merci de remplir tous les champs.', creatingAccount:'Création du compte…', creatingFirebase:'Création du compte Firebase…',
+    accountCreated:'Compte créé ✅ Un email de vérification vient de t’être envoyé.', accountCreatedNoMail:'Compte créé, mais l’email de vérification n’a pas pu être envoyé. Tu pourras le renvoyer depuis la page suivante.',
+    submitRegistration:"Envoyer ma demande d'inscription", signingIn:'Connexion…', connectingFirebase:'Connexion à Firebase…', login:'Se connecter',
+    alreadyExists:'Un compte existe déjà avec cet email.', invalidEmail:"L'adresse email n'est pas valide.", weakPassword:'Le mot de passe doit contenir au moins 6 caractères.', badCredentials:'Email ou mot de passe incorrect.', network:'Problème de connexion Internet. Réessaie.', tooMany:'Trop de demandes ont été envoyées. Attends quelques minutes puis réessaie.', permissionDenied:'Accès refusé par les règles Firestore. Vérifie que les règles publiées autorisent la création du profil élève.', firebaseError:'Erreur Firebase : {message}'
+  },
+  ar: {
+    fillAll:'يرجى ملء جميع الحقول.', creatingAccount:'جاري إنشاء الحساب…', creatingFirebase:'جاري إنشاء حساب Firebase…',
+    accountCreated:'تم إنشاء الحساب ✅ وتم إرسال رسالة تحقق إلى بريدك الإلكتروني.', accountCreatedNoMail:'تم إنشاء الحساب، لكن تعذر إرسال رسالة التحقق. يمكنك إعادة الإرسال من الصفحة التالية.',
+    submitRegistration:'إرسال طلب التسجيل', signingIn:'جاري تسجيل الدخول…', connectingFirebase:'جارٍ الاتصال بـ Firebase…', login:'تسجيل الدخول',
+    alreadyExists:'يوجد حساب بهذا البريد الإلكتروني بالفعل.', invalidEmail:'عنوان البريد الإلكتروني غير صالح.', weakPassword:'يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل.', badCredentials:'البريد الإلكتروني أو كلمة المرور غير صحيحة.', network:'مشكلة في الاتصال بالإنترنت. حاول مرة أخرى.', tooMany:'تم إرسال طلبات كثيرة. انتظر بضع دقائق ثم حاول مرة أخرى.', permissionDenied:'تم رفض الوصول عبر قواعد Firestore. تحقق من صلاحيات إنشاء حساب التلميذ.', firebaseError:'خطأ Firebase: {message}'
+  }
+};
+
+function t(key, vars = {}) {
+  const lang = currentLang();
+  let value = authI18n[lang]?.[key] ?? authI18n.fr[key] ?? key;
+  Object.entries(vars).forEach(([name, val]) => value = value.replaceAll(`{${name}}`, val));
+  return value;
+}
+
 function friendlyFirebaseError(error) {
   const code = error?.code || '';
   const messages = {
-    'auth/email-already-in-use': 'Un compte existe déjà avec cet email.',
-    'auth/invalid-email': "L'adresse email n'est pas valide.",
-    'auth/weak-password': 'Le mot de passe doit contenir au moins 6 caractères.',
-    'auth/invalid-credential': 'Email ou mot de passe incorrect.',
-    'auth/user-not-found': 'Email ou mot de passe incorrect.',
-    'auth/wrong-password': 'Email ou mot de passe incorrect.',
-    'auth/network-request-failed': 'Problème de connexion Internet. Réessaie.',
-    'auth/too-many-requests': 'Trop de demandes ont été envoyées. Attends quelques minutes puis réessaie.'
+    'auth/email-already-in-use': t('alreadyExists'),
+    'auth/invalid-email': t('invalidEmail'),
+    'auth/weak-password': t('weakPassword'),
+    'auth/invalid-credential': t('badCredentials'),
+    'auth/user-not-found': t('badCredentials'),
+    'auth/wrong-password': t('badCredentials'),
+    'auth/network-request-failed': t('network'),
+    'auth/too-many-requests': t('tooMany'),
+    'permission-denied': t('permissionDenied'),
+    'firestore/permission-denied': t('permissionDenied')
   };
-  return messages[code] || `Erreur Firebase : ${error?.message || 'opération impossible'}`;
+  return messages[code] || t('firebaseError', { message: error?.message || 'operation impossible' });
 }
 
 function saveSession(user, data = {}) {
@@ -80,14 +108,14 @@ if (registerForm) {
     const password = document.getElementById('password').value;
 
     if (!name || !email || !level || !section || !password) {
-      msg('Merci de remplir tous les champs.');
+      msg(t('fillAll'));
       return;
     }
 
     try {
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Création du compte…';
-      msg('Création du compte Firebase…', true);
+      submitBtn.textContent = t('creatingAccount');
+      msg(t('creatingFirebase'), true);
 
       const credential = await createUserWithEmailAndPassword(auth, email, password);
       const user = credential.user;
@@ -109,10 +137,10 @@ if (registerForm) {
 
       try {
         await sendEmailVerification(user);
-        msg('Compte créé ✅ Un email de vérification vient de t’être envoyé.', true);
+        msg(t('accountCreated'), true);
       } catch (verificationError) {
         console.warn(verificationError);
-        msg('Compte créé, mais l’email de vérification n’a pas pu être envoyé. Tu pourras le renvoyer depuis la page suivante.', true);
+        msg(t('accountCreatedNoMail'), true);
       }
 
       setTimeout(() => location.href = 'status.html', 900);
@@ -120,7 +148,7 @@ if (registerForm) {
       console.error(error);
       msg(friendlyFirebaseError(error));
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Envoyer ma demande d’inscription';
+      submitBtn.textContent = t('submitRegistration');
     }
   });
 }
@@ -135,8 +163,8 @@ if (loginForm) {
 
     try {
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Connexion…';
-      msg('Connexion à Firebase…', true);
+      submitBtn.textContent = t('signingIn');
+      msg(t('connectingFirebase'), true);
 
       const credential = await signInWithEmailAndPassword(auth, email, password);
       const user = credential.user;
@@ -189,7 +217,7 @@ if (loginForm) {
       console.error(error);
       msg(friendlyFirebaseError(error));
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Se connecter';
+      submitBtn.textContent = t('login');
     }
   });
 }

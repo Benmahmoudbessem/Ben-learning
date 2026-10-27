@@ -2,11 +2,20 @@
   const menuBtn=document.getElementById('menuBtn');
   const nav=document.getElementById('mainNav');
 
+  function getLang(){return localStorage.getItem('bl_lang')==='ar'?'ar':'fr';}
+  function uiText(key){
+    const dict={
+      fr:{openMenu:'Ouvrir le menu',closeMenu:'Fermer le menu',followRegistration:'Suivi inscription',mySpace:'Mon espace'},
+      ar:{openMenu:'فتح القائمة',closeMenu:'إغلاق القائمة',followRegistration:'متابعة التسجيل',mySpace:'فضائي'}
+    };
+    return (dict[getLang()]&&dict[getLang()][key]) || dict.fr[key] || '';
+  }
+
   function closeMenu(){
     if(!menuBtn||!nav) return;
     nav.classList.remove('open');
     menuBtn.setAttribute('aria-expanded','false');
-    menuBtn.setAttribute('aria-label','Ouvrir le menu');
+    menuBtn.setAttribute('aria-label',uiText('openMenu'));
     const icon=menuBtn.querySelector('span');
     if(icon) icon.textContent='☰';
     document.body.classList.remove('menu-open');
@@ -16,7 +25,7 @@
     if(!menuBtn||!nav) return;
     nav.classList.add('open');
     menuBtn.setAttribute('aria-expanded','true');
-    menuBtn.setAttribute('aria-label','Fermer le menu');
+    menuBtn.setAttribute('aria-label',uiText('closeMenu'));
     const icon=menuBtn.querySelector('span');
     if(icon) icon.textContent='✕';
     document.body.classList.add('menu-open');
@@ -41,10 +50,10 @@
   const session=JSON.parse(localStorage.getItem('bl_session')||'null');
   if(authLink&&session){
     if(session.role==='student' && session.status && session.status!=='approved'){
-      authLink.textContent='Suivi inscription';
+      authLink.textContent=uiText('followRegistration');
       authLink.href='status.html';
     }else{
-      authLink.textContent='Mon espace';
+      authLink.textContent=uiText('mySpace');
       authLink.href='profile.html';
     }
   }
@@ -74,7 +83,7 @@
   requestAnimationFrame(()=>document.querySelectorAll('.hero-reveal').forEach(el=>el.classList.add('is-visible')));
 })();
 
-// Ben-Learning V4.9.2 — installation PWA smartphone fiable
+// Ben-Learning V7.4.3.2 — accès à l'installation sur ordinateur et smartphone
 (function(){
   if('serviceWorker' in navigator){
     window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(err=>console.warn('Service Worker indisponible',err)));
@@ -88,13 +97,16 @@
   const isInAppBrowser=/FBAN|FBAV|Instagram|Line|Twitter|WhatsApp/i.test(ua);
   let deferredPrompt=null;
 
-  if(!isMobile || isStandalone()) return;
+  if (isStandalone()) {
+    document.getElementById('heroInstallBtn')?.remove();
+    return;
+  }
 
   const installBtn=document.createElement('button');
   installBtn.type='button';
   installBtn.className='pwa-install-btn pwa-install-btn-visible';
-  installBtn.innerHTML='<span class="pwa-install-icon">📲</span><span>Installer Ben-Learning</span>';
-  installBtn.setAttribute('aria-label','Installer Ben-Learning sur ce smartphone');
+  installBtn.innerHTML='<span class="pwa-install-icon">📲</span><span class="pwa-install-label">Installer sur smartphone</span>';
+  installBtn.setAttribute('aria-label','Installer Ben-Learning sur smartphone');
   document.body.appendChild(installBtn);
 
   const modal=document.createElement('div');
@@ -145,13 +157,25 @@
 
   function genericInstructions(){
     return `
-      <p>Pour installer Ben-Learning, ouvre le menu de ton navigateur puis choisis <strong>Ajouter à l’écran d’accueil</strong> ou <strong>Installer l’application</strong>.</p>`;
+      <p>Ouvre Ben-Learning dans le navigateur de ton téléphone, puis choisis <strong>Ajouter à l’écran d’accueil</strong> ou <strong>Installer l’application</strong>.</p>`;
+  }
+
+  function desktopInstructions(){
+    return `
+      <p>Tu consultes Ben-Learning sur ordinateur. Pour l’installer <strong>sur ton smartphone</strong> :</p>
+      <ol class="pwa-help-steps">
+        <li><b>1</b><span>Publie la dernière version de Ben-Learning sur ton site web HTTPS.</span></li>
+        <li><b>2</b><span>Ouvre cette adresse depuis ton <strong>téléphone</strong> avec Chrome (Android) ou Safari (iPhone).</span></li>
+        <li><b>3</b><span>Appuie sur <strong>Installer l’application</strong> (Android), ou <strong>Partager → Ajouter à l’écran d’accueil</strong> (iPhone).</span></li>
+      </ol>
+      <div class="pwa-browser-warning">⚠️ L'adresse localhost de ton ordinateur n'est pas accessible telle quelle depuis ton téléphone. Pour une installation fiable, utilise le site publié en HTTPS.</div>`;
   }
 
   function openHelp(){
     if(isInAppBrowser) content.innerHTML=inAppInstructions();
     else if(isIOS) content.innerHTML=iosInstructions();
     else if(isAndroid) content.innerHTML=androidInstructions();
+    else if(!isMobile) content.innerHTML=desktopInstructions();
     else content.innerHTML=genericInstructions();
     modal.classList.add('open');
     modal.setAttribute('aria-hidden','false');
@@ -175,12 +199,24 @@
     installBtn.classList.add('pwa-ready');
   });
 
+  document.getElementById('heroInstallBtn')?.addEventListener('click', () => installBtn.click());
+
+  function syncInstallLanguage() {
+    const lang = localStorage.getItem('bl_lang') === 'ar' ? 'ar' : 'fr';
+    const text = lang === 'ar' ? 'ثبّت على الهاتف' : 'Installer sur smartphone';
+    const span = installBtn.querySelector('.pwa-install-label');
+    if (span) span.textContent = text;
+    installBtn.setAttribute('aria-label', text);
+  }
+  syncInstallLanguage();
+  window.addEventListener('bl:languagechange', syncInstallLanguage);
+
   installBtn.addEventListener('click',async()=>{
     if(isStandalone()){
       installBtn.remove();
       return;
     }
-    if(deferredPrompt){
+    if(deferredPrompt && isMobile){
       try{
         deferredPrompt.prompt();
         const choice=await deferredPrompt.userChoice;

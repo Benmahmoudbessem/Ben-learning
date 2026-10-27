@@ -40,6 +40,8 @@ const selectedFileName = document.getElementById('selectedFileName');
 const studentList = document.getElementById('studentList');
 const studentSearch = document.getElementById('studentSearch');
 const studentsMessage = document.getElementById('studentsMessage');
+const studentFilterBar = document.getElementById('studentFilterBar');
+let studentStatusFilter = 'all';
 const adminChatStudent = document.getElementById('adminChatStudent');
 const adminChatMessages = document.getElementById('adminChatMessages');
 const adminChatForm = document.getElementById('adminChatForm');
@@ -54,6 +56,54 @@ const enableBrowserAlerts = document.getElementById('enableBrowserAlerts');
 function esc(v = '') {
   return String(v).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 }
+
+function getCurrentLang() {
+  return localStorage.getItem('bl_lang') === 'ar' ? 'ar' : 'fr';
+}
+
+const adminI18n = {
+  fr: {
+    statusApproved:'Accepté', statusRejected:'Refusé', statusPending:'En attente',
+    emailVerified:'✓ Vérifié', emailUnverified:'✉ Non vérifié', emailVerificationColumn:'Vérification email',
+    searchEmpty:'Aucun résultat pour cette recherche.', noStudents:'Aucune inscription pour le moment.', loading:'Chargement des inscriptions…',
+    accept:'✓ Accepter', reject:'✕ Refuser', chat:'💬 Chat',
+    acceptTitle:'Accepter cette inscription', acceptDisabledTitle:'Impossible : email non vérifié',
+    syncActive:'Synchronisation Firebase active.', readError:'Impossible de lire les inscriptions. Vérifie les règles Firestore et le rôle admin.',
+    firestoreDenied:'Accès Firestore refusé.',
+    alertNotVerified:"Impossible d’accepter cette inscription : l’élève n’a pas encore vérifié son adresse email.",
+    confirmAccept:"Confirmer : accepter l'inscription de {name} ?", confirmReject:"Confirmer : refuser l'inscription de {name} ?",
+    acceptedNotificationTitle:'Inscription acceptée ✅', acceptedNotificationBody:'Ton inscription Ben-Learning a été validée. Tu peux maintenant accéder aux cours et aux quiz.',
+    rejectedNotificationTitle:'Inscription non acceptée', rejectedNotificationBody:"Ta demande d'inscription n'a pas été acceptée. Tu peux contacter l'administration via le chat pour plus d'informations.",
+    statusChangeError:'Impossible de modifier le statut. Vérifie les règles Firestore.',
+    filters:{all:'Tous',pending:'En attente',approved:'Acceptés',rejected:'Refusés'}
+  },
+  ar: {
+    statusApproved:'مقبول', statusRejected:'مرفوض', statusPending:'قيد الانتظار',
+    emailVerified:'✓ تم التحقق', emailUnverified:'✉ غير متحقق', emailVerificationColumn:'التحقق من البريد',
+    searchEmpty:'لا توجد نتائج لهذا البحث.', noStudents:'لا توجد تسجيلات حالياً.', loading:'جاري تحميل التسجيلات…',
+    accept:'✓ قبول', reject:'✕ رفض', chat:'💬 محادثة',
+    acceptTitle:'قبول هذا التسجيل', acceptDisabledTitle:'غير ممكن: البريد غير متحقق',
+    syncActive:'تم تفعيل المزامنة مع Firebase.', readError:'تعذر قراءة التسجيلات. تحقّق من قواعد Firestore وصلاحيات المشرف.',
+    firestoreDenied:'تم رفض الوصول إلى Firestore.',
+    alertNotVerified:'لا يمكن قبول هذا التسجيل لأن التلميذ لم يؤكد بريده الإلكتروني بعد.',
+    confirmAccept:'تأكيد: قبول تسجيل {name}؟', confirmReject:'تأكيد: رفض تسجيل {name}؟',
+    acceptedNotificationTitle:'تم قبول التسجيل ✅', acceptedNotificationBody:'تمت المصادقة على تسجيلك في Ben-Learning ويمكنك الآن الدخول إلى الدروس والاختبارات.',
+    rejectedNotificationTitle:'لم يتم قبول التسجيل', rejectedNotificationBody:'لم يتم قبول طلب التسجيل. يمكنك التواصل مع الإدارة عبر المحادثة لمزيد من المعلومات.',
+    statusChangeError:'تعذر تغيير الحالة. تحقّق من قواعد Firestore.',
+    filters:{all:'الكل',pending:'قيد الانتظار',approved:'المقبولون',rejected:'المرفوضون'}
+  }
+};
+
+function adminText(key) {
+  const lang = getCurrentLang();
+  const data = adminI18n[lang] || adminI18n.fr;
+  return key.split('.').reduce((acc, part) => acc && acc[part], data) ?? key;
+}
+
+function formatAdminText(key, vars = {}) {
+  return Object.entries(vars).reduce((s, [name, value]) => s.replaceAll(`{${name}}`, value), adminText(key));
+}
+
 
 function normalizeCourse(c) {
   if (!c) return c;
@@ -76,9 +126,9 @@ function formatTimestamp(item) {
 }
 
 function statusLabel(status) {
-  if (status === 'approved') return ['Accepté', 'approved'];
-  if (status === 'rejected') return ['Refusé', 'rejected'];
-  return ['En attente', 'pending'];
+  if (status === 'approved') return [adminText('statusApproved'), 'approved'];
+  if (status === 'rejected') return [adminText('statusRejected'), 'rejected'];
+  return [adminText('statusPending'), 'pending'];
 }
 
 function updateStudentSelectors() {
@@ -95,9 +145,11 @@ function renderStudents() {
   const term = (studentSearch?.value || '').trim().toLowerCase();
   const filtered = students.filter(s => {
     const [label] = statusLabel(s.status);
-    const verificationLabel = s.emailVerified === true ? 'email vérifié' : 'email non vérifié';
+    const verificationLabel = s.emailVerified === true ? adminText('emailVerified') : adminText('emailUnverified');
+    const normalizedStatus = s.status || 'pending';
+    const matchesStatus = studentStatusFilter === 'all' || normalizedStatus === studentStatusFilter;
     const haystack = `${s.name || ''} ${s.email || ''} ${s.level || ''} ${s.section || ''} ${label} ${verificationLabel}`.toLowerCase();
-    return haystack.includes(term);
+    return matchesStatus && haystack.includes(term);
   });
 
   const pendingCount = students.filter(s => (s.status || 'pending') === 'pending').length;
@@ -106,8 +158,19 @@ function renderStudents() {
   document.getElementById('adminPendingStat').textContent = pendingCount;
   updateStudentSelectors();
 
+  if (studentFilterBar) {
+    studentFilterBar.querySelectorAll('[data-filter]').forEach(btn => {
+      const active = btn.dataset.filter === studentStatusFilter;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', String(active));
+      const labelKey = `filters.${btn.dataset.filter}`;
+      const count = btn.dataset.filter === 'all' ? students.length : students.filter(s => (s.status || 'pending') === btn.dataset.filter).length;
+      btn.innerHTML = `${esc(adminText(labelKey))} <span class="student-filter-count">${count}</span>`;
+    });
+  }
+
   if (!filtered.length) {
-    studentList.innerHTML = `<tr><td colspan="7" class="table-empty">${students.length ? 'Aucun résultat pour cette recherche.' : 'Aucune inscription pour le moment.'}</td></tr>`;
+    studentList.innerHTML = `<tr><td colspan="7" class="table-empty">${students.length ? adminText('searchEmpty') : adminText('noStudents')}</td></tr>`;
     return;
   }
 
@@ -117,13 +180,13 @@ function renderStudents() {
       <td><strong>${esc(s.name || 'Sans nom')}</strong><small class="student-email">${esc(s.email || '')}</small></td>
       <td>${esc(s.level || '—')}</td>
       <td>${esc(s.section || '—')}</td>
-      <td><span class="student-status ${s.emailVerified === true ? 'approved' : 'email-unverified'}">${s.emailVerified === true ? '✓ Vérifié' : '✉ Non vérifié'}</span></td>
+      <td><span class="student-status ${s.emailVerified === true ? 'approved' : 'email-unverified'}">${s.emailVerified === true ? adminText('emailVerified') : adminText('emailUnverified')}</span></td>
       <td><span class="student-status ${cls}">${label}</span></td>
       <td>${esc(formatTimestamp(s))}</td>
       <td><div class="student-actions">
-        <button class="mini-action accept" title="${s.emailVerified === true ? 'Accepter cette inscription' : 'Impossible : email non vérifié'}" onclick="setStudentStatus('${s.id}','approved')" ${(s.status === 'approved' || s.emailVerified !== true) ? 'disabled' : ''}>✓ Accepter</button>
-        <button class="mini-action reject" onclick="setStudentStatus('${s.id}','rejected')" ${s.status === 'rejected' ? 'disabled' : ''}>✕ Refuser</button>
-        <button class="mini-action chat" onclick="openStudentChat('${s.id}')">💬 Chat</button>
+        <button class="mini-action accept" title="${s.emailVerified === true ? adminText('acceptTitle') : adminText('acceptDisabledTitle')}" onclick="setStudentStatus('${s.id}','approved')" ${(s.status === 'approved' || s.emailVerified !== true) ? 'disabled' : ''}>${adminText('accept')}</button>
+        <button class="mini-action reject" onclick="setStudentStatus('${s.id}','rejected')" ${s.status === 'rejected' ? 'disabled' : ''}>${adminText('reject')}</button>
+        <button class="mini-action chat" onclick="openStudentChat('${s.id}')">${adminText('chat')}</button>
       </div></td>
     </tr>`;
   }).join('');
@@ -131,7 +194,7 @@ function renderStudents() {
 
 function listenToStudents() {
   if (stopStudentsListener) stopStudentsListener();
-  studentsMessage.textContent = 'Synchronisation Firebase active.';
+  studentsMessage.textContent = adminText('syncActive');
   studentsMessage.className = 'firebase-status ok';
 
   const studentsQuery = query(collection(db, 'users'), where('role', '==', 'student'));
@@ -145,9 +208,9 @@ function listenToStudents() {
     renderStudents();
   }, error => {
     console.error(error);
-    studentsMessage.textContent = 'Impossible de lire les inscriptions. Vérifie les règles Firestore et le rôle admin.';
+    studentsMessage.textContent = adminText('readError');
     studentsMessage.className = 'firebase-status error';
-    studentList.innerHTML = '<tr><td colspan="7" class="table-empty">Accès Firestore refusé.</td></tr>';
+    studentList.innerHTML = `<tr><td colspan="7" class="table-empty">${adminText('firestoreDenied')}</td></tr>`;
   });
 }
 
@@ -170,10 +233,11 @@ window.setStudentStatus = async function(id, status) {
   if (!student) return;
   const actionText = status === 'approved' ? 'accepter' : 'refuser';
   if (status === 'approved' && student.emailVerified !== true) {
-    alert("Impossible d’accepter cette inscription : l’élève n’a pas encore vérifié son adresse email.");
+    alert(adminText('alertNotVerified'));
     return;
   }
-  if (!confirm(`Confirmer : ${actionText} l’inscription de ${student.name || student.email} ?`)) return;
+  const confirmKey = status === 'approved' ? 'confirmAccept' : 'confirmReject';
+  if (!confirm(formatAdminText(confirmKey, { name: student.name || student.email }))) return;
   try {
     await updateDoc(doc(db, 'users', id), {
       status,
@@ -182,13 +246,13 @@ window.setStudentStatus = async function(id, status) {
       validatedBy: adminUser.uid
     });
     if (status === 'approved') {
-      await sendNotification(id, 'Inscription acceptée ✅', 'Ton inscription Ben-Learning a été validée. Tu peux maintenant accéder aux cours et aux quiz.', 'approval');
+      await sendNotification(id, adminText('acceptedNotificationTitle'), adminText('acceptedNotificationBody'), 'approval');
     } else {
-      await sendNotification(id, 'Inscription non acceptée', 'Ta demande d’inscription n’a pas été acceptée. Tu peux contacter l’administration via le chat pour plus d’informations.', 'rejection');
+      await sendNotification(id, adminText('rejectedNotificationTitle'), adminText('rejectedNotificationBody'), 'rejection');
     }
   } catch (error) {
     console.error(error);
-    alert('Impossible de modifier le statut. Vérifie les règles Firestore.');
+    alert(adminText('statusChangeError'));
   }
 };
 
@@ -240,6 +304,15 @@ function listenAdminConversation(studentId) {
     adminChatMessages.innerHTML = '<div class="chat-empty"><p>Impossible de charger cette conversation.</p></div>';
   });
 }
+
+studentSearch?.addEventListener('input', renderStudents);
+studentFilterBar?.addEventListener('click', event => {
+  const button = event.target.closest('[data-filter]');
+  if (!button) return;
+  studentStatusFilter = button.dataset.filter || 'all';
+  renderStudents();
+});
+window.addEventListener('bl:languagechange', () => { renderStudents(); if (studentsMessage.classList.contains('ok')) studentsMessage.textContent = adminText('syncActive'); });
 
 window.openStudentChat = function(id) {
   adminChatStudent.value = id;
@@ -410,6 +483,24 @@ notificationForm?.addEventListener('submit', async e => {
   }
 });
 
+// Nouvelle publication: notification ciblée, envoyée une seule fois aux élèves approuvés.
+function studentMatchesResource(student, item) {
+  const level = String(item.level || '').trim();
+  const section = String(item.section || '').trim();
+  const studentLevel = String(student.level || '').trim();
+  const studentSection = String(student.section || '').trim();
+  return (!level || level === 'Tous' || level === studentLevel || level === 'Toutes') &&
+    (!section || section === 'Toutes' || section === 'Tous' || section === studentSection || (studentLevel === '1ère' && section === 'Tronc commun'));
+}
+async function notifyNewCourse(course) {
+  const recipients = students.filter(s => s.status === 'approved' && studentMatchesResource(s, course));
+  const results = await Promise.allSettled(recipients.map(s => sendNotification(s.id,
+    'Nouveau cours disponible 📚', `Le cours « ${course.title} » a été publié pour ton parcours.`,
+    'course', { actionLink: 'courses.html', resourceId: String(course.id) })));
+  const failed = results.filter(result => result.status === 'rejected').length;
+  if (failed) console.warn(`${failed} notification(s) de cours non envoyée(s).`);
+}
+
 function save() {
   localStorage.setItem('bl_admin_courses', JSON.stringify(courses));
   renderCourses();
@@ -478,6 +569,7 @@ function initCourseAdmin() {
       const cloudCourse = {...course, updatedAtIso:new Date().toISOString(), updatedBy:adminUser?.uid || ''};
       delete cloudCourse.localFileKey;
       await setDoc(doc(db, 'courses', String(id)), cloudCourse, {merge:true});
+      if (!editId) await notifyNewCourse(course);
       if (editId) courses = courses.map(c => String(c.id) === String(editId) ? course : c);
       else courses.unshift(course);
       save();
@@ -490,8 +582,7 @@ function initCourseAdmin() {
   });
 
   cancel.addEventListener('click', resetForm);
-  studentSearch?.addEventListener('input', renderStudents);
-  renderCourses();
+    renderCourses();
 }
 
 window.editCourse = function(id) {
@@ -572,6 +663,8 @@ onAuthStateChanged(auth, async user => {
     await loadCloudCourses();
     listenToStudents();
     listenUnreadChats();
+    const pendingStudentChat=sessionStorage.getItem('bl_admin_open_chat');
+    if(pendingStudentChat){sessionStorage.removeItem('bl_admin_open_chat');setTimeout(()=>{if(students.some(s=>s.id===pendingStudentChat))window.openStudentChat(pendingStudentChat);},1100);}
   } catch (error) {
     console.error(error);
     location.href = 'admin-login.html';

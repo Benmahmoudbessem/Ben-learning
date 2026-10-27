@@ -1,5 +1,88 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"><title>Ben-Learning | Assistant pédagogique</title><meta name="theme-color" content="#2563eb"><link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="assets/icons/icon-192.png"><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css"></head>
-<body class="auth-checking" data-protected-scripts="js/assistant.js"><header class="site-header" id="siteHeader"><a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span>☰</span></button><nav id="mainNav"><a href="index.html">Accueil</a><a href="courses.html">Cours</a><a href="sessions.html">Séances</a><a href="homework.html">Devoirs</a><a href="quiz.html">Quiz</a><a class="active" href="assistant.html">Assistant</a><a href="profile.html">Mon espace</a></nav></header>
-<main class="section page-top ai-page"><div class="section-heading left"><span class="eyebrow">Ben IA · Assistant pédagogique</span><h1>🤖 Assistant pédagogique</h1><p>Un assistant personnalisé qui utilise ton niveau, ta progression, tes quiz, ton planning et tes devoirs pour te guider dans ton apprentissage.</p></div><div class="ai-layout"><aside class="panel ai-context"><h2>Mon contexte</h2><div id="aiContext" class="ai-context-list"><div class="dashboard-loading">Analyse de ton parcours…</div></div><h3>Questions rapides</h3><div class="ai-quick-prompts"><button data-prompt="Que dois-je réviser maintenant ?">Que réviser ?</button><button data-prompt="Quel est mon prochain cours ?">Prochain cours</button><button data-prompt="Quels sont mes devoirs ?">Mes devoirs</button><button data-prompt="Quand est ma prochaine séance ?">Prochaine séance</button><button data-prompt="Fais-moi un plan de révision">Plan de révision</button></div></aside><section class="ai-chat panel"><div id="aiMessages" class="ai-messages"><div class="ai-message bot"><span>🤖</span><div><strong>Ben IA</strong><p>Bonjour 👋 Je prépare ton parcours personnalisé. Tu peux me demander quoi réviser, quel cours continuer, tes devoirs ou ton prochain rendez-vous Meet.</p></div></div></div><form id="aiForm" class="ai-form"><textarea id="aiInput" rows="2" maxlength="600" placeholder="Ex. Que dois-je réviser cette semaine ?" required></textarea><button class="btn primary" type="submit">Envoyer</button></form></section></div></main><footer class="site-footer"><p>© 2026 Ben-Learning</p></footer><script src="js/app.js"></script><script type="module" src="js/auth-guard.js"></script><script type="module" src="js/student-message-alerts.js"></script>
-</body></html>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+  <title>Ben-Learning | Assistant pédagogique</title>
+  <meta name="description" content="Assistant pédagogique Ben Learning pour apprendre Python, les algorithmes, Excel, SketchUp et le Web avec des exemples et des exercices corrigés.">
+  <meta name="theme-color" content="#2563eb">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/modern-admin-theme.css">
+  <link rel="stylesheet" href="css/assistant-pro.css?v=7.4.4">
+</head>
+<body class="auth-checking" data-protected-scripts="js/assistant.js?v=7.4.4">
+  <header class="site-header" id="siteHeader">
+    <a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span>☰</span></button>
+    <nav id="mainNav">
+      <a href="index.html">Accueil</a><a href="courses.html">Cours</a><a href="sessions.html">Séances</a>
+      <a href="homework.html">Devoirs</a><a href="quiz.html">Quiz</a>
+      <a class="active" href="assistant.html">Assistant</a><a href="profile.html">Mon espace</a>
+    </nav>
+  </header>
+  <main class="section page-top ai-page ai-pro-page">
+    <section class="ai-hero" aria-labelledby="assistantHeading">
+      <div>
+        <span class="ai-pill" data-fr="ASSISTANT PÉDAGOGIQUE" data-ar="المساعد البيداغوجي">ASSISTANT PÉDAGOGIQUE</span>
+        <h1 id="assistantHeading" data-fr="Pose tes questions, progresse à ton rythme." data-ar="اسأل وتعلّم وتقدّم على راحتك.">Pose tes questions, progresse à ton rythme.</h1>
+        <p data-fr="Une aide aux cours d’informatique avec des explications simples, des exemples, des exercices et leur correction." data-ar="مساعدة في دروس الإعلامية: شروحات سهلة، أمثلة وتمارين مع إصلاحها.">Une aide aux cours d’informatique avec des explications simples, des exemples, des exercices et leur correction.</p>
+      </div>
+      <div class="ai-hero-icon" aria-hidden="true">✦</div>
+    </section>
+    <div class="ai-layout">
+      <aside class="panel ai-context" aria-label="Accompagnement pédagogique">
+        <div class="ai-side-head"><span aria-hidden="true">🎒</span><h2 data-fr="Mon parcours" data-ar="مساري الدراسي">Mon parcours</h2></div>
+        <div id="aiContext" class="ai-context-list" aria-live="polite"><div class="dashboard-loading">Analyse de ton parcours…</div></div>
+        <p id="aiLoadStatus" class="ai-load-status" role="status" aria-live="polite">Chargement du contenu pédagogique…</p>
+        <div class="ai-separator"></div>
+        <h3 data-fr="Questions fréquentes" data-ar="أسئلة شائعة">Questions fréquentes</h3>
+        <div class="ai-quick-prompts">
+          <button type="button" data-prompt="Pourquoi == et pas = en Python ?" data-prompt-ar="ما الفرق بين = و == في Python؟" data-fr="Pourquoi == en Python ?" data-ar="لماذا == في Python؟">Pourquoi == en Python ?</button>
+          <button type="button" data-prompt="Comment tester un nombre pair ou impair ?" data-prompt-ar="كيف نختبر العدد الزوجي أو الفردي؟" data-fr="Pair ou impair" data-ar="زوجي أو فردي">Pair ou impair</button>
+          <button type="button" data-prompt="Comment fonctionne une référence relative dans Excel ?" data-prompt-ar="ما هو المرجع النسبي في Excel؟" data-fr="Références Excel" data-ar="مراجع Excel">Références Excel</button>
+          <button type="button" data-prompt="Quel est mon prochain cours ?" data-prompt-ar="ما هو الدرس القادم؟" data-fr="Mon prochain cours" data-ar="درسي القادم">Mon prochain cours</button>
+          <button type="button" data-prompt="Quels sont mes devoirs ?" data-prompt-ar="ما هي واجباتي؟" data-fr="Mes devoirs" data-ar="واجباتي">Mes devoirs</button>
+          <button type="button" data-prompt="Fais-moi un plan de révision" data-prompt-ar="اعطني برنامج مراجعة" data-fr="Plan de révision" data-ar="برنامج مراجعة">Plan de révision</button>
+        </div>
+        <div class="ai-separator"></div>
+        <h3 data-fr="Explorer un domaine" data-ar="استكشف مجالاً">Explorer un domaine</h3>
+        <div class="ai-topic-grid" id="aiHelpTopics">
+          <button type="button" data-topic-id="algo-intro" data-fr="🧩 Algorithmique" data-ar="🧩 الخوارزميات">🧩 Algorithmique</button>
+          <button type="button" data-topic-id="python-intro" data-fr="🐍 Python" data-ar="🐍 Python">🐍 Python</button>
+          <button type="button" data-topic-id="excel-intro" data-fr="📊 Excel" data-ar="📊 Excel">📊 Excel</button>
+          <button type="button" data-topic-id="sketchup-basics" data-fr="🧱 SketchUp" data-ar="🧱 SketchUp">🧱 SketchUp</button>
+          <button type="button" data-topic-id="web-html" data-fr="🌐 HTML / CSS" data-ar="🌐 HTML / CSS">🌐 HTML / CSS</button>
+          <button type="button" data-topic-id="google-sites" data-fr="🖥️ Google Sites" data-ar="🖥️ Google Sites">🖥️ Google Sites</button>
+        </div>
+      </aside>
+      <section class="ai-chat panel" aria-labelledby="chatHeading">
+        <div class="ai-chat-top">
+          <div class="ai-status-avatar" aria-hidden="true">✦</div>
+          <div><h2 id="chatHeading" data-fr="Ben — Ton assistant de cours" data-ar="بن — مساعدك الدراسي">Ben — Ton assistant de cours</h2><p data-fr="Explications, exemples et exercices corrigés" data-ar="شروحات وأمثلة وتمارين مع الإصلاح">Explications, exemples et exercices corrigés</p></div>
+          <button type="button" id="aiClear" class="ai-clear" data-fr="Effacer" data-ar="مسح" title="Effacer la conversation">Effacer</button>
+        </div>
+        <div id="aiMessages" class="ai-messages" role="log" aria-live="polite" aria-relevant="additions"></div>
+        <form id="aiForm" class="ai-form">
+          <label class="sr-only" for="aiInput">Ta question</label>
+          <textarea id="aiInput" rows="2" maxlength="900" placeholder="Ex. Pourquoi utilise-t-on == dans if n % 2 == 0 ?" required></textarea>
+          <button id="aiSend" class="btn primary" type="submit">Envoyer <span aria-hidden="true">➤</span></button>
+        </form>
+        <div class="ai-chat-bottom">
+          <span data-fr="Entrée pour envoyer · Maj + Entrée pour une nouvelle ligne" data-ar="Enter للإرسال · Shift + Enter لسطر جديد">Entrée pour envoyer · Maj + Entrée pour une nouvelle ligne</span>
+          <a href="chat.html" data-fr="Poser une question à l'enseignant ↗" data-ar="اسأل الأستاذ مباشرة ↗">Poser une question à l'enseignant ↗</a>
+        </div>
+      </section>
+    </div>
+    <p class="ai-disclaimer" data-fr="Les réponses sont préparées à partir d'une bibliothèque pédagogique. Ce n'est pas une IA générative ; si ta question dépasse ces ressources, adresse-toi à ton enseignant." data-ar="الإجابات مبنية على مكتبة بيداغوجية، وليست ذكاءً اصطناعياً توليدياً. اسأل أستاذك عندما لا تجد جواباً كافياً.">Les réponses sont préparées à partir d'une bibliothèque pédagogique. Ce n'est pas une IA générative ; si ta question dépasse ces ressources, adresse-toi à ton enseignant.</p>
+  </main>
+  <footer class="site-footer"><p>© 2026 Ben-Learning</p></footer>
+  <script src="js/app.js?v=7.4.4"></script>
+  <script src="js/lang.js"></script>
+  <script src="js/theme.js"></script>
+  <script type="module" src="js/auth-guard.js"></script>
+  <script type="module" src="js/notification-center.js"></script>
+</body>
+</html>

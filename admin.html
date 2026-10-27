@@ -9,21 +9,38 @@
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/modern-admin-theme.css">
 </head>
 <body>
 <header class="site-header" id="siteHeader">
-  <a class="brand" href="index.html"><span>🛠️</span> <span class="brand-text">Ben-Learning Admin</span></a>
+  <a class="brand" href="index.html"><span>🛠️</span> <span class="brand-text">Ben-Learning</span></a>
   <button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button>
   <nav id="mainNav"><span class="admin-identity">👤 <strong id="adminIdentity">Administrateur</strong></span><a href="index.html">Voir le site</a><button id="adminLogoutBtn" class="nav-button">Déconnexion</button></nav>
 </header>
 
 <main class="section page-top admin-page">
-  <div class="section-heading left">
-    <span class="eyebrow">Administration</span>
-    <h1>Tableau de bord</h1>
-    <p>Valide les inscriptions, échange avec les élèves, envoie des notifications et gère les cours.</p>
-  </div>
-
+  <section class="admin-workspace-hero" id="admin-home">
+    <div class="admin-workspace-copy">
+      <span class="admin-overline" data-admin-i18n="eyebrow">ESPACE DE GESTION · BEN-LEARNING</span>
+      <h1 data-admin-i18n="heroTitle">Votre tableau de bord</h1>
+      <p data-admin-i18n="heroDescription">Gérez vos élèves, centralisez les échanges et publiez vos ressources pédagogiques depuis un espace organisé.</p>
+      <div class="admin-workspace-meta"><span>● <span data-admin-i18n="live">Suivi des inscriptions en direct</span></span><span>Firebase · Ben-Learning</span></div>
+    </div>
+    <div class="admin-hero-action-panel" aria-label="Accès rapide">
+      <strong data-admin-i18n="quickTitle">Actions prioritaires</strong>
+      <a href="#admin-students" class="admin-priority-link"><span>01</span><span data-admin-i18n="quickStudents">Valider les inscriptions</span><b aria-hidden="true">↗</b></a>
+      <a href="#admin-inbox" class="admin-priority-link"><span>02</span><span data-admin-i18n="quickMessages">Consulter les messages</span><b aria-hidden="true">↗</b></a>
+      <a href="#admin-pedagogy" class="admin-priority-link"><span>03</span><span data-admin-i18n="quickPlan">Préparer une séance ou un devoir</span><b aria-hidden="true">↗</b></a>
+    </div>
+  </section>
+  <nav class="admin-section-nav" aria-label="Sections du tableau de bord">
+    <a href="#admin-overview" class="admin-section-link"><span>◈</span><span data-admin-i18n="navOverview">Vue générale</span></a>
+    <a href="#admin-students" class="admin-section-link"><span>♙</span><span data-admin-i18n="navStudents">Inscriptions</span></a>
+    <a href="#admin-inbox" class="admin-section-link"><span>✉</span><span data-admin-i18n="navMessages">Messages</span></a>
+    <a href="#admin-pedagogy" class="admin-section-link"><span>▤</span><span data-admin-i18n="navPedagogy">Séances & devoirs</span></a>
+    <a href="#admin-catalogue" class="admin-section-link"><span>▥</span><span data-admin-i18n="navCatalogue">Catalogue des cours</span></a>
+  </nav>
+  <div class="admin-section-intro" id="admin-overview"><div><span class="admin-section-kicker">01 / <span data-admin-i18n="overviewKicker">PILOTAGE</span></span><h2 data-admin-i18n="overviewTitle">Vue d’ensemble</h2><p data-admin-i18n="overviewDescription">Les indicateurs essentiels de votre plateforme en un coup d’œil.</p></div></div>
   <section class="admin-overview admin-overview-four">
     <article class="admin-stat-card"><span>👥</span><div><b id="adminStudentStat">0</b><small>Élèves inscrits</small></div></article>
     <article class="admin-stat-card"><span>⏳</span><div><b id="adminPendingStat">0</b><small>En attente</small></div></article>
@@ -33,6 +50,7 @@
     <article class="admin-stat-card"><span>📝</span><div><b id="adminHomeworkStat">0</b><small>Devoirs</small></div></article>
   </section>
 
+  <div class="admin-section-intro" id="admin-students"><div><span class="admin-section-kicker">02 / <span data-admin-i18n="studentsKicker">INSCRIPTIONS</span></span><h2 data-admin-i18n="studentsHeading">Gestion des élèves</h2><p data-admin-i18n="studentsDescription">Recherchez, filtrez et validez les inscriptions depuis un tableau unique.</p></div><a href="#admin-overview" class="admin-back-top" data-admin-i18n="backTop">↑ Indicateurs</a></div>
   <section class="panel admin-students-panel">
     <div class="panel-title-row">
       <div><h2>👥 Validation des inscriptions</h2><p class="panel-subtitle">Chaque nouveau compte doit d’abord vérifier son adresse email. Le bouton Accepter reste bloqué tant que l’email n’est pas confirmé.</p></div>
@@ -42,14 +60,21 @@
       <input id="studentSearch" type="search" placeholder="🔍 Rechercher par nom, email, niveau, section ou statut…">
       <span id="studentsMessage" class="firebase-status">Connexion à Firebase…</span>
     </div>
+    <div class="student-filter-bar" id="studentFilterBar">
+      <button type="button" class="student-filter-chip active" data-filter="all">Tous</button>
+      <button type="button" class="student-filter-chip" data-filter="pending">En attente</button>
+      <button type="button" class="student-filter-chip" data-filter="approved">Acceptés</button>
+      <button type="button" class="student-filter-chip" data-filter="rejected">Refusés</button>
+    </div>
     <div class="student-table-wrap">
       <table class="student-table">
-        <thead><tr><th>Élève</th><th>Niveau</th><th>Section</th><th>Email</th><th>Statut</th><th>Inscription</th><th>Actions</th></tr></thead>
+        <thead><tr><th>Élève</th><th>Niveau</th><th>Section</th><th>Vérification email</th><th>Statut</th><th>Inscription</th><th>Actions</th></tr></thead>
         <tbody id="studentList"><tr><td colspan="7" class="table-empty">Chargement des inscriptions…</td></tr></tbody>
       </table>
     </div>
   </section>
 
+  <div class="admin-section-intro" id="admin-inbox"><div><span class="admin-section-kicker">03 / <span data-admin-i18n="messagesKicker">COMMUNICATION</span></span><h2 data-admin-i18n="messagesHeading">Échanges & annonces</h2><p data-admin-i18n="messagesDescription">Traitez les messages et diffusez vos notifications aux élèves.</p></div></div>
   <section class="panel admin-message-inbox-panel">
     <div class="panel-title-row">
       <div>
@@ -68,7 +93,7 @@
 
   <div id="adminMessageToast" class="message-toast hidden" role="status" aria-live="polite"></div>
 
-  <div class="admin-communication-grid">
+  <div class="admin-communication-grid" id="admin-communication">
     <section class="panel admin-chat-panel">
       <div class="panel-title-row"><div><h2>💬 Chat élèves</h2><p class="panel-subtitle">Sélectionne un élève pour consulter la conversation et répondre.</p></div><span id="adminChatUnreadBadge" class="badge">0 non lu</span></div>
       <label class="admin-select-label">Conversation
@@ -94,6 +119,7 @@
   </div>
 
 
+  <div class="admin-section-intro" id="admin-pedagogy"><div><span class="admin-section-kicker">04 / <span data-admin-i18n="pedagogyKicker">PÉDAGOGIE</span></span><h2 data-admin-i18n="pedagogyHeading">Planification pédagogique</h2><p data-admin-i18n="pedagogyDescription">Organisez vos séances et les devoirs de chaque groupe.</p></div></div>
   <section class="admin-v4-heading"><span class="eyebrow">Organisation pédagogique V4.1</span><h2>Planning, devoirs et suivi des rendus</h2><p>Gère les séances Google Meet et le travail à rendre sans utiliser Firebase Storage.</p></section>
   <div class="admin-pedagogy-grid">
     <section class="panel"><div class="panel-title-row"><div><h2>📅 Programmer une séance</h2><p class="panel-subtitle">La séance apparaîtra uniquement aux élèves du niveau/section concernés.</p></div></div><form id="sessionForm" class="admin-form compact-form"><input id="sessionEditId" type="hidden"><label>Titre<input id="sessionTitle" required placeholder="Ex. Révision Python — Fonctions"></label><div class="admin-two-cols"><label>Niveau<select id="sessionLevel" required><option value="Tous">Tous</option><option value="1ère">1ère</option><option value="2ème">2ème</option><option value="3ème">3ème</option><option value="Bac">Bac</option></select></label><label>Section<select id="sessionSection"><option value="Toutes">Toutes</option><option value="Informatique">Informatique</option><option value="Sciences">Sciences</option><option value="Économie">Économie</option><option value="Lettres">Lettres</option><option value="Technique">Technique</option><option value="Tronc commun">Tronc commun</option></select></label></div><div class="admin-two-cols"><label>Trimestre<select id="sessionTrimester"><option value="1">T1</option><option value="2">T2</option><option value="3">T3</option></select></label><label>Date et heure<input id="sessionDateTime" type="datetime-local" required></label></div><label>Lien Google Meet<input id="sessionMeetUrl" type="url" placeholder="https://meet.google.com/... "></label><label>Description<textarea id="sessionDescription" rows="3"></textarea></label><div class="form-actions"><button class="btn primary" type="submit">Enregistrer la séance</button><button class="btn secondary hidden" id="cancelSessionEdit" type="button">Annuler</button></div></form><div id="adminSessionList" class="v4-admin-list"></div></section>
@@ -101,6 +127,7 @@
   </div>
   <section id="submissionPanel" class="panel hidden"><div class="panel-title-row"><div><h2>📥 Rendus des élèves</h2><p id="submissionPanelTitle" class="panel-subtitle"></p></div><button id="closeSubmissionPanel" class="btn secondary">Fermer</button></div><div id="submissionList" class="submission-list"></div></section>
 
+  <div class="admin-section-intro" id="admin-catalogue"><div><span class="admin-section-kicker">05 / <span data-admin-i18n="catalogueKicker">RESSOURCES</span></span><h2 data-admin-i18n="catalogueHeading">Bibliothèque des cours</h2><p data-admin-i18n="catalogueDescription">Ajoutez ou mettez à jour vos supports et retrouvez les cours publiés.</p></div></div>
   <div class="admin-layout">
     <section class="panel">
       <h2 id="formTitle">Ajouter un cours</h2>
@@ -132,9 +159,13 @@
 </main>
 
 <footer class="site-footer"><p>© 2026 Ben-Learning — Espace administration</p></footer>
-<script src="js/app.js"></script>
+<script src="js/app.js?v=7.4.3.2"></script>
+<script src="js/lang.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/admin-workspace.js"></script>
 <script src="js/file-db.js"></script>
-<script type="module" src="js/admin.js"></script>
+<script type="module" src="js/admin.js?v=7.4.3.1"></script>
 <script type="module" src="js/admin-v4.js"></script>
+<script type="module" src="js/notification-center.js"></script>
 </body>
 </html>

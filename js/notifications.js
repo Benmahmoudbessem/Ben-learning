@@ -22,7 +22,7 @@ function fmtDate(item) {
 }
 
 function iconFor(type) {
-  return { approval: '✅', rejection: '❌', info: 'ℹ️', chat: '💬', course: '📚' }[type] || '🔔';
+  return { approval: '✅', rejection: '❌', info: 'ℹ️', chat: '💬', course: '📚', session: '📅', homework: '📝' }[type] || '🔔';
 }
 
 function render(items) {
@@ -37,15 +37,18 @@ function render(items) {
     <div class="notification-icon">${iconFor(n.type)}</div>
     <div class="notification-content"><div class="notification-title-row"><h3>${esc(n.title || 'Notification')}</h3>${n.read ? '' : '<span>Nouveau</span>'}</div><p>${esc(n.body || '')}</p><small>${esc(fmtDate(n))}</small></div>
     <div class="notification-item-actions">
-      ${n.type === 'chat' ? `<button class="notification-open-chat-btn" data-open-chat-id="${n.id}">💬 Ouvrir le chat</button>` : ''}
+      ${n.actionLink || n.type === 'chat' ? `<button class="notification-open-chat-btn" data-open-item-id="${n.id}">↗ Ouvrir</button>` : ''}
       ${n.read ? '' : `<button class="notification-read-btn" data-read-id="${n.id}">Marquer comme lue</button>`}
     </div>
   </article>`).join('');
 
-  box.querySelectorAll('[data-open-chat-id]').forEach(btn => btn.addEventListener('click', async () => {
-    try { await updateDoc(doc(db, 'notifications', btn.dataset.openChatId), { read: true }); }
-    catch (error) { console.warn(error); }
-    location.href = 'chat.html';
+  box.querySelectorAll('[data-open-item-id]').forEach(btn => btn.addEventListener('click', async () => {
+    const note = items.find(n => n.id === btn.dataset.openItemId);
+    if (!note) return;
+    try { await updateDoc(doc(db, 'notifications', note.id), { read: true }); } catch (error) { console.warn(error); }
+    const allowed = ['chat.html','courses.html','sessions.html','homework.html','quiz.html','profile.html','notifications.html'];
+    const target = allowed.includes(note.actionLink) ? note.actionLink : ({chat:'chat.html',course:'courses.html',session:'sessions.html',homework:'homework.html'}[note.type] || 'notifications.html');
+    location.href = target;
   }));
 
   box.querySelectorAll('[data-read-id]').forEach(btn => btn.addEventListener('click', async () => {

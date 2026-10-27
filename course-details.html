@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#2563eb"><link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
   <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/modern-admin-theme.css">
 </head>
 <body class="auth-checking" data-protected-scripts="js/file-db.js,js/course-details.js">
 <header class="site-header" id="siteHeader"><a class="brand" href="index.html"><span>🎓</span> Ben-Learning</a><button class="menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mainNav"><span aria-hidden="true">☰</span></button><nav id="mainNav"><a href="index.html">Accueil</a><a class="active" href="courses.html">Cours</a><a href="sessions.html">Séances</a><a href="homework.html">Devoirs</a><a href="quiz.html">Quiz</a><a href="assistant.html">Assistant</a><a href="profile.html">Mon espace</a><a id="authLink" class="nav-cta" href="login.html">Connexion</a></nav></header>
@@ -14,7 +15,10 @@
   <div id="courseDetail" class="course-detail-shell"><div class="loading">Chargement du cours…</div></div>
 </main>
 <footer class="site-footer"><p>© 2026 Ben-Learning</p></footer>
-<script src="js/app.js"></script><script type="module" src="js/auth-guard.js"></script>
-<script type="module" src="js/student-message-alerts.js"></script>
+<script src="js/app.js?v=7.4.3.2"></script>
+<script src="js/lang.js"></script>
+<script src="js/theme.js"></script><script type="module" src="js/auth-guard.js"></script>
+
+<script type="module" src="js/notification-center.js"></script>
 </body>
 </html>

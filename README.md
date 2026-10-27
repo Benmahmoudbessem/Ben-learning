@@ -1,3 +1,20 @@
+# Ben-Learning V7 Connected — Portail élève SmartEducation
+
+Cette édition reste compatible avec Firebase Authentication et Firestore, mais
+elle reçoit maintenant les cours publiés depuis le module **Portail élèves** de
+SmartTeacher V7. Les ressources synchronisées portent le badge `SmartTeacher` et
+restent filtrées selon le niveau, la section et le trimestre de l'élève.
+
+Le projet Firebase utilisé par défaut est `ben-mahmoud-learning`. Le compte qui
+connecte SmartTeacher doit posséder `role = "admin"` dans `users/{UID}`.
+
+Les règles `firestore.rules` maintiennent l'email vérifié obligatoire avant
+l'acceptation d'une inscription.
+
+La collection `quizzes` contient les quiz synchronisés depuis la Bibliothèque
+SmartTeacher. Le fichier `firestore.rules` de cette version doit être republié
+dans la console Firebase avant la première synchronisation de quiz.
+
 # Ben-Learning V4.8 — Parcours personnalisé par niveau
 
 Cette version affiche à chaque élève uniquement les cours, devoirs, séances, quiz et recommandations correspondant à son niveau et à sa section. Un élève de 1ère voit uniquement le contenu 1ère / Tronc commun. Les pages de cours sont aussi protégées contre l’ouverture directe d’une ressource d’un autre niveau.

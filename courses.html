@@ -2,11 +2,12 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Ben-Learning | Cours</title>
+  <title>SmartEducation | Ben-Learning — Cours</title>
   <meta name="theme-color" content="#2563eb">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
   <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/modern-admin-theme.css">
 </head>
 <body class="auth-checking" data-protected-scripts="js/courses.js">
 <header class="site-header" id="siteHeader">
@@ -14,7 +15,7 @@
   <nav id="mainNav"><a href="index.html">Accueil</a><a class="active" href="courses.html">Cours</a><a href="sessions.html">Séances</a><a href="homework.html">Devoirs</a><a href="quiz.html">Quiz</a><a href="assistant.html">Assistant</a><a href="profile.html">Mon espace</a><a id="authLink" class="nav-cta" href="login.html">Connexion</a></nav>
 </header>
 <main class="section page-top">
-  <div class="section-heading left"><span class="eyebrow">Bibliothèque pédagogique</span><h1>📚 Mes cours & ressources</h1><p id="studentScopeText">Chargement de ton parcours…</p></div>
+  <div class="section-heading left"><span class="eyebrow">Ben-Learning connecté à SmartTeacher</span><h1>📚 Mes cours & ressources</h1><p id="studentScopeText">Chargement de ton parcours…</p></div>
   <div class="pedagogy-path" aria-label="Organisation pédagogique"><span>Niveau</span><b>→</b><span>Section</span><b>→</b><span>Trimestre</span><b>→</b><span>Domaine</span><b>→</b><span>Chapitre</span></div>
   <div class="filter-bar filter-bar-v4">
     <input id="search" type="search" placeholder="Rechercher un cours, chapitre…" aria-label="Rechercher">
@@ -28,7 +29,10 @@
   <div id="emptyState" class="empty-state hidden"><div>🔎</div><h3>Aucun cours trouvé</h3><p>Essaie avec un autre mot-clé ou filtre.</p></div>
 </main>
 <footer class="site-footer"><p>© 2026 Ben-Learning</p><a href="index.html">Accueil</a></footer>
-<script src="js/app.js"></script><script type="module" src="js/auth-guard.js"></script>
-<script type="module" src="js/student-message-alerts.js"></script>
+<script src="js/app.js?v=7.4.3.2"></script>
+<script src="js/lang.js"></script>
+<script src="js/theme.js"></script><script type="module" src="js/auth-guard.js"></script>
+
+<script type="module" src="js/notification-center.js"></script>
 </body>
 </html>

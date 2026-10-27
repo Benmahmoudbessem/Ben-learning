@@ -1,7 +1,7 @@
 {
-  "name": "Ben-Learning",
+  "name": "SmartEducation — Ben-Learning",
   "short_name": "Ben-Learning",
-  "description": "Plateforme éducative gratuite pour les élèves du lycée tunisien.",
+  "description": "Portail élève connecté à SmartTeacher pour les élèves du lycée tunisien.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

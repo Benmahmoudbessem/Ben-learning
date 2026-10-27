@@ -33,7 +33,9 @@ form.addEventListener('submit', async (e) => {
 
     if (!profile || profile.role !== 'admin') {
       await signOut(auth);
-      showMessage("Ce compte n'a pas le rôle administrateur.");
+      showMessage(!profile
+        ? "Compte connecté, mais aucun profil trouvé dans Firestore → users. Vérifie le document de cet utilisateur."
+        : "Ce compte n'a pas le rôle administrateur dans Firestore → users.");
       button.disabled = false;
       button.textContent = 'Connexion Admin';
       return;
@@ -44,7 +46,17 @@ form.addEventListener('submit', async (e) => {
     location.href = 'admin.html';
   } catch (error) {
     console.error(error);
-    showMessage('Email ou mot de passe administrateur incorrect, ou accès Firebase refusé.');
+    const messages = {
+      'auth/invalid-credential': 'Email ou mot de passe administrateur incorrect.',
+      'auth/user-not-found': 'Aucun compte Firebase avec cet email.',
+      'auth/wrong-password': 'Mot de passe administrateur incorrect.',
+      'auth/invalid-email': 'Adresse email non valide.',
+      'auth/network-request-failed': 'Connexion Internet indisponible. Vérifie le réseau.',
+      'auth/too-many-requests': 'Trop de tentatives. Réessaie plus tard.',
+      'permission-denied': 'Accès au profil refusé par les règles Firestore. Vérifie les autorisations du compte admin.',
+      'firestore/permission-denied': 'Accès au profil refusé par Firestore.'
+    };
+    showMessage(messages[error?.code] || `Connexion administrateur impossible (${error?.code || 'erreur inconnue'}). Consulte la console F12.`);
     button.disabled = false;
     button.textContent = 'Connexion Admin';
   }
